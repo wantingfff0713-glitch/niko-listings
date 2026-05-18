@@ -464,128 +464,30 @@ body {
 <script>
 // ── PROPERTY DATA ─────────────────────────────────────────
 // 每次更新只需要往这个数组里加新的房源对象
-const PROPERTIES = [
-  {
-    id: 1,
-    address: 'Stratosphere Tower, Stratford',
-    area: 'Stratford',
-    postcode: 'E15',
-    type: '1b',         // studio / 1b / 2b / 3b
-    bedLabel: '1 Bed 1 Bath',
-    weekly: 585,
-    avail: '05/09/2026',
-    furnish: '带家具',
-    hot: true,
-    features: ['29th Floor', '高层景观', '近Stratford站', 'Elizabeth Line'],
-    images: ['https://via.placeholder.com/420x240/1a1a1a/c9a96e?text=Stratosphere+Tower'],
-    addedDate: '2026-05-18',
-  },
-  {
-    id: 2,
-    address: '10 Emerson Court, London',
-    area: 'Kings Cross',
-    postcode: 'N1',
-    type: '1b',
-    bedLabel: '1 Bed 1 Bath',
-    weekly: 625,
-    avail: '26/07/2026',
-    furnish: '带家具',
-    hot: true,
-    features: ['2nd Floor', '私人阳台', '近Kings Cross站', 'Elizabeth Line'],
-    images: ['https://via.placeholder.com/420x240/333/c9a96e?text=Emerson+Court'],
-    addedDate: '2026-05-18',
-  },
-  {
-    id: 3,
-    address: 'Apt 1604, Cassia Point, Glasshouse Gardens',
-    area: 'Stratford',
-    postcode: 'E20',
-    type: '1b',
-    bedLabel: '1 Bed 1 Bath',
-    weekly: 600,
-    avail: '03/08/2026',
-    furnish: '带家具',
-    hot: true,
-    features: ['16th Floor', '私人阳台', '奥林匹克公园景观', '近Stratford站'],
-    images: ['https://via.placeholder.com/420x240/444/c9a96e?text=Cassia+Point'],
-    addedDate: '2026-05-18',
-  },
-  {
-    id: 4,
-    address: 'Apt 1305, Lantana Heights, Glasshouse Gardens',
-    area: 'Stratford',
-    postcode: 'E20',
-    type: '1b',
-    bedLabel: '1 Bed 1 Bath',
-    weekly: 600,
-    avail: '03/08/2026',
-    furnish: '带家具',
-    hot: true,
-    features: ['13th Floor', '私人阳台', '奥林匹克公园景观', '近Stratford站'],
-    images: ['https://via.placeholder.com/420x240/555/c9a96e?text=Lantana+Heights'],
-    addedDate: '2026-05-18',
-  },
-  {
-    id: 5,
-    address: '5 Belvedere Gardens, Southbank Place',
-    area: 'Southbank',
-    postcode: 'SE1',
-    type: '1b',
-    bedLabel: '1 Bed 1 Bath',
-    weekly: 912,
-    avail: '13/07/2026',
-    furnish: '带家具',
-    hot: false,
-    features: ['东南朝向', '双面采光', '酒店式大堂', '私人健身房', '游泳池'],
-    images: ['https://via.placeholder.com/420x240/666/c9a96e?text=Belvedere+Gardens'],
-    addedDate: '2026-05-11',
-  },
-  {
-    id: 6,
-    address: 'Casson Square, London',
-    area: 'Southbank',
-    postcode: 'SE1',
-    type: '2b',
-    bedLabel: '2 Bed 2 Bath',
-    weekly: 1152,
-    avail: '27/06/2026',
-    furnish: '带家具',
-    hot: false,
-    features: ['25th Floor', '开放式厨房', '住客健身房', '游泳池', '24h礼宾'],
-    images: ['https://via.placeholder.com/420x240/777/c9a96e?text=Casson+Square+2B'],
-    addedDate: '2026-05-11',
-  },
-  {
-    id: 7,
-    address: 'Casson Square, London',
-    area: 'Southbank',
-    postcode: 'SE1',
-    type: '3b',
-    bedLabel: '3 Bed 3 Bath',
-    weekly: 1675,
-    avail: '24/07/2026',
-    furnish: '带家具',
-    hot: false,
-    features: ['23rd Floor', '阳台', '西向泰晤士河景', 'Miele厨电', '24h礼宾'],
-    images: ['https://via.placeholder.com/420x240/888/c9a96e?text=Casson+Square+3B'],
-    addedDate: '2026-05-11',
-  },
-  {
-    id: 8,
-    address: '38 Tavistock Court, London',
-    area: 'Holborn',
-    postcode: 'WC1H',
-    type: 'studio',
-    bedLabel: 'Studio',
-    weekly: 520,
-    avail: '10 SEP 2026',
-    furnish: '含Bills',
-    hot: false,
-    features: ['4th Floor', '含热水暖气网络', '步行8分钟UCL', '近Euston Square'],
-    images: ['https://via.placeholder.com/420x240/999/c9a96e?text=Tavistock+Court'],
-    addedDate: '2026-05-11',
-  },
-];
+let PROPERTIES = [];
+
+// Load from listings.json (auto-updated by generate_cards.py)
+async function loadListings() {
+  try {
+    const res = await fetch('listings.json?t=' + Date.now());
+    const data = await res.json();
+    PROPERTIES = data;
+    render();
+  } catch(e) {
+    console.log('Using demo data:', e);
+    // Fallback demo data if JSON not found
+    PROPERTIES = [
+      {
+        id: 1, address: 'Stratosphere Tower, Stratford', area: 'Stratford',
+        postcode: 'E15', type: '1b', bedLabel: '1 Bed 1 Bath', weekly: 585,
+        avail: '05/09/2026', furnish: '带家具', hot: true,
+        features: ['29th Floor','高层景观','近Stratford站','Elizabeth Line'],
+        cardJpg: '', addedDate: '2026-05-18',
+      },
+    ];
+    render();
+  }
+}
 
 // ── FILTER STATE ───────────────────────────────────────────
 const filters = { type: 'all', price: 'all' };
@@ -668,14 +570,14 @@ function render() {
 function cardHTML(p) {
   const monthly = Math.round(p.weekly * 52 / 12);
   const feats = p.features.slice(0,4).map(f => `<span class="feat">✦ ${f}</span>`).join('');
-  const hero = p.images[0] || '';
+  const hero = p.cardJpg || (p.images && p.images[0]) || '';
   const badge = p.hot
     ? `<div class="card-badge hot">🔥 Hot Listing</div>`
     : `<div class="card-badge">London Living</div>`;
 
-  // Gallery: placeholder divs if no extra images
+  // Gallery: use extra images if available
   const gal = [1,2,3].map(i =>
-    p.images[i]
+    (p.images && p.images[i])
       ? `<img src="${p.images[i]}" alt="" loading="lazy">`
       : `<div class="card-gallery-ph"></div>`
   ).join('');
@@ -720,7 +622,7 @@ window.addEventListener('scroll', () => {
 });
 
 // ── INIT ──────────────────────────────────────────────────
-render();
+loadListings();
 </script>
 </body>
 </html>
