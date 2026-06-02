@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#1a1a1a">
+<title>Niko in London · 伦敦精选房源</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:#e8e4dc;color:#1a1a1a}
+
+/* ── DESKTOP CENTERING ── */
+body{display:flex;justify-content:center;align-items:flex-start}
+.page-wrap{width:100%;max-width:480px;min-height:100vh;background:#f0ede6;position:relative;display:flex;flex-direction:column;box-shadow:0 0 40px rgba(0,0,0,.18)}
+
+/* ── HEADER ── */
+.header{background:#1a1a1a;padding:14px 16px 0;position:sticky;top:0;z-index:100;flex-shrink:0}
+.brand-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.brand-left{display:flex;align-items:center;gap:10px;min-width:0}
+
+/* Logo mark */
+.brand-logo{width:34px;height:34px;background:#c9a96e;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-logo-n{color:#1a1a1a;font-size:18px;font-weight:800;line-height:1;letter-spacing:-.02em;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+
+.brand-text{min-width:0}
+.brand-name{color:#fff;font-size:15px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
+.brand-sub{color:rgba(255,255,255,.38);font-size:9.5px;letter-spacing:.13em;margin-top:2px;white-space:nowrap}
+
+/* WeChat header button */
+.wechat-btn-header{display:flex;align-items:center;gap:5px;background:rgba(7,193,96,.15);border:0.5px solid rgba(7,193,96,.45);border-radius:20px;padding:6px 11px;cursor:pointer;flex-shrink:0;transition:background .15s;outline:none}
+.wechat-btn-header:active{background:rgba(7,193,96,.3)}
+.wechat-btn-header svg{flex-shrink:0;color:#07c160}
+.wechat-btn-header span{color:#07c160;font-size:11.5px;font-weight:500;white-space:nowrap}
+
+/* Search */
+.search-wrap{position:relative;margin-bottom:10px}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);pointer-events:none}
+.search-input{width:100%;padding:10px 12px 10px 36px;background:rgba(255,255,255,.1);border:0.5px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;font-size:14px;outline:none;-webkit-appearance:none}
+.search-input::placeholder{color:rgba(255,255,255,.35)}
+.search-input:focus{background:rgba(255,255,255,.15);border-color:rgba(201,169,110,.5)}
+
+/* Filter chips */
+.filter-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:9px;scrollbar-width:none}
+.filter-row::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:5px 13px;border-radius:20px;border:0.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.6);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;outline:none}
+.chip.active{background:#c9a96e;border-color:#c9a96e;color:#1a1a1a;font-weight:600}
+
+/* Sort row — inside sticky header */
+.sort-row{display:flex;align-items:center;gap:6px;padding-bottom:12px;overflow-x:auto;scrollbar-width:none;border-top:0.5px solid rgba(255,255,255,.08);padding-top:9px}
+.sort-row::-webkit-scrollbar{display:none}
+.count{font-size:11px;color:rgba(255,255,255,.35);flex-shrink:0;margin-right:2px}
+.sort-chip{flex-shrink:0;padding:4px 12px;border-radius:20px;border:0.5px solid rgba(255,255,255,.18);background:transparent;font-size:11px;color:rgba(255,255,255,.55);cursor:pointer;white-space:nowrap;outline:none;transition:all .15s}
+.sort-chip.active{background:rgba(201,169,110,.22);border-color:rgba(201,169,110,.7);color:#c9a96e;font-weight:500}
+
+/* ── LISTING CARDS ── */
+.listings{padding:10px 12px 100px;flex:1}
+.card{background:#fff;border-radius:16px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+
+/* Hero image */
+.hero{width:100%;height:200px;background:#1a2744;position:relative;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.hero-placeholder svg{opacity:.15}
+.badge-zone{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);color:#fff;font-size:10px;padding:3px 9px;border-radius:20px;letter-spacing:.06em}
+.badge-avail{position:absolute;top:10px;right:10px;font-size:10px;padding:3px 9px;border-radius:20px;font-weight:500}
+.avail-now{background:rgba(26,102,64,.9);color:#fff}
+.avail-soon{background:rgba(255,255,255,.92);color:#1a6640}
+.avail-later{background:rgba(255,255,255,.85);color:#666}
+
+/* Thumbnails */
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;height:64px}
+.thumbs img,.thumb-ph{width:100%;height:100%;object-fit:cover;display:block;background:#e8e3da}
+
+/* Card body */
+.card-body{padding:14px 14px 10px}
+.card-pc{font-size:10px;letter-spacing:.2em;color:#c9a96e;font-weight:500;margin-bottom:3px;text-transform:uppercase}
+.card-title{font-size:15px;font-weight:600;line-height:1.3;margin-bottom:12px}
+.specs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.spec{text-align:center;padding:8px 4px;background:#f7f4ef;border-radius:8px}
+.spec-icon{font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center}
+.spec-val{display:block;font-size:11px;font-weight:600;margin-top:2px;line-height:1.2}
+.spec-lbl{display:block;font-size:9px;color:#999;margin-top:1px;letter-spacing:.04em}
+.price-row{display:flex;align-items:baseline;gap:4px;margin-bottom:9px}
+.price-wk{font-size:24px;font-weight:700;letter-spacing:-.5px}
+.price-unit{font-size:12px;color:#999}
+.price-mo{font-size:11px;color:#aaa;margin-left:auto}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:2px}
+.tag{font-size:10px;padding:3px 8px;border-radius:5px;background:#f7f4ef;border:0.5px solid #e8e3da;color:#6b5c45}
+
+/* Card footer */
+.card-footer{border-top:0.5px solid #f0ede6;padding:11px 14px;display:flex;align-items:center;gap:10px}
+.btn-contact{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;background:#07c160;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;outline:none;transition:background .15s}
+.btn-contact:active{background:#06a852}
+.btn-contact svg{flex-shrink:0}
+.btn-save{width:40px;height:40px;border-radius:10px;border:0.5px solid #ddd;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#bbb;flex-shrink:0;transition:all .15s;outline:none}
+.btn-save.saved{color:#c9a96e;border-color:#c9a96e}
+
+/* Empty state */
+.empty{text-align:center;padding:60px 20px;color:#aaa}
+.empty svg{margin-bottom:12px;opacity:.4}
+.empty p{font-size:14px}
+
+/* ── WECHAT MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:8px 20px 40px;width:100%;max-width:480px;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:36px;height:4px;background:#e0ddd7;border-radius:2px;margin:0 auto 20px}
+.modal-title{font-size:17px;font-weight:700;text-align:center;margin-bottom:5px}
+.modal-sub{font-size:13px;color:#999;text-align:center;margin-bottom:20px;line-height:1.5}
+.modal-prop{font-size:12px;color:#c9a96e;text-align:center;margin-bottom:18px;font-weight:500;letter-spacing:.04em}
+.wechat-id-box{background:#f7f4ef;border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;border:0.5px solid #e8e3da}
+.wechat-id-left{}
+.wechat-id-label{font-size:10px;color:#aaa;letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.wechat-id-val{font-size:22px;font-weight:700;letter-spacing:.02em;color:#1a1a1a}
+.btn-copy{padding:9px 20px;background:#07c160;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s;outline:none;flex-shrink:0}
+.btn-copy:active{background:#06a852}
+.btn-copy.copied{background:#1a6640}
+.modal-steps{background:#f7f4ef;border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.modal-steps-title{font-size:11px;color:#aaa;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.modal-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px}
+.modal-step:last-child{margin-bottom:0}
+.step-num{width:18px;height:18px;background:#07c160;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-num span{color:#fff;font-size:10px;font-weight:700}
+.step-text{font-size:12px;color:#555;line-height:1.5}
+.modal-close{display:block;width:100%;padding:13px;background:#f0ede6;border:none;border-radius:12px;font-size:14px;color:#666;cursor:pointer;font-weight:500;outline:none}
+.modal-close:active{background:#e5e1d8}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ── HEADER ── -->
+  <div class="header">
+    <div class="brand-row">
+      <div class="brand-left">
+        <div class="brand-logo">
+          <span class="brand-logo-n">N</span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">Niko in London</div>
+          <div class="brand-sub">LONDON PREMIUM LETTINGS</div>
+        </div>
+      </div>
+      <button class="wechat-btn-header" onclick="openModal(null)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.21 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.664l-.39 1.48c-.019.07-.048.142-.048.214 0 .163.13.295.29.295a.33.33 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c-.276-.94-.418-1.927-.418-2.945C8.273 9.787 12.69 6.028 18.118 6.028c.315 0 .625.017.932.047C17.787 3.98 13.568 2.188 8.691 2.188zm-2.187 4.01a1.061 1.061 0 1 1 0 2.123 1.061 1.061 0 0 1 0-2.122zm4.374 0a1.061 1.061 0 1 1 0 2.123 1.061 1.061 0 0 1 0-2.122zM24 14.294c0-3.567-3.514-6.462-7.844-6.462s-7.844 2.895-7.844 6.462c0 3.566 3.514 6.461 7.844 6.461.98 0 1.92-.157 2.796-.44a.7.7 0 0 1 .582.078l1.535.898a.263.263 0 0 0 .135.043c.131 0 .234-.104.234-.237 0-.058-.023-.115-.039-.173l-.315-1.194a.476.476 0 0 1 .172-.538C23.076 18.18 24 16.337 24 14.294zm-10.312-1.061a.856.856 0 1 1 0-1.712.856.856 0 0 1 0 1.712zm4.937 0a.856.856 0 1 1 0-1.712.856.856 0 0 1 0 1.712z"/>
+        </svg>
+        <span>微信咨询</span>
+      </button>
+    </div>
+
+    <div class="search-wrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" id="searchInput" type="text" placeholder="搜索楼盘、地址、邮编…" oninput="render()">
+    </div>
+
+    <div class="filter-row" id="zoneRow"></div>
+    <div class="filter-row" id="bedRow"></div>
+
+    <div class="sort-row">
+      <span class="count" id="countLabel"></span>
+      <span class="sort-chip active" onclick="setSort('price-asc',this)">价格从低</span>
+      <span class="sort-chip" onclick="setSort('price-desc',this)">价格从高</span>
+      <span class="sort-chip" onclick="setSort('avail',this)">最快入住</span>
+    </div>
+  </div>
+
+  <!-- ── LISTINGS ── -->
+  <div class="listings" id="listings"></div>
+
+  <!-- ── WECHAT MODAL ── -->
+  <div class="modal-overlay" id="wechatModal" onclick="handleOverlayClick(event)">
+    <div class="modal-sheet" id="modalSheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">微信联系 Niko</div>
+      <div class="modal-sub">添加微信，即可咨询伦敦租房详情</div>
+      <div class="modal-prop" id="modalPropName"></div>
+      <div class="wechat-id-box">
+        <div class="wechat-id-left">
+          <div class="wechat-id-label">微信号 WeChat ID</div>
+          <div class="wechat-id-val">nikoinlondon</div>
+        </div>
+        <button class="btn-copy" id="copyBtn" onclick="copyWechat()">复制</button>
+      </div>
+      <div class="modal-steps">
+        <div class="modal-steps-title">如何添加</div>
+        <div class="modal-step">
+          <div class="step-num"><span>1</span></div>
+          <div class="step-text">打开微信，点击右上角 <strong>+</strong>，选择「添加朋友」</div>
+        </div>
+        <div class="modal-step">
+          <div class="step-num"><span>2</span></div>
+          <div class="step-text">搜索微信号 <strong>nikoinlondon</strong>，发送好友申请</div>
+        </div>
+        <div class="modal-step">
+          <div class="step-num"><span>3</span></div>
+          <div class="step-text">备注您感兴趣的房源，Niko 会尽快回复您</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">关闭</button>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script>
+const WECHAT_ID = 'nikoinlondon';
+let DATA = [];
+let activePostcode = 'all', activeBed = 'all', sortMode = 'price-asc';
+const saved = new Set();
+
+// ── INLINE DATA (no fetch needed — avoids Chrome local-file CORS block) ──
+const INLINE_DATA = {"exported_at":"2026-05-26T15:27:03.118807+00:00","count":15,"listings":[{"id":"1-boxwood-gardens-london-e1w","title":"1 Boxwood Gardens, London, E1W","address":"1 Boxwood Gardens, London, E1W","postcode":"E1W","zone":2,"weekly":635,"monthly":2752,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"24/07/2026","furnish":"带家具","features":["Luxury 1BED","带家具","Available 24/07/2026","3rd floor","住客健身房·Squash court","游泳池·spa","Luxury Kitchen·Bathrooms","24h 礼宾服务"],"images":["images/1-boxwood-gardens-london-e1w/img_1.jpg","images/1-boxwood-gardens-london-e1w/img_2.jpg","images/1-boxwood-gardens-london-e1w/img_3.jpg","images/1-boxwood-gardens-london-e1w/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T14:37:33.138963+00:00","active":true},{"id":"stratosphere-tower-55-great-eastern-road-stratford-e15","title":"Stratosphere Tower, 55 Great Eastern Road, Stratford, E15","address":"Stratosphere Tower, 55 Great Eastern Road, Stratford, E15","postcode":"E15","zone":3,"weekly":646,"monthly":2799,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","features":["两室","带家具","礼宾服务","Roof top 露台","住客健身房","Excellent transport connections"],"images":["images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_1.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_2.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_3.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.781766+00:00","active":true},{"id":"regent-street-fitzrovia-w1b","title":"Regent Street, Fitzrovia, W1B","address":"Regent Street, Fitzrovia, W1B","postcode":"W1B","zone":2,"weekly":725,"monthly":3142,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"Now","furnish":"带家具","features":["一室·one bathroom","1st floor with lift","Professionally managed","Excellent shopping·transport facilities of Oxford Circus."],"images":["images/regent-street-fitzrovia-w1b/img_1.jpg","images/regent-street-fitzrovia-w1b/img_2.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.571307+00:00","active":true},{"id":"cube-building-17-21-wenlock-road-london-n1","title":"Cube Building, 17-21 Wenlock Road, London, N1","address":"Cube Building, 17-21 Wenlock Road, London, N1","postcode":"N1","zone":1,"weekly":750,"monthly":3250,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"23/05/2026","furnish":"带家具","features":["两室","Two Bathrooms","带家具","Excellent Location","Modern","EPC评级B"],"images":["images/cube-building-17-21-wenlock-road-london-n1/img_1.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_2.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_3.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.020934+00:00","active":true},{"id":"damac-tower-nine-elms-london-sw8","title":"DAMAC Tower, Nine Elms, London, SW8","address":"DAMAC Tower, Nine Elms, London, SW8","postcode":"SW8","zone":2,"weekly":762,"monthly":3302,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"29/07/2026","furnish":"带家具","features":["Stunning City·河景!!","冬季花园","Exclusive Amenities","Prime Location","24/7 礼宾服务","Spacious Layout","Fitness Center·健身房·游泳池","Amenities pictures for illustrative purposes only."],"images":["images/damac-tower-nine-elms-london-sw8/img_1.jpg","images/damac-tower-nine-elms-london-sw8/img_2.jpg","images/damac-tower-nine-elms-london-sw8/img_3.jpg","images/damac-tower-nine-elms-london-sw8/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.133726+00:00","active":true},{"id":"sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1","title":"75 Leman Street, Goodman'S Fields, Aldgate, E1","address":"75 Leman Street, Goodman'S Fields, Aldgate, E1","postcode":"E1","zone":1,"weekly":795,"monthly":3445,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"12/07/2026","furnish":"不带家具","features":["两室S","TWO BATHROOMS","24h礼宾服务","健身房·POOL","COMMUNAL GARDEN","LOCAL AMENITIES","0.2 MI TO ALDGATE EAST UNDERGROUND","WALKING DISTANCE TO THE CITY"],"images":["images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_1.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_2.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_3.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T14:36:44.778740+00:00","active":true},{"id":"asquith-house-segrave-walk-city-of-westminster-london","title":"Asquith House, Segrave Walk, City Of Westminster, London","address":"Asquith House, Segrave Walk, City Of Westminster, London","postcode":"W2","zone":2,"weekly":805,"monthly":3488,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"09/09/2026","furnish":"带家具","features":["1 Bedroom / 1 Bathroom, 8th Floor","私人阳台","24h礼宾服务","游泳池, Vitality Pool, Steam Room, Private Dining, Cinema","Two minute walk to Edgware Road","Eight minute walk to Paddington station","Short journey to Regent Park·近Kings Cross","Cafes, restaurants,·daily amenities nearby"],"images":["images/asquith-house-segrave-walk-city-of-westminster-london/img_1.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_2.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_3.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T15:05:23.217882+00:00","active":true},{"id":"dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a","title":"Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A","address":"Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A","postcode":"EC1A","zone":1,"weekly":808,"monthly":3501,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"20/07/2026","furnish":"带家具","features":["24h礼宾服务","Character façade","Cycle 储物间","Ideally located near Barbican station","Lift","EPC评级B"],"images":["images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_1.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_2.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_3.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T14:37:33.139048+00:00","active":true},{"id":"riverlight-four-riverlight-quay-london-sw11","title":"Riverlight Four, Riverlight Quay, London, SW11","address":"Riverlight Four, Riverlight Quay, London, SW11","postcode":"SW11","zone":2,"weekly":850,"monthly":3683,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","features":["Large 两室 Property","Two Bathrooms (one ensuite)","Two Balconies","24h礼宾服务","住客健身房","Great Transport Links"],"images":["images/riverlight-four-riverlight-quay-london-sw11/img_1.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_2.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_3.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.671350+00:00","active":true},{"id":"hurlock-heights-deacon-street-southwark-london","title":"Hurlock Heights, Deacon Street, Southwark, London","address":"Hurlock Heights, Deacon Street, Southwark, London","postcode":"SE17","zone":2,"weekly":875,"monthly":3792,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"13/08/2026","furnish":"带家具","features":["24h礼宾服务","住客健身房","20th floor","私人阳台"],"images":["images/hurlock-heights-deacon-street-southwark-london/img_1.jpg","images/hurlock-heights-deacon-street-southwark-london/img_2.jpg","images/hurlock-heights-deacon-street-southwark-london/img_3.jpg","images/hurlock-heights-deacon-street-southwark-london/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T14:37:33.139052+00:00","active":true},{"id":"latitude-house-oval-road-camden-london-nw1","title":"Latitude House, Oval Road, Camden, London NW1","address":"Latitude House, Oval Road, Camden, London NW1","postcode":"NW1","zone":1,"weekly":995,"monthly":4312,"bed_label":"2 Bed 1 Bath","beds":2,"avail":"04/07/2026","furnish":"不带家具","features":["2 bedrooms","独立客厅","1 bathroom"],"images":["images/latitude-house-oval-road-camden-london-nw1/img_1.jpg","images/latitude-house-oval-road-camden-london-nw1/img_2.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.348812+00:00","active":true},{"id":"the-atlas-building-city-road-ec1v","title":"The Atlas Building, City Road, EC1V","address":"The Atlas Building, City Road, EC1V","postcode":"EC1V","zone":2,"weekly":1000,"monthly":4333,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"14/08/2026","furnish":"带家具","features":["23rd Floor 两室 Apartment","Bespoke Bathroom &En-Suite; Shower Room","开放式 Living Space","Fitted Kitchen","带家具","EPC-B","South-东向 Aspect","Private 双面采光 阳台"],"images":["images/the-atlas-building-city-road-ec1v/img_1.jpg","images/the-atlas-building-city-road-ec1v/img_2.jpg","images/the-atlas-building-city-road-ec1v/img_3.jpg","images/the-atlas-building-city-road-ec1v/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:08.100157+00:00","active":true},{"id":"kensington-apartments-commercial-street-e1","title":"Kensington Apartments, Commercial Street, E1","address":"Kensington Apartments, Commercial Street, E1","postcode":"E1","zone":1,"weekly":1025,"monthly":4442,"bed_label":"3 Bed 2 Bath","beds":3,"avail":"23/07/2026","furnish":"带家具","features":["3 Bedrooms","2 Bathrooms","阳台","开放式厨房","On site leisure facilities","Communal roof gardens","0.1 miles from Aldgate Station","约 974 sq ft (90.5 sq m)"],"images":["images/kensington-apartments-commercial-street-e1/img_1.jpg","images/kensington-apartments-commercial-street-e1/img_2.jpg","images/kensington-apartments-commercial-street-e1/img_3.jpg","images/kensington-apartments-commercial-street-e1/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T14:36:44.723464+00:00","active":true},{"id":"jubilee-walk-clerkenwell-holborn-wc1x","title":"Jubilee Walk, Clerkenwell, London, WC1X","address":"Jubilee Walk, Clerkenwell, London, WC1X","postcode":"WC1X","zone":2,"weekly":1154,"monthly":5001,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"10/08/2026","furnish":"带家具","features":["Residents Cinema","Residents Co Working Lounge","全新楼盘","地暖·Cooling","Secure Building with Fob Entrance","New Appliances","嵌入式厨电","健身房"],"images":["images/jubilee-walk-clerkenwell-holborn-wc1x/img_1.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_2.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_3.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_4.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.243072+00:00","active":true},{"id":"morwell-street-london-wc1b","title":"Morwell Street, London WC1B","address":"Morwell Street, London WC1B","postcode":"WC1B","zone":2,"weekly":1650,"monthly":7150,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"20/07/2026","furnish":"带家具","features":["2 bedrooms","独立客厅","2 bathrooms","全新楼盘","全新开发"],"images":["images/morwell-street-london-wc1b/img_1.jpg","images/morwell-street-london-wc1b/img_2.jpg"],"format":"niko","updated_at":"2026-05-26T12:27:07.457062+00:00","active":true}]};
+
+function loadData() {
+  DATA = (INLINE_DATA.listings || []).filter(d => d.active);
+  buildFilters();
+  render();
+}
+
+function buildFilters() {
+  const postcodes = [...new Set(DATA.map(d => d.postcode))].sort();
+  document.getElementById('zoneRow').innerHTML =
+    `<span class="chip active" onclick="setPostcode('all',this)">全部</span>` +
+    postcodes.map(p => `<span class="chip" onclick="setPostcode('${p}',this)">${p}</span>`).join('');
+
+  const bedMap = {};
+  DATA.forEach(d => { bedMap[d.beds] = d.bed_label; });
+  const bedKeys = Object.keys(bedMap).map(Number).sort((a,b) => a - b);
+  document.getElementById('bedRow').innerHTML =
+    `<span class="chip active" onclick="setBed('all',this)">全部户型</span>` +
+    bedKeys.map(b => `<span class="chip" onclick="setBed(${b},this)">${b === 0 ? 'Studio' : b + '室'}</span>`).join('');
+}
+
+function setPostcode(v, el) {
+  activePostcode = v;
+  document.querySelectorAll('#zoneRow .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function setBed(v, el) {
+  activeBed = v;
+  document.querySelectorAll('#bedRow .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+function setSort(v, el) {
+  sortMode = v;
+  document.querySelectorAll('.sort-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function parseAvailDate(avail) {
+  if (!avail || avail === '—') return new Date('2099-01-01');
+  if (avail === 'Now') return new Date('2000-01-01');
+  const p = avail.split('/');
+  if (p.length === 3) return new Date(+p[2], +p[1] - 1, +p[0]);
+  return new Date('2099-01-01');
+}
+
+// Chinese date format: 8月5日入住
+function availBadge(avail) {
+  if (!avail || avail === '—') return { text: '待确认', cls: 'avail-later' };
+  if (avail === 'Now') return { text: '可即入住', cls: 'avail-now' };
+  const p = avail.split('/');
+  if (p.length === 3) {
+    const d = new Date(+p[2], +p[1] - 1, +p[0]);
+    const diff = (d - new Date()) / 86400000;
+    const dateStr = `${+p[1]}月${+p[0]}日入住`;
+    if (diff < 0) return { text: '可即入住', cls: 'avail-now' };
+    if (diff < 60) return { text: dateStr, cls: 'avail-soon' };
+    return { text: dateStr, cls: 'avail-later' };
+  }
+  return { text: avail, cls: 'avail-later' };
+}
+
+// Spec display label for avail
+function availShort(avail) {
+  if (!avail || avail === '—') return '—';
+  if (avail === 'Now') return '即刻';
+  const p = avail.split('/');
+  if (p.length === 3) {
+    const d = new Date(+p[2], +p[1] - 1, +p[0]);
+    if ((d - new Date()) / 86400000 < 0) return '即刻';
+    return `${+p[1]}月${+p[0]}日`;
+  }
+  return avail;
+}
+
+function bedIcon(beds) {
+  return beds === 0
+    ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21v-4M16 21v-4M2 17h20"/></svg>'
+    : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 16h20"/><path d="M6 8v-4M18 11V8a2 2 0 0 0-2-2h-4"/></svg>';
+}
+
+function render() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  let list = DATA.filter(d => {
+    if (activePostcode !== 'all' && d.postcode !== activePostcode) return false;
+    if (activeBed !== 'all' && d.beds !== activeBed) return false;
+    if (q && ![d.title, d.address, d.postcode].some(s => s && s.toLowerCase().includes(q))) return false;
+    return true;
+  });
+
+  if (sortMode === 'price-asc') list.sort((a, b) => a.weekly - b.weekly);
+  else if (sortMode === 'price-desc') list.sort((a, b) => b.weekly - a.weekly);
+  else list.sort((a, b) => parseAvailDate(a.avail) - parseAvailDate(b.avail));
+
+  document.getElementById('countLabel').textContent = `共 ${list.length} 套`;
+
+  if (!list.length) {
+    document.getElementById('listings').innerHTML = `
+      <div class="empty">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <p>没有符合条件的房源</p>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('listings').innerHTML = list.map(d => {
+    const av = availBadge(d.avail);
+    const imgs = d.images || [];
+    const hero = imgs[0]
+      ? `<img src="${imgs[0]}" alt="${d.title}" loading="lazy">`
+      : `<div class="hero-placeholder"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>`;
+    const thumbs = [1, 2, 3].map(i => imgs[i]
+      ? `<img src="${imgs[i]}" alt="" loading="lazy">`
+      : `<div class="thumb-ph"></div>`).join('');
+    const feats = (d.features || []).slice(0, 4).map(f => `<span class="tag">${f}</span>`).join('');
+    const isSaved = saved.has(d.id);
+    const furnishShort = d.furnish === '带家具' ? '带家具' : '无家具';
+
+    return `<div class="card">
+  <div class="hero">
+    ${hero}
+    <span class="badge-avail ${av.cls}">${av.text}</span>
+  </div>
+  <div class="thumbs">${thumbs}</div>
+  <div class="card-body">
+    <div class="card-pc">${d.postcode} · LONDON</div>
+    <div class="card-title">${d.title}</div>
+    <div class="specs">
+      <div class="spec">
+        <div class="spec-icon">${bedIcon(d.beds)}</div>
+        <span class="spec-val">${d.beds === 0 ? 'Studio' : d.beds + '室'}</span>
+        <span class="spec-lbl">户型</span>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <span class="spec-val">${d.postcode}</span>
+        <span class="spec-lbl">邮编</span>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        </div>
+        <span class="spec-val" style="font-size:9px;line-height:1.3">${availShort(d.avail)}</span>
+        <span class="spec-lbl">入住</span>
+      </div>
+      <div class="spec">
+        <div class="spec-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 9V7a2 2 0 0 0-2-2h-6l-2-2H4a2 2 0 0 0-2 2v3"/><path d="M2 11v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/></svg>
+        </div>
+        <span class="spec-val" style="font-size:10px">${furnishShort}</span>
+        <span class="spec-lbl">家具</span>
+      </div>
+    </div>
+    <div class="price-row">
+      <span class="price-wk">£${d.weekly.toLocaleString()}</span>
+      <span class="price-unit">/ 周</span>
+      <span class="price-mo">约 £${d.monthly.toLocaleString()} / 月</span>
+    </div>
+    <div class="tags">${feats}</div>
+  </div>
+  <div class="card-footer">
+    <button class="btn-contact" onclick="openModal('${d.id}')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.21 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.664l-.39 1.48c-.019.07-.048.142-.048.214 0 .163.13.295.29.295a.33.33 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c-.276-.94-.418-1.927-.418-2.945C8.273 9.787 12.69 6.028 18.118 6.028c.315 0 .625.017.932.047C17.787 3.98 13.568 2.188 8.691 2.188zm-2.187 4.01a1.061 1.061 0 1 1 0 2.123 1.061 1.061 0 0 1 0-2.122zm4.374 0a1.061 1.061 0 1 1 0 2.123 1.061 1.061 0 0 1 0-2.122zM24 14.294c0-3.567-3.514-6.462-7.844-6.462s-7.844 2.895-7.844 6.462c0 3.566 3.514 6.461 7.844 6.461.98 0 1.92-.157 2.796-.44a.7.7 0 0 1 .582.078l1.535.898a.263.263 0 0 0 .135.043c.131 0 .234-.104.234-.237 0-.058-.023-.115-.039-.173l-.315-1.194a.476.476 0 0 1 .172-.538C23.076 18.18 24 16.337 24 14.294zm-10.312-1.061a.856.856 0 1 1 0-1.712.856.856 0 0 1 0 1.712zm4.937 0a.856.856 0 1 1 0-1.712.856.856 0 0 1 0 1.712z"/></svg>
+      微信咨询这套房
+    </button>
+    <button class="btn-save ${isSaved ? 'saved' : ''}" onclick="toggleSave('${d.id}',this)" aria-label="收藏">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="${isSaved ? '#c9a96e' : 'none'}" stroke="${isSaved ? '#c9a96e' : 'currentColor'}" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleSave(id, btn) {
+  if (saved.has(id)) saved.delete(id); else saved.add(id);
+  render();
+}
+
+// ── MODAL ──
+function openModal(listingId) {
+  const propEl = document.getElementById('modalPropName');
+  if (listingId) {
+    const d = DATA.find(x => x.id === listingId);
+    propEl.textContent = d ? `房源：${d.title}` : '';
+  } else {
+    propEl.textContent = '';
+  }
+  document.getElementById('copyBtn').textContent = '复制';
+  document.getElementById('copyBtn').classList.remove('copied');
+  document.getElementById('wechatModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('wechatModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('wechatModal')) closeModal();
+}
+
+function copyWechat() {
+  const btn = document.getElementById('copyBtn');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(WECHAT_ID).then(() => {
+      btn.textContent = '已复制 ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('copied'); }, 2500);
+    });
+  } else {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = WECHAT_ID;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '已复制 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '复制'; btn.classList.remove('copied'); }, 2500);
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>
