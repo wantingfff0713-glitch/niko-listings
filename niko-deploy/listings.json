@@ -1,0 +1,456 @@
+{
+  "exported_at": "2026-05-26T15:27:03.118807+00:00",
+  "count": 15,
+  "listings": [
+    {
+      "id": "1-boxwood-gardens-london-e1w",
+      "title": "1 Boxwood Gardens, London, E1W",
+      "address": "1 Boxwood Gardens, London, E1W",
+      "postcode": "E1W",
+      "zone": 2,
+      "weekly": 635,
+      "monthly": 2752,
+      "bed_label": "1 Bed 1 Bath",
+      "beds": 1,
+      "avail": "24/07/2026",
+      "furnish": "带家具",
+      "features": [
+        "Luxury 1BED",
+        "带家具",
+        "Available 24/07/2026",
+        "3rd floor",
+        "住客健身房·Squash court",
+        "游泳池·spa",
+        "Luxury Kitchen·Bathrooms",
+        "24h 礼宾服务"
+      ],
+      "images": [
+        "images/1-boxwood-gardens-london-e1w/img_1.jpg",
+        "images/1-boxwood-gardens-london-e1w/img_2.jpg",
+        "images/1-boxwood-gardens-london-e1w/img_3.jpg",
+        "images/1-boxwood-gardens-london-e1w/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T14:37:33.138963+00:00",
+      "active": true
+    },
+    {
+      "id": "stratosphere-tower-55-great-eastern-road-stratford-e15",
+      "title": "Stratosphere Tower, 55 Great Eastern Road, Stratford, E15",
+      "address": "Stratosphere Tower, 55 Great Eastern Road, Stratford, E15",
+      "postcode": "E15",
+      "zone": 3,
+      "weekly": 646,
+      "monthly": 2799,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "05/08/2026",
+      "furnish": "带家具",
+      "features": [
+        "两室",
+        "带家具",
+        "礼宾服务",
+        "Roof top 露台",
+        "住客健身房",
+        "Excellent transport connections"
+      ],
+      "images": [
+        "images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_1.jpg",
+        "images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_2.jpg",
+        "images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_3.jpg",
+        "images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.781766+00:00",
+      "active": true
+    },
+    {
+      "id": "regent-street-fitzrovia-w1b",
+      "title": "Regent Street, Fitzrovia, W1B",
+      "address": "Regent Street, Fitzrovia, W1B",
+      "postcode": "W1B",
+      "zone": 2,
+      "weekly": 725,
+      "monthly": 3142,
+      "bed_label": "1 Bed 1 Bath",
+      "beds": 1,
+      "avail": "Now",
+      "furnish": "带家具",
+      "features": [
+        "一室·one bathroom",
+        "1st floor with lift",
+        "Professionally managed",
+        "Excellent shopping·transport facilities of Oxford Circus."
+      ],
+      "images": [
+        "images/regent-street-fitzrovia-w1b/img_1.jpg",
+        "images/regent-street-fitzrovia-w1b/img_2.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.571307+00:00",
+      "active": true
+    },
+    {
+      "id": "cube-building-17-21-wenlock-road-london-n1",
+      "title": "Cube Building, 17-21 Wenlock Road, London, N1",
+      "address": "Cube Building, 17-21 Wenlock Road, London, N1",
+      "postcode": "N1",
+      "zone": 1,
+      "weekly": 750,
+      "monthly": 3250,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "23/05/2026",
+      "furnish": "带家具",
+      "features": [
+        "两室",
+        "Two Bathrooms",
+        "带家具",
+        "Excellent Location",
+        "Modern",
+        "EPC评级B"
+      ],
+      "images": [
+        "images/cube-building-17-21-wenlock-road-london-n1/img_1.jpg",
+        "images/cube-building-17-21-wenlock-road-london-n1/img_2.jpg",
+        "images/cube-building-17-21-wenlock-road-london-n1/img_3.jpg",
+        "images/cube-building-17-21-wenlock-road-london-n1/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.020934+00:00",
+      "active": true
+    },
+    {
+      "id": "damac-tower-nine-elms-london-sw8",
+      "title": "DAMAC Tower, Nine Elms, London, SW8",
+      "address": "DAMAC Tower, Nine Elms, London, SW8",
+      "postcode": "SW8",
+      "zone": 2,
+      "weekly": 762,
+      "monthly": 3302,
+      "bed_label": "1 Bed 1 Bath",
+      "beds": 1,
+      "avail": "29/07/2026",
+      "furnish": "带家具",
+      "features": [
+        "Stunning City·河景!!",
+        "冬季花园",
+        "Exclusive Amenities",
+        "Prime Location",
+        "24/7 礼宾服务",
+        "Spacious Layout",
+        "Fitness Center·健身房·游泳池",
+        "Amenities pictures for illustrative purposes only."
+      ],
+      "images": [
+        "images/damac-tower-nine-elms-london-sw8/img_1.jpg",
+        "images/damac-tower-nine-elms-london-sw8/img_2.jpg",
+        "images/damac-tower-nine-elms-london-sw8/img_3.jpg",
+        "images/damac-tower-nine-elms-london-sw8/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.133726+00:00",
+      "active": true
+    },
+    {
+      "id": "sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1",
+      "title": "75 Leman Street, Goodman'S Fields, Aldgate, E1",
+      "address": "75 Leman Street, Goodman'S Fields, Aldgate, E1",
+      "postcode": "E1",
+      "zone": 1,
+      "weekly": 795,
+      "monthly": 3445,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "12/07/2026",
+      "furnish": "不带家具",
+      "features": [
+        "两室S",
+        "TWO BATHROOMS",
+        "24h礼宾服务",
+        "健身房·POOL",
+        "COMMUNAL GARDEN",
+        "LOCAL AMENITIES",
+        "0.2 MI TO ALDGATE EAST UNDERGROUND",
+        "WALKING DISTANCE TO THE CITY"
+      ],
+      "images": [
+        "images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_1.jpg",
+        "images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_2.jpg",
+        "images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_3.jpg",
+        "images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T14:36:44.778740+00:00",
+      "active": true
+    },
+    {
+      "id": "asquith-house-segrave-walk-city-of-westminster-london",
+      "title": "Asquith House, Segrave Walk, City Of Westminster, London",
+      "address": "Asquith House, Segrave Walk, City Of Westminster, London",
+      "postcode": "W2",
+      "zone": 2,
+      "weekly": 805,
+      "monthly": 3488,
+      "bed_label": "1 Bed 1 Bath",
+      "beds": 1,
+      "avail": "09/09/2026",
+      "furnish": "带家具",
+      "features": [
+        "1 Bedroom / 1 Bathroom, 8th Floor",
+        "私人阳台",
+        "24h礼宾服务",
+        "游泳池, Vitality Pool, Steam Room, Private Dining, Cinema",
+        "Two minute walk to Edgware Road",
+        "Eight minute walk to Paddington station",
+        "Short journey to Regent Park·近Kings Cross",
+        "Cafes, restaurants,·daily amenities nearby"
+      ],
+      "images": [
+        "images/asquith-house-segrave-walk-city-of-westminster-london/img_1.jpg",
+        "images/asquith-house-segrave-walk-city-of-westminster-london/img_2.jpg",
+        "images/asquith-house-segrave-walk-city-of-westminster-london/img_3.jpg",
+        "images/asquith-house-segrave-walk-city-of-westminster-london/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T15:05:23.217882+00:00",
+      "active": true
+    },
+    {
+      "id": "dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a",
+      "title": "Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A",
+      "address": "Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A",
+      "postcode": "EC1A",
+      "zone": 1,
+      "weekly": 808,
+      "monthly": 3501,
+      "bed_label": "1 Bed 1 Bath",
+      "beds": 1,
+      "avail": "20/07/2026",
+      "furnish": "带家具",
+      "features": [
+        "24h礼宾服务",
+        "Character façade",
+        "Cycle 储物间",
+        "Ideally located near Barbican station",
+        "Lift",
+        "EPC评级B"
+      ],
+      "images": [
+        "images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_1.jpg",
+        "images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_2.jpg",
+        "images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_3.jpg",
+        "images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T14:37:33.139048+00:00",
+      "active": true
+    },
+    {
+      "id": "riverlight-four-riverlight-quay-london-sw11",
+      "title": "Riverlight Four, Riverlight Quay, London, SW11",
+      "address": "Riverlight Four, Riverlight Quay, London, SW11",
+      "postcode": "SW11",
+      "zone": 2,
+      "weekly": 850,
+      "monthly": 3683,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "05/08/2026",
+      "furnish": "带家具",
+      "features": [
+        "Large 两室 Property",
+        "Two Bathrooms (one ensuite)",
+        "Two Balconies",
+        "24h礼宾服务",
+        "住客健身房",
+        "Great Transport Links"
+      ],
+      "images": [
+        "images/riverlight-four-riverlight-quay-london-sw11/img_1.jpg",
+        "images/riverlight-four-riverlight-quay-london-sw11/img_2.jpg",
+        "images/riverlight-four-riverlight-quay-london-sw11/img_3.jpg",
+        "images/riverlight-four-riverlight-quay-london-sw11/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.671350+00:00",
+      "active": true
+    },
+    {
+      "id": "hurlock-heights-deacon-street-southwark-london",
+      "title": "Hurlock Heights, Deacon Street, Southwark, London",
+      "address": "Hurlock Heights, Deacon Street, Southwark, London",
+      "postcode": "SE17",
+      "zone": 2,
+      "weekly": 875,
+      "monthly": 3792,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "13/08/2026",
+      "furnish": "带家具",
+      "features": [
+        "24h礼宾服务",
+        "住客健身房",
+        "20th floor",
+        "私人阳台"
+      ],
+      "images": [
+        "images/hurlock-heights-deacon-street-southwark-london/img_1.jpg",
+        "images/hurlock-heights-deacon-street-southwark-london/img_2.jpg",
+        "images/hurlock-heights-deacon-street-southwark-london/img_3.jpg",
+        "images/hurlock-heights-deacon-street-southwark-london/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T14:37:33.139052+00:00",
+      "active": true
+    },
+    {
+      "id": "latitude-house-oval-road-camden-london-nw1",
+      "title": "Latitude House, Oval Road, Camden, London NW1",
+      "address": "Latitude House, Oval Road, Camden, London NW1",
+      "postcode": "NW1",
+      "zone": 1,
+      "weekly": 995,
+      "monthly": 4312,
+      "bed_label": "2 Bed 1 Bath",
+      "beds": 2,
+      "avail": "04/07/2026",
+      "furnish": "不带家具",
+      "features": [
+        "2 bedrooms",
+        "独立客厅",
+        "1 bathroom"
+      ],
+      "images": [
+        "images/latitude-house-oval-road-camden-london-nw1/img_1.jpg",
+        "images/latitude-house-oval-road-camden-london-nw1/img_2.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.348812+00:00",
+      "active": true
+    },
+    {
+      "id": "the-atlas-building-city-road-ec1v",
+      "title": "The Atlas Building, City Road, EC1V",
+      "address": "The Atlas Building, City Road, EC1V",
+      "postcode": "EC1V",
+      "zone": 2,
+      "weekly": 1000,
+      "monthly": 4333,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "14/08/2026",
+      "furnish": "带家具",
+      "features": [
+        "23rd Floor 两室 Apartment",
+        "Bespoke Bathroom &En-Suite; Shower Room",
+        "开放式 Living Space",
+        "Fitted Kitchen",
+        "带家具",
+        "EPC-B",
+        "South-东向 Aspect",
+        "Private 双面采光 阳台"
+      ],
+      "images": [
+        "images/the-atlas-building-city-road-ec1v/img_1.jpg",
+        "images/the-atlas-building-city-road-ec1v/img_2.jpg",
+        "images/the-atlas-building-city-road-ec1v/img_3.jpg",
+        "images/the-atlas-building-city-road-ec1v/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:08.100157+00:00",
+      "active": true
+    },
+    {
+      "id": "kensington-apartments-commercial-street-e1",
+      "title": "Kensington Apartments, Commercial Street, E1",
+      "address": "Kensington Apartments, Commercial Street, E1",
+      "postcode": "E1",
+      "zone": 1,
+      "weekly": 1025,
+      "monthly": 4442,
+      "bed_label": "3 Bed 2 Bath",
+      "beds": 3,
+      "avail": "23/07/2026",
+      "furnish": "带家具",
+      "features": [
+        "3 Bedrooms",
+        "2 Bathrooms",
+        "阳台",
+        "开放式厨房",
+        "On site leisure facilities",
+        "Communal roof gardens",
+        "0.1 miles from Aldgate Station",
+        "约 974 sq ft (90.5 sq m)"
+      ],
+      "images": [
+        "images/kensington-apartments-commercial-street-e1/img_1.jpg",
+        "images/kensington-apartments-commercial-street-e1/img_2.jpg",
+        "images/kensington-apartments-commercial-street-e1/img_3.jpg",
+        "images/kensington-apartments-commercial-street-e1/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T14:36:44.723464+00:00",
+      "active": true
+    },
+    {
+      "id": "jubilee-walk-clerkenwell-holborn-wc1x",
+      "title": "Jubilee Walk, Clerkenwell, London, WC1X",
+      "address": "Jubilee Walk, Clerkenwell, London, WC1X",
+      "postcode": "WC1X",
+      "zone": 2,
+      "weekly": 1154,
+      "monthly": 5001,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "10/08/2026",
+      "furnish": "带家具",
+      "features": [
+        "Residents Cinema",
+        "Residents Co Working Lounge",
+        "全新楼盘",
+        "地暖·Cooling",
+        "Secure Building with Fob Entrance",
+        "New Appliances",
+        "嵌入式厨电",
+        "健身房"
+      ],
+      "images": [
+        "images/jubilee-walk-clerkenwell-holborn-wc1x/img_1.jpg",
+        "images/jubilee-walk-clerkenwell-holborn-wc1x/img_2.jpg",
+        "images/jubilee-walk-clerkenwell-holborn-wc1x/img_3.jpg",
+        "images/jubilee-walk-clerkenwell-holborn-wc1x/img_4.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.243072+00:00",
+      "active": true
+    },
+    {
+      "id": "morwell-street-london-wc1b",
+      "title": "Morwell Street, London WC1B",
+      "address": "Morwell Street, London WC1B",
+      "postcode": "WC1B",
+      "zone": 2,
+      "weekly": 1650,
+      "monthly": 7150,
+      "bed_label": "2 Bed 2 Bath",
+      "beds": 2,
+      "avail": "20/07/2026",
+      "furnish": "带家具",
+      "features": [
+        "2 bedrooms",
+        "独立客厅",
+        "2 bathrooms",
+        "全新楼盘",
+        "全新开发"
+      ],
+      "images": [
+        "images/morwell-street-london-wc1b/img_1.jpg",
+        "images/morwell-street-london-wc1b/img_2.jpg"
+      ],
+      "format": "niko",
+      "updated_at": "2026-05-26T12:27:07.457062+00:00",
+      "active": true
+    }
+  ]
+}
