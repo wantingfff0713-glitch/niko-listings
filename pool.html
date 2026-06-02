@@ -9,125 +9,93 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;background:#f5f3ef;color:#1a1a1a;min-height:100vh}
 
 /* Header */
-header{background:#1a1a1a;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+header{background:#1a1a1a;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .logo{color:#fff;font-size:15px;font-weight:500;letter-spacing:.5px}
 .logo em{color:#c8a96e;font-style:normal}
-.upload-btn{background:#c8a96e;color:#1a1a1a;border:none;padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer}
-.upload-btn:hover{background:#b8986a}
+.add-btn{background:#c8a96e;color:#1a1a1a;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer}
 
-/* Filter bar */
-.filter-bar{background:#fff;padding:12px 24px;border-bottom:1px solid #e8e6e2;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.fl{font-size:11px;color:#999;letter-spacing:.3px;align-self:center}
-.filter-group{display:flex;gap:5px;flex-wrap:wrap}
-.pill{border:1px solid #e0e0e0;background:#fff;padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;color:#555;transition:all .15s;white-space:nowrap}
+/* Filter */
+.filter-bar{background:#fff;padding:10px 16px;border-bottom:1px solid #ece9e4;display:flex;gap:8px;flex-wrap:wrap;align-items:center;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fl{font-size:11px;color:#bbb;white-space:nowrap}
+.pill{border:1.5px solid #e5e5e5;background:#fff;padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;color:#666;white-space:nowrap;transition:all .12s}
 .pill.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.pill:hover:not(.on){border-color:#aaa;color:#1a1a1a}
-.sep{width:1px;background:#e5e5e5;height:24px;align-self:center}
-
-/* Count bar */
-.grid-container{max-width:1200px;margin:0 auto;padding:24px}
-.count-bar{font-size:13px;color:#999;margin-bottom:18px}
+.sep{width:1px;background:#ece9e4;height:20px;flex-shrink:0}
 
 /* Grid */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.grid{grid-template-columns:1fr;padding:0}}
+.grid-wrap{max-width:1100px;margin:0 auto;padding:18px 16px}
+.count{font-size:12px;color:#aaa;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
 
-/* Card */
-.card{background:#fff;border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 1px 5px rgba(0,0,0,.08)}
-.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12)}
-.card-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#f0ede6}
-.card-body{padding:14px 14px 10px}
-.card-meta-top{font-size:10px;color:#aaa;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
-.card-title{font-size:15px;font-weight:500;margin-bottom:10px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.cpill{background:#f5f3ef;padding:3px 9px;border-radius:4px;font-size:11px;color:#666}
-.card-price{font-size:19px;font-weight:600}
-.card-price sup{font-size:12px;font-weight:400;color:#999;margin-left:2px}
-.card-footer{padding:9px 14px;border-top:1px solid #f0eeea;display:flex;justify-content:space-between;align-items:center}
-.avail{font-size:11px;color:#aaa}
-.share-btn{font-size:12px;color:#1a7340;cursor:pointer;background:none;border:none;padding:4px 8px;border-radius:4px;display:flex;align-items:center;gap:3px}
-.share-btn:hover{background:#f0f8f3}
+/* Card tile — shows the actual card image */
+.tile{border-radius:14px;overflow:hidden;cursor:pointer;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.07);transition:transform .13s,box-shadow .13s;position:relative}
+.tile:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.11)}
+.tile-img{width:100%;display:block;background:#ece9e4}
+.tile-img img{width:100%;display:block;object-fit:cover}
+.tile-bar{padding:10px 12px;display:flex;justify-content:space-between;align-items:center}
+.tile-tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{background:#f0ede6;padding:3px 8px;border-radius:4px;font-size:11px;color:#777}
+.tile-share{background:none;border:none;color:#1a7340;font-size:12px;cursor:pointer;padding:3px 6px;border-radius:4px}
+.tile-share:hover{background:#f0faf5}
 
 /* Empty */
-.empty{text-align:center;padding:80px 24px;color:#ccc;grid-column:1/-1}
-.empty div{font-size:48px;margin-bottom:12px}
-.empty p{font-size:14px;color:#bbb}
+.empty{text-align:center;padding:60px 20px;color:#ccc;grid-column:1/-1}
+.empty-icon{font-size:44px;margin-bottom:10px}
+.empty p{font-size:13px;color:#bbb}
 
-/* Upload overlay */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
+/* Upload modal — bottom sheet on mobile */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;justify-content:center}
 .overlay.on{display:flex}
-@media(min-width:600px){.overlay{align-items:center}}
-.modal{background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 32px;width:100%;max-width:560px;position:relative;max-height:92vh;overflow-y:auto}
-@media(min-width:600px){.modal{border-radius:18px;padding:24px}}
-.modal-title{font-size:16px;font-weight:600;margin-bottom:2px}
-.modal-sub{font-size:12px;color:#aaa;margin-bottom:16px}
-.close-x{position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;color:#bbb;cursor:pointer;line-height:1}
+@media(min-width:560px){.overlay{align-items:center}}
+.sheet{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:520px;padding:20px 18px 36px;max-height:90vh;overflow-y:auto;position:relative}
+@media(min-width:560px){.sheet{border-radius:18px;padding:24px}}
+.sheet-title{font-size:16px;font-weight:600;margin-bottom:4px}
+.sheet-sub{font-size:12px;color:#aaa;margin-bottom:18px}
+.close-x{position:absolute;top:16px;right:18px;background:none;border:none;font-size:22px;color:#ccc;cursor:pointer}
 
-/* Dropzone */
-.dz{border:2px dashed #ddd;border-radius:12px;padding:22px 16px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa;margin-bottom:14px}
-.dz.drag{border-color:#1a7340;background:#f2faf5}
-.dz-icon{font-size:28px;margin-bottom:4px}
-.dz p{color:#888;font-size:13px;margin-bottom:2px}
-.dz small{color:#bbb;font-size:11px}
+/* Drop zone */
+.dz{border:2px dashed #ddd;border-radius:12px;padding:24px 16px;text-align:center;cursor:pointer;background:#fafaf8;margin-bottom:16px;transition:border-color .12s}
+.dz.drag,.dz:hover{border-color:#c8a96e}
+.dz p{color:#999;font-size:13px;margin-top:6px}
+.dz small{color:#ccc;font-size:11px}
 .dz input{display:none}
 
-/* Card queue */
+/* Queue */
 .queue{display:flex;flex-direction:column;gap:14px}
-.qi{background:#f8f8f6;border-radius:14px;overflow:hidden}
-.qi-top{display:flex;gap:12px;padding:12px 12px 0}
-.qi-img{width:80px;height:80px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#e8e6e0}
-.qi-img-placeholder{width:80px;height:80px;border-radius:10px;background:#e8e6e0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;color:#bbb}
-.qi-header{flex:1;min-width:0}
-.qi-name{font-size:13px;font-weight:500;color:#555;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qi-ai-btn{background:#f0faf5;color:#1a7340;border:1px solid #c8e8d4;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
-.qi-ai-btn:disabled{background:#f5f5f5;color:#bbb;border-color:#e5e5e5;cursor:default}
-.qi-del{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:0;margin-left:auto;line-height:1;flex-shrink:0}
-.qi-del:hover{color:#c0392b}
 
-/* Form inside card */
-.qi-form{padding:10px 12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.qf{display:flex;flex-direction:column;gap:3px}
-.qf label{font-size:10px;color:#aaa;font-weight:500;letter-spacing:.3px}
-.qf input,.qf select{border:1px solid #e0e0e0;border-radius:7px;padding:7px 9px;font-size:13px;background:#fff;outline:none;width:100%;-webkit-appearance:none}
-.qf input:focus{border-color:#1a1a1a}
-.qf-full{grid-column:1/-1}
-.qi-save{grid-column:1/-1;background:#1a1a1a;color:#fff;border:none;padding:11px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:2px}
-.qi-save:hover{background:#333}
+/* Single upload card */
+.ucard{background:#f8f7f4;border-radius:14px;overflow:hidden}
+.ucard-img-wrap{position:relative}
+.ucard-img{width:100%;display:block;max-height:240px;object-fit:contain;background:#ece9e4}
+.ucard-del{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.4);color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:16px;cursor:pointer;line-height:28px;text-align:center}
+.ucard-tags{padding:12px 14px 0}
+.ucard-tags-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.utag{border:1.5px solid #ddd;background:#fff;padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;color:#666;transition:all .12s;white-space:nowrap}
+.utag.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.utag.price-tag.on{background:#c8a96e;border-color:#c8a96e;color:#fff}
+.ulabel{font-size:10px;color:#bbb;font-weight:600;letter-spacing:.4px;margin-bottom:5px;text-transform:uppercase}
+.ucard-save{margin:12px 14px 14px;background:#1a1a1a;color:#fff;border:none;padding:12px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;width:calc(100% - 28px);display:block}
+.ucard-save:hover{background:#333}
 
-/* Action bar */
-.batch-bar{margin-top:16px;display:flex;gap:8px}
-.save-all-btn{background:#1a1a1a;color:#fff;border:none;padding:13px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;flex:1}
-.save-all-btn:disabled{background:#ccc;cursor:default}
-.spin{display:inline-block;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* Batch save */
+.batch-save{margin-top:14px;background:#1a1a1a;color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;width:100%;display:none}
+.batch-save.on{display:block}
 
-/* Detail page */
+/* Detail */
 #detail{display:none}
 #detail.on{display:block}
-#pool{display:block}
 #pool.off{display:none}
-.detail-nav{background:#fff;padding:13px 24px;border-bottom:1px solid #e8e6e2;display:flex;align-items:center;gap:10px}
-.back{background:none;border:none;font-size:14px;cursor:pointer;color:#555;display:flex;align-items:center;gap:5px}
-.back:hover{color:#1a1a1a}
-.dc{max-width:540px;margin:0 auto;padding:24px}
-.dc-img{width:100%;border-radius:14px;margin-bottom:18px;display:block}
-.dc-label{font-size:11px;color:#aaa;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
-.dc-title{font-size:26px;font-weight:500;margin-bottom:6px;line-height:1.2}
-.dc-addr{color:#aaa;font-size:13px;margin-bottom:22px}
-.dc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
-.dc-meta{background:#f5f3ef;border-radius:10px;padding:13px}
-.dc-meta .k{font-size:11px;color:#aaa;margin-bottom:3px}
-.dc-meta .v{font-size:15px;font-weight:500}
-.dc-price{font-size:34px;font-weight:600;margin-bottom:4px}
-.dc-monthly{font-size:13px;color:#aaa;margin-bottom:20px}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
-.tag{background:#f0eeea;padding:6px 13px;border-radius:20px;font-size:13px;color:#555}
-.share-big{background:#1a7340;color:#fff;border:none;padding:15px;border-radius:12px;font-size:14px;cursor:pointer;width:100%;font-weight:500}
-.share-big:hover{background:#155a30}
+.d-nav{background:#fff;padding:13px 18px;border-bottom:1px solid #ece9e4;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:10}
+.d-back{background:none;border:none;font-size:14px;cursor:pointer;color:#666}
+.d-wrap{max-width:500px;margin:0 auto;padding:20px 16px 40px}
+.d-img{width:100%;border-radius:16px;display:block;margin-bottom:18px}
+.d-tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:20px}
+.d-tag{background:#f0ede6;padding:5px 12px;border-radius:20px;font-size:13px;color:#666}
+.d-share{background:#1a7340;color:#fff;border:none;padding:14px;border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;width:100%}
 
 /* Toast */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;z-index:999}
 .toast.on{opacity:1}
 </style>
 </head>
@@ -135,148 +103,132 @@ header{background:#1a1a1a;padding:14px 24px;display:flex;align-items:center;just
 
 <header>
   <div class="logo">Niko <em>·</em> 房源池</div>
-  <button class="upload-btn" onclick="openUpload()">＋ 上传房源</button>
+  <button class="add-btn" onclick="openUpload()">＋ 上传</button>
 </header>
 
 <div class="filter-bar">
   <span class="fl">区域</span>
-  <div class="filter-group" id="fg-zone">
-    <button class="pill on" data-v="all" onclick="filt('zone','all',this)">全部</button>
-    <button class="pill" data-v="1" onclick="filt('zone','1',this)">Zone 1</button>
-    <button class="pill" data-v="2" onclick="filt('zone','2',this)">Zone 2</button>
-    <button class="pill" data-v="3" onclick="filt('zone','3',this)">Zone 3</button>
+  <div style="display:flex;gap:5px">
+    <button class="pill on" onclick="filt('zone','all',this)">全部</button>
+    <button class="pill" onclick="filt('zone','1',this)">Z1</button>
+    <button class="pill" onclick="filt('zone','2',this)">Z2</button>
+    <button class="pill" onclick="filt('zone','3',this)">Z3</button>
   </div>
   <div class="sep"></div>
   <span class="fl">户型</span>
-  <div class="filter-group" id="fg-beds">
-    <button class="pill on" data-v="all" onclick="filt('beds','all',this)">全部</button>
-    <button class="pill" data-v="0" onclick="filt('beds','0',this)">Studio</button>
-    <button class="pill" data-v="1" onclick="filt('beds','1',this)">1室</button>
-    <button class="pill" data-v="2" onclick="filt('beds','2',this)">2室</button>
-    <button class="pill" data-v="3" onclick="filt('beds','3',this)">3室+</button>
+  <div style="display:flex;gap:5px">
+    <button class="pill on" onclick="filt('beds','all',this)">全部</button>
+    <button class="pill" onclick="filt('beds','0',this)">Studio</button>
+    <button class="pill" onclick="filt('beds','1',this)">1室</button>
+    <button class="pill" onclick="filt('beds','2',this)">2室</button>
+    <button class="pill" onclick="filt('beds','3',this)">3室+</button>
   </div>
   <div class="sep"></div>
   <span class="fl">价格</span>
-  <div class="filter-group" id="fg-price">
-    <button class="pill on" data-v="all" onclick="filt('price','all',this)">全部</button>
-    <button class="pill" data-v="low" onclick="filt('price','low',this)">≤£700/周</button>
-    <button class="pill" data-v="mid" onclick="filt('price','mid',this)">£700–£1000</button>
-    <button class="pill" data-v="high" onclick="filt('price','high',this)">≥£1000</button>
+  <div style="display:flex;gap:5px">
+    <button class="pill on" onclick="filt('price','all',this)">全部</button>
+    <button class="pill" onclick="filt('price','low',this)">≤£700</button>
+    <button class="pill" onclick="filt('price','mid',this)">£700-1000</button>
+    <button class="pill" onclick="filt('price','high',this)">≥£1000</button>
   </div>
 </div>
 
 <div id="pool">
-  <div class="grid-container">
-    <div class="count-bar" id="count-bar">加载中…</div>
-    <div class="grid" id="card-grid"></div>
+  <div class="grid-wrap">
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
   </div>
 </div>
 
 <div id="detail">
-  <div class="detail-nav">
-    <button class="back" onclick="showPool()">← 返回房源池</button>
+  <div class="d-nav">
+    <button class="d-back" onclick="showPool()">← 返回</button>
   </div>
-  <div class="dc" id="dc"></div>
+  <div class="d-wrap" id="d-wrap"></div>
 </div>
 
-<!-- Upload modal -->
-<div class="overlay" id="overlay" onclick="overlayClick(event)">
-  <div class="modal">
+<!-- Upload sheet -->
+<div class="overlay" id="overlay" onclick="bgClick(event)">
+  <div class="sheet">
     <button class="close-x" onclick="closeUpload()">×</button>
-    <div class="modal-title">添加房源</div>
-    <div class="modal-sub">上传卡片图片，手动填写信息后保存</div>
-
+    <div class="sheet-title">上传房源卡片</div>
+    <div class="sheet-sub">选择图片，点选区域/户型/价格后保存</div>
     <div class="dz" id="dz" onclick="document.getElementById('fi').click()">
-      <div class="dz-icon">📷</div>
+      <div style="font-size:32px">📷</div>
       <p>点击选择图片（可多选）</p>
-      <small>也可以拖拽上传</small>
+      <small>支持拖拽上传</small>
       <input type="file" id="fi" accept="image/*" multiple onchange="handleFiles(this.files)">
     </div>
-
     <div class="queue" id="queue"></div>
-
-    <div class="batch-bar" id="batch-bar" style="display:none">
-      <button class="save-all-btn" id="save-all-btn" onclick="saveAll()">全部保存到房源池</button>
-    </div>
+    <button class="batch-save" id="batch-save" onclick="saveAll()">全部保存到房源池</button>
   </div>
 </div>
 
-<div class="toast" id="toast">链接已复制 ✓</div>
+<div class="toast" id="toast"></div>
 
 <script>
-let props = [], F = {zone:'all', beds:'all', price:'all'};
-let batchQueue = []; // [{id, file, dataUrl, status:'wait'|'run'|'done'|'err', data:{}}]
+// ── DATA ─────────────────────────────────────────────────
+let F = {zone:'all', beds:'all', price:'all'};
+let allProps = [];
+let batchQ = []; // {id, objectUrl, dataUrl, zone, beds, price}
 
-const ZONE_MAP = {
-  EC1:1,EC2:1,EC3:1,EC4:1,WC1:1,WC2:1,W1:1,SW1:1,SE1:1,E1:1,N1:1,NW1:1,
-  E1W:2,E2:2,E3:2,E8:2,E14:2,N4:2,N5:2,N7:2,NW3:2,NW5:2,NW6:2,NW8:2,
-  SE5:2,SE11:2,SE15:2,SE16:2,SW2:2,SW4:2,SW6:2,SW8:2,SW9:2,SW10:2,SW11:2,
-  W2:2,W6:2,W9:2,W10:2,W11:2,W12:2,W14:2,WC1X:2,WC1B:2,EC1A:1,EC1V:2,
-  E15:3,E16:3,N8:3,N15:3,N16:3,N22:3,NW2:3,NW10:3,SE17:2,
-  SE4:3,SE6:3,SE8:3,SE14:3,SE18:3,SW12:3,SW16:3,SW17:3,W3:3,W4:3,W5:3
-};
+// Built-in 15 listings (kept as before, shown as metadata cards)
+const BUILT_IN = [{"id":"1-boxwood-gardens-london-e1w","title":"1 Boxwood Gardens, London, E1W","postcode":"E1W","zone":2,"weekly":635,"monthly":2752,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"24/07/2026","furnish":"带家具","images":["images/1-boxwood-gardens-london-e1w/img_1.jpg","images/1-boxwood-gardens-london-e1w/img_2.jpg","images/1-boxwood-gardens-london-e1w/img_3.jpg","images/1-boxwood-gardens-london-e1w/img_4.jpg"]},{"id":"stratosphere-tower-55-great-eastern-road-stratford-e15","title":"Stratosphere Tower, E15","postcode":"E15","zone":3,"weekly":646,"monthly":2799,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","images":["images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_1.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_2.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_3.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_4.jpg"]},{"id":"regent-street-fitzrovia-w1b","title":"Regent Street, W1B","postcode":"W1B","zone":2,"weekly":725,"monthly":3142,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"Now","furnish":"带家具","images":["images/regent-street-fitzrovia-w1b/img_1.jpg","images/regent-street-fitzrovia-w1b/img_2.jpg"]},{"id":"cube-building-17-21-wenlock-road-london-n1","title":"Cube Building, N1","postcode":"N1","zone":1,"weekly":750,"monthly":3250,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"23/05/2026","furnish":"带家具","images":["images/cube-building-17-21-wenlock-road-london-n1/img_1.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_2.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_3.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_4.jpg"]},{"id":"damac-tower-nine-elms-london-sw8","title":"DAMAC Tower, SW8","postcode":"SW8","zone":2,"weekly":762,"monthly":3302,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"29/07/2026","furnish":"带家具","images":["images/damac-tower-nine-elms-london-sw8/img_1.jpg","images/damac-tower-nine-elms-london-sw8/img_2.jpg","images/damac-tower-nine-elms-london-sw8/img_3.jpg","images/damac-tower-nine-elms-london-sw8/img_4.jpg"]},{"id":"sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1","title":"Sterling Mansions, E1","postcode":"E1","zone":1,"weekly":795,"monthly":3445,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"12/07/2026","furnish":"不带家具","images":["images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_1.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_2.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_3.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_4.jpg"]},{"id":"asquith-house-segrave-walk-city-of-westminster-london","title":"Asquith House, W2","postcode":"W2","zone":2,"weekly":805,"monthly":3488,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"09/09/2026","furnish":"带家具","images":["images/asquith-house-segrave-walk-city-of-westminster-london/img_1.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_2.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_3.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_4.jpg"]},{"id":"dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a","title":"Dominion House, EC1A","postcode":"EC1A","zone":1,"weekly":808,"monthly":3501,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"20/07/2026","furnish":"带家具","images":["images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_1.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_2.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_3.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_4.jpg"]},{"id":"riverlight-four-riverlight-quay-london-sw11","title":"Riverlight Four, SW11","postcode":"SW11","zone":2,"weekly":850,"monthly":3683,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","images":["images/riverlight-four-riverlight-quay-london-sw11/img_1.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_2.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_3.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_4.jpg"]},{"id":"hurlock-heights-deacon-street-southwark-london","title":"Hurlock Heights, SE17","postcode":"SE17","zone":2,"weekly":875,"monthly":3792,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"13/08/2026","furnish":"带家具","images":["images/hurlock-heights-deacon-street-southwark-london/img_1.jpg","images/hurlock-heights-deacon-street-southwark-london/img_2.jpg","images/hurlock-heights-deacon-street-southwark-london/img_3.jpg","images/hurlock-heights-deacon-street-southwark-london/img_4.jpg"]},{"id":"latitude-house-oval-road-camden-london-nw1","title":"Latitude House, NW1","postcode":"NW1","zone":1,"weekly":995,"monthly":4312,"bed_label":"2 Bed 1 Bath","beds":2,"avail":"04/07/2026","furnish":"不带家具","images":["images/latitude-house-oval-road-camden-london-nw1/img_1.jpg","images/latitude-house-oval-road-camden-london-nw1/img_2.jpg"]},{"id":"the-atlas-building-city-road-ec1v","title":"The Atlas Building, EC1V","postcode":"EC1V","zone":2,"weekly":1000,"monthly":4333,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"14/08/2026","furnish":"带家具","images":["images/the-atlas-building-city-road-ec1v/img_1.jpg","images/the-atlas-building-city-road-ec1v/img_2.jpg","images/the-atlas-building-city-road-ec1v/img_3.jpg","images/the-atlas-building-city-road-ec1v/img_4.jpg"]},{"id":"kensington-apartments-commercial-street-e1","title":"Kensington Apartments, E1","postcode":"E1","zone":1,"weekly":1025,"monthly":4442,"bed_label":"3 Bed 2 Bath","beds":3,"avail":"23/07/2026","furnish":"带家具","images":["images/kensington-apartments-commercial-street-e1/img_1.jpg","images/kensington-apartments-commercial-street-e1/img_2.jpg","images/kensington-apartments-commercial-street-e1/img_3.jpg","images/kensington-apartments-commercial-street-e1/img_4.jpg"]},{"id":"jubilee-walk-clerkenwell-holborn-wc1x","title":"Jubilee Walk, WC1X","postcode":"WC1X","zone":2,"weekly":1154,"monthly":5001,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"10/08/2026","furnish":"带家具","images":["images/jubilee-walk-clerkenwell-holborn-wc1x/img_1.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_2.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_3.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_4.jpg"]},{"id":"morwell-street-london-wc1b","title":"Morwell Street, WC1B","postcode":"WC1B","zone":2,"weekly":1650,"monthly":7150,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"20/07/2026","furnish":"带家具","images":["images/morwell-street-london-wc1b/img_1.jpg","images/morwell-street-london-wc1b/img_2.jpg"]}];
 
-function zone4pc(pc) {
-  pc = (pc||'').trim().toUpperCase();
-  // Try longest match first
-  const keys = Object.keys(ZONE_MAP).sort((a,b)=>b.length-a.length);
-  for (let k of keys) if (pc.startsWith(k)) return ZONE_MAP[k];
-  return 2;
+function priceRange(w) {
+  if (!w) return 'unknown';
+  if (w <= 700) return 'low';
+  if (w <= 1000) return 'mid';
+  return 'high';
 }
 
-const INLINE_LISTINGS = [{"id":"1-boxwood-gardens-london-e1w","title":"1 Boxwood Gardens, London, E1W","address":"1 Boxwood Gardens, London, E1W","postcode":"E1W","zone":2,"weekly":635,"monthly":2752,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"24/07/2026","furnish":"带家具","features":["Luxury 1BED","带家具","Available 24/07/2026","3rd floor","住客健身房·Squash court","游泳池·spa","Luxury Kitchen·Bathrooms","24h 礼宾服务"],"images":["images/1-boxwood-gardens-london-e1w/img_1.jpg","images/1-boxwood-gardens-london-e1w/img_2.jpg","images/1-boxwood-gardens-london-e1w/img_3.jpg","images/1-boxwood-gardens-london-e1w/img_4.jpg"]},{"id":"stratosphere-tower-55-great-eastern-road-stratford-e15","title":"Stratosphere Tower, 55 Great Eastern Road, Stratford, E15","address":"Stratosphere Tower, 55 Great Eastern Road, Stratford, E15","postcode":"E15","zone":3,"weekly":646,"monthly":2799,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","features":["两室","带家具","礼宾服务","Roof top 露台","住客健身房","Excellent transport connections"],"images":["images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_1.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_2.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_3.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_4.jpg"]},{"id":"regent-street-fitzrovia-w1b","title":"Regent Street, Fitzrovia, W1B","address":"Regent Street, Fitzrovia, W1B","postcode":"W1B","zone":2,"weekly":725,"monthly":3142,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"Now","furnish":"带家具","features":["一室·one bathroom","1st floor with lift","Professionally managed","Excellent shopping·transport facilities of Oxford Circus."],"images":["images/regent-street-fitzrovia-w1b/img_1.jpg","images/regent-street-fitzrovia-w1b/img_2.jpg"]},{"id":"cube-building-17-21-wenlock-road-london-n1","title":"Cube Building, 17-21 Wenlock Road, London, N1","address":"Cube Building, 17-21 Wenlock Road, London, N1","postcode":"N1","zone":1,"weekly":750,"monthly":3250,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"23/05/2026","furnish":"带家具","features":["两室","Two Bathrooms","带家具","Excellent Location","Modern","EPC评级B"],"images":["images/cube-building-17-21-wenlock-road-london-n1/img_1.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_2.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_3.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_4.jpg"]},{"id":"damac-tower-nine-elms-london-sw8","title":"DAMAC Tower, Nine Elms, London, SW8","address":"DAMAC Tower, Nine Elms, London, SW8","postcode":"SW8","zone":2,"weekly":762,"monthly":3302,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"29/07/2026","furnish":"带家具","features":["Stunning City·河景!!","冬季花园","Exclusive Amenities","Prime Location","24/7 礼宾服务","Spacious Layout","Fitness Center·健身房·游泳池","Amenities pictures for illustrative purposes only."],"images":["images/damac-tower-nine-elms-london-sw8/img_1.jpg","images/damac-tower-nine-elms-london-sw8/img_2.jpg","images/damac-tower-nine-elms-london-sw8/img_3.jpg","images/damac-tower-nine-elms-london-sw8/img_4.jpg"]},{"id":"sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1","title":"75 Leman Street, Goodman'S Fields, Aldgate, E1","address":"75 Leman Street, Goodman'S Fields, Aldgate, E1","postcode":"E1","zone":1,"weekly":795,"monthly":3445,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"12/07/2026","furnish":"不带家具","features":["两室S","TWO BATHROOMS","24h礼宾服务","健身房·POOL","COMMUNAL GARDEN","LOCAL AMENITIES","0.2 MI TO ALDGATE EAST UNDERGROUND","WALKING DISTANCE TO THE CITY"],"images":["images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_1.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_2.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_3.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_4.jpg"]},{"id":"asquith-house-segrave-walk-city-of-westminster-london","title":"Asquith House, Segrave Walk, City Of Westminster, London","address":"Asquith House, Segrave Walk, City Of Westminster, London","postcode":"W2","zone":2,"weekly":805,"monthly":3488,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"09/09/2026","furnish":"带家具","features":["1 Bedroom / 1 Bathroom, 8th Floor","私人阳台","24h礼宾服务","游泳池, Vitality Pool, Steam Room, Private Dining, Cinema","Two minute walk to Edgware Road","Eight minute walk to Paddington station","Short journey to Regent Park·近Kings Cross","Cafes, restaurants,·daily amenities nearby"],"images":["images/asquith-house-segrave-walk-city-of-westminster-london/img_1.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_2.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_3.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_4.jpg"]},{"id":"dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a","title":"Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A","address":"Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A","postcode":"EC1A","zone":1,"weekly":808,"monthly":3501,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"20/07/2026","furnish":"带家具","features":["24h礼宾服务","Character façade","Cycle 储物间","Ideally located near Barbican station","Lift","EPC评级B"],"images":["images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_1.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_2.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_3.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_4.jpg"]},{"id":"riverlight-four-riverlight-quay-london-sw11","title":"Riverlight Four, Riverlight Quay, London, SW11","address":"Riverlight Four, Riverlight Quay, London, SW11","postcode":"SW11","zone":2,"weekly":850,"monthly":3683,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","features":["Large 两室 Property","Two Bathrooms (one ensuite)","Two Balconies","24h礼宾服务","住客健身房","Great Transport Links"],"images":["images/riverlight-four-riverlight-quay-london-sw11/img_1.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_2.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_3.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_4.jpg"]},{"id":"hurlock-heights-deacon-street-southwark-london","title":"Hurlock Heights, Deacon Street, Southwark, London","address":"Hurlock Heights, Deacon Street, Southwark, London","postcode":"SE17","zone":2,"weekly":875,"monthly":3792,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"13/08/2026","furnish":"带家具","features":["24h礼宾服务","住客健身房","20th floor","私人阳台"],"images":["images/hurlock-heights-deacon-street-southwark-london/img_1.jpg","images/hurlock-heights-deacon-street-southwark-london/img_2.jpg","images/hurlock-heights-deacon-street-southwark-london/img_3.jpg","images/hurlock-heights-deacon-street-southwark-london/img_4.jpg"]},{"id":"latitude-house-oval-road-camden-london-nw1","title":"Latitude House, Oval Road, Camden, London NW1","address":"Latitude House, Oval Road, Camden, London NW1","postcode":"NW1","zone":1,"weekly":995,"monthly":4312,"bed_label":"2 Bed 1 Bath","beds":2,"avail":"04/07/2026","furnish":"不带家具","features":["2 bedrooms","独立客厅","1 bathroom"],"images":["images/latitude-house-oval-road-camden-london-nw1/img_1.jpg","images/latitude-house-oval-road-camden-london-nw1/img_2.jpg"]},{"id":"the-atlas-building-city-road-ec1v","title":"The Atlas Building, City Road, EC1V","address":"The Atlas Building, City Road, EC1V","postcode":"EC1V","zone":2,"weekly":1000,"monthly":4333,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"14/08/2026","furnish":"带家具","features":["23rd Floor 两室 Apartment","Bespoke Bathroom &En-Suite; Shower Room","开放式 Living Space","Fitted Kitchen","带家具","EPC-B","South-东向 Aspect","Private 双面采光 阳台"],"images":["images/the-atlas-building-city-road-ec1v/img_1.jpg","images/the-atlas-building-city-road-ec1v/img_2.jpg","images/the-atlas-building-city-road-ec1v/img_3.jpg","images/the-atlas-building-city-road-ec1v/img_4.jpg"]},{"id":"kensington-apartments-commercial-street-e1","title":"Kensington Apartments, Commercial Street, E1","address":"Kensington Apartments, Commercial Street, E1","postcode":"E1","zone":1,"weekly":1025,"monthly":4442,"bed_label":"3 Bed 2 Bath","beds":3,"avail":"23/07/2026","furnish":"带家具","features":["3 Bedrooms","2 Bathrooms","阳台","开放式厨房","On site leisure facilities","Communal roof gardens","0.1 miles from Aldgate Station","约 974 sq ft (90.5 sq m)"],"images":["images/kensington-apartments-commercial-street-e1/img_1.jpg","images/kensington-apartments-commercial-street-e1/img_2.jpg","images/kensington-apartments-commercial-street-e1/img_3.jpg","images/kensington-apartments-commercial-street-e1/img_4.jpg"]},{"id":"jubilee-walk-clerkenwell-holborn-wc1x","title":"Jubilee Walk, Clerkenwell, London, WC1X","address":"Jubilee Walk, Clerkenwell, London, WC1X","postcode":"WC1X","zone":2,"weekly":1154,"monthly":5001,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"10/08/2026","furnish":"带家具","features":["Residents Cinema","Residents Co Working Lounge","全新楼盘","地暖·Cooling","Secure Building with Fob Entrance","New Appliances","嵌入式厨电","健身房"],"images":["images/jubilee-walk-clerkenwell-holborn-wc1x/img_1.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_2.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_3.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_4.jpg"]},{"id":"morwell-street-london-wc1b","title":"Morwell Street, London WC1B","address":"Morwell Street, London WC1B","postcode":"WC1B","zone":2,"weekly":1650,"monthly":7150,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"20/07/2026","furnish":"带家具","features":["2 bedrooms","独立客厅","2 bathrooms","全新楼盘","全新开发"],"images":["images/morwell-street-london-wc1b/img_1.jpg","images/morwell-street-london-wc1b/img_2.jpg"]}];
-
-async function loadData() {
-  props = INLINE_LISTINGS;
-  const local = JSON.parse(localStorage.getItem('niko-pool') || '[]');
-  props = [...local, ...props];
+function loadAll() {
+  const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
+  allProps = [...saved, ...BUILT_IN.map(p => ({
+    ...p, isBuiltIn: true,
+    price: priceRange(p.weekly),
+    displayImg: p.images[0]
+  }))];
   render();
 }
 
 function getFiltered() {
-  return props.filter(p => {
+  return allProps.filter(p => {
     if (F.zone !== 'all' && String(p.zone) !== F.zone) return false;
     if (F.beds !== 'all') {
       const b = parseInt(F.beds);
       if (b === 3 && p.beds < 3) return false;
       if (b < 3 && p.beds !== b) return false;
     }
-    if (F.price !== 'all') {
-      const w = p.weekly || 0;
-      if (F.price === 'low' && w > 700) return false;
-      if (F.price === 'mid' && (w < 700 || w > 1000)) return false;
-      if (F.price === 'high' && w < 1000) return false;
-    }
+    if (F.price !== 'all' && p.price !== F.price) return false;
     return true;
   });
 }
 
 function render() {
   const list = getFiltered();
-  document.getElementById('count-bar').textContent = `共 ${list.length} 套房源`;
-  const g = document.getElementById('card-grid');
+  document.getElementById('count').textContent = `共 ${list.length} 套`;
+  const g = document.getElementById('grid');
   if (!list.length) {
-    g.innerHTML = '<div class="empty"><div>🏠</div><p>暂无符合条件的房源</p></div>';
+    g.innerHTML = '<div class="empty"><div class="empty-icon">🏠</div><p>没有符合条件的房源</p></div>';
     return;
   }
   g.innerHTML = list.map(p => {
-    const img = (p.images && p.images[0]) ? p.images[0] : p.imageDataUrl;
-    const beds = p.bed_label || (p.beds === 0 ? 'Studio' : p.beds + ' Bed');
-    return `<div class="card" onclick="showDetail('${p.id}')">
-      ${img ? `<img class="card-img" src="${img}" loading="lazy" onerror="this.style.display='none'">` : '<div class="card-img"></div>'}
-      <div class="card-body">
-        <div class="card-meta-top">${p.postcode || ''} &middot; Zone ${p.zone || 2}</div>
-        <div class="card-title">${p.title || p.id}</div>
-        <div class="card-pills">
-          <span class="cpill">${beds}</span>
-          ${p.furnish ? `<span class="cpill">${p.furnish}</span>` : ''}
-          ${p.avail ? `<span class="cpill">${p.avail}</span>` : ''}
-        </div>
-        <div class="card-price">£${(p.weekly||0).toLocaleString()}<sup>/周</sup></div>
+    const img = p.displayImg || (p.images && p.images[0]);
+    const zoneLabel = p.zone ? `Z${p.zone}` : '';
+    const bedsLabel = p.beds === 0 ? 'Studio' : (p.beds || 2) + '室';
+    const priceLabel = p.weekly ? `£${p.weekly}/周` : '';
+    return `<div class="tile" onclick="showDetail('${p.id}')">
+      <div class="tile-img">
+        ${img ? `<img src="${img}" loading="lazy" onerror="this.parentNode.style.minHeight='120px'">` : '<div style="min-height:140px;background:#ece9e4"></div>'}
       </div>
-      <div class="card-footer">
-        <span class="avail">约 £${(p.monthly||Math.round((p.weekly||0)*52/12)).toLocaleString()}/月</span>
-        <button class="share-btn" onclick="event.stopPropagation();share('${p.id}')">↗ 分享</button>
+      <div class="tile-bar">
+        <div class="tile-tags">
+          ${zoneLabel ? `<span class="tag">${zoneLabel}</span>` : ''}
+          <span class="tag">${bedsLabel}</span>
+          ${priceLabel ? `<span class="tag">${priceLabel}</span>` : ''}
+        </div>
+        <button class="tile-share" onclick="event.stopPropagation();share('${p.id}')">↗</button>
       </div>
     </div>`;
   }).join('');
@@ -284,32 +236,30 @@ function render() {
 
 function filt(type, val, el) {
   F[type] = val;
-  el.closest('.filter-group').querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+  el.parentNode.querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
   el.classList.add('on');
   render();
 }
 
+// ── DETAIL ───────────────────────────────────────────────
 function showDetail(id) {
-  const p = props.find(x => x.id === id);
+  const p = allProps.find(x => x.id === id);
   if (!p) return;
-  const img = (p.images && p.images[0]) ? p.images[0] : p.imageDataUrl;
-  const beds = p.bed_label || (p.beds === 0 ? 'Studio' : p.beds + ' Bed');
-  const monthly = p.monthly || Math.round((p.weekly||0)*52/12);
-  document.getElementById('dc').innerHTML = `
-    ${img ? `<img class="dc-img" src="${img}" onerror="this.style.display='none'">` : ''}
-    <div class="dc-label">${p.postcode || ''} &middot; Zone ${p.zone || 2}</div>
-    <div class="dc-title">${p.title || p.id}</div>
-    <div class="dc-addr">${p.address || (p.postcode + ', London')}</div>
-    <div class="dc-grid">
-      <div class="dc-meta"><div class="k">户型</div><div class="v">${beds}</div></div>
-      <div class="dc-meta"><div class="k">邮编</div><div class="v">${p.postcode || '-'}</div></div>
-      <div class="dc-meta"><div class="k">入住</div><div class="v">${p.avail || '-'}</div></div>
-      <div class="dc-meta"><div class="k">家具</div><div class="v">${p.furnish || '带家具'}</div></div>
+  const img = p.displayImg || (p.images && p.images[0]);
+  const bedsLabel = p.beds === 0 ? 'Studio' : (p.beds || 2) + '室';
+  document.getElementById('d-wrap').innerHTML = `
+    ${img ? `<img class="d-img" src="${img}">` : ''}
+    <div class="d-tags">
+      ${p.zone ? `<span class="d-tag">Zone ${p.zone}</span>` : ''}
+      <span class="d-tag">${bedsLabel}</span>
+      ${p.weekly ? `<span class="d-tag">£${p.weekly}/周</span>` : ''}
+      ${p.avail ? `<span class="d-tag">${p.avail}</span>` : ''}
+      ${p.furnish ? `<span class="d-tag">${p.furnish}</span>` : ''}
+      ${p.postcode ? `<span class="d-tag">${p.postcode}</span>` : ''}
     </div>
-    <div class="dc-price">£${(p.weekly||0).toLocaleString()}<span style="font-size:16px;font-weight:400;color:#aaa"> /周</span></div>
-    <div class="dc-monthly">约 £${monthly.toLocaleString()} /月</div>
-    ${p.features && p.features.length ? `<div class="tags">${p.features.map(f=>`<span class="tag">✦ ${f}</span>`).join('')}</div>` : ''}
-    <button class="share-big" onclick="share('${p.id}')">↗ 复制分享链接</button>
+    ${p.title ? `<p style="font-size:14px;color:#888;margin-bottom:18px">${p.title}</p>` : ''}
+    <button class="d-share" onclick="share('${p.id}')">↗ 复制分享链接</button>
+    ${!p.isBuiltIn ? `<button onclick="deleteCard('${p.id}')" style="margin-top:10px;width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;background:#fff;color:#c0392b;font-size:13px;cursor:pointer">删除这条房源</button>` : ''}
   `;
   document.getElementById('pool').classList.add('off');
   document.getElementById('detail').classList.add('on');
@@ -322,91 +272,42 @@ function showPool() {
   history.pushState(null, '', location.pathname);
 }
 
+function deleteCard(id) {
+  if (!confirm('确定删除这条房源吗？')) return;
+  const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
+  const updated = saved.filter(x => x.id !== id);
+  localStorage.setItem('niko-cards', JSON.stringify(updated));
+  loadAll();
+  showPool();
+  toast('已删除');
+}
+
 function share(id) {
   const url = location.origin + location.pathname + '#/p/' + id;
-  navigator.clipboard.writeText(url).then(() => toast('链接已复制 ✓')).catch(() => prompt('复制此链接：', url));
+  navigator.clipboard.writeText(url)
+    .then(() => toast('链接已复制 ✓'))
+    .catch(() => { prompt('复制此链接：', url); });
 }
 
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('on');
-  setTimeout(() => t.classList.remove('on'), 2200);
+  setTimeout(() => t.classList.remove('on'), 2000);
 }
 
-// ── API KEY ──────────────────────────────────────────────
-function getApiKey() { return localStorage.getItem('claude-api-key') || ''; }
-
-// ── CLAUDE VISION API ────────────────────────────────────
-async function analyzeCard(dataUrl) {
-  const key = getApiKey();
-  if (!key) throw new Error('NO_KEY');
-  const mime = dataUrl.split(';')[0].split(':')[1];
-  const b64  = dataUrl.split(',')[1];
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-allow-browser': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 512,
-      messages: [{
-        role: 'user',
-        content: [
-          { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
-          { type: 'text', text: `This is a UK property listing card. Return ONLY a JSON object:\n{"title":"address/name","postcode":"UK prefix e.g. N1C","beds":2,"weekly":900,"avail":"DD/MM/YYYY or Now","furnish":"带家具 or 不带家具","features":["feature1"]}` }
-        ]
-      }]
-    })
-  });
-  if (!resp.ok) { const e = await resp.json().catch(()=>({})); throw new Error(e.error?.message||`HTTP ${resp.status}`); }
-  const d = await resp.json();
-  const m = d.content[0].text.match(/\{[\s\S]*\}/);
-  if (!m) throw new Error('解析失败');
-  return JSON.parse(m[0]);
-}
-
-function compressImage(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = new Image();
-      img.onload = () => {
-        const MAX = 1024;
-        let w = img.width, h = img.height;
-        if (w > MAX || h > MAX) {
-          if (w > h) { h = Math.round(h*MAX/w); w = MAX; }
-          else       { w = Math.round(w*MAX/h); h = MAX; }
-        }
-        const c = document.createElement('canvas');
-        c.width = w; c.height = h;
-        c.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(c.toDataURL('image/jpeg', 0.85));
-      };
-      img.onerror = reject;
-      img.src = ev.target.result;
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ── UPLOAD ────────────────────────────────────────────────
+// ── UPLOAD ───────────────────────────────────────────────
 function openUpload() {
   document.getElementById('overlay').classList.add('on');
 }
 function closeUpload() {
   document.getElementById('overlay').classList.remove('on');
-  batchQueue = [];
+  batchQ = [];
   document.getElementById('queue').innerHTML = '';
-  document.getElementById('batch-bar').style.display = 'none';
+  document.getElementById('batch-save').classList.remove('on');
   document.getElementById('fi').value = '';
 }
-function overlayClick(e) {
+function bgClick(e) {
   if (e.target === document.getElementById('overlay')) closeUpload();
 }
 
@@ -417,184 +318,131 @@ dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag
 
 function handleFiles(files) {
   const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
-  if (!arr.length) return;
   arr.forEach(file => {
-    const id = 'q' + Date.now() + Math.random().toString(36).slice(2,6);
+    const id = 'u' + Date.now() + Math.random().toString(36).slice(2,5);
     const objectUrl = URL.createObjectURL(file);
-    batchQueue.push({ id, file, objectUrl, dataUrl: null, status: 'wait',
-      data: { title:'', postcode:'', zone:2, beds:2, weekly:'', avail:'', furnish:'带家具', features:[] }
-    });
+    const entry = { id, file, objectUrl, dataUrl: null, zone: null, beds: null, price: null };
+    batchQ.push(entry);
+    appendCard(entry);
+    // Also load a compressed dataUrl for saving
+    compressForSave(file).then(du => { entry.dataUrl = du; });
   });
-  renderQueue();
+  if (batchQ.length > 1) document.getElementById('batch-save').classList.add('on');
 }
 
-function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-
-function updateQ(id, key, val) {
-  const q = batchQueue.find(x=>x.id===id);
-  if (!q) return;
-  q.data[key] = val;
-  if (key==='postcode') { q.data.zone = zone4pc(val); updateQField(id,'zone',q.data.zone); }
-}
-function updateQField(id, key, val) {
-  // Update just a single field DOM without full re-render
-  const el = document.querySelector(`#${id} [data-key="${key}"]`);
-  if (el) el.value = val;
-}
-
-function removeQ(id) {
-  const q = batchQueue.find(x=>x.id===id);
-  if (q && q.objectUrl) URL.revokeObjectURL(q.objectUrl);
-  batchQueue = batchQueue.filter(x=>x.id!==id);
-  const el = document.getElementById(id);
-  if (el) el.remove();
-  document.getElementById('batch-bar').style.display = batchQueue.length ? 'flex' : 'none';
-}
-
-async function aiRecognize(id) {
-  const q = batchQueue.find(x=>x.id===id);
-  if (!q) return;
-  if (!getApiKey()) {
-    const key = prompt('请输入 Anthropic API Key (sk-ant-...)');
-    if (!key) return;
-    localStorage.setItem('claude-api-key', key);
-  }
-  const btn = document.querySelector(`#${id} .qi-ai-btn`);
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin">⟳</span> 识别中'; }
-  try {
-    const compressed = await compressImage(q.file);
-    q.dataUrl = compressed;
-    const result = await analyzeCard(compressed);
-    result.zone = zone4pc(result.postcode || '');
-    q.data = { ...q.data, ...result };
-    // Fill in the form fields
-    const card = document.getElementById(id);
-    if (card) {
-      ['title','postcode','weekly','avail'].forEach(k => {
-        const el = card.querySelector(`[data-key="${k}"]`);
-        if (el && result[k]) el.value = result[k];
-      });
-      ['zone','beds','furnish'].forEach(k => {
-        const el = card.querySelector(`[data-key="${k}"]`);
-        if (el && result[k] != null) el.value = result[k];
-      });
-    }
-    if (btn) { btn.disabled = false; btn.innerHTML = '✅ 已识别'; btn.style.color='#1a7340'; }
-    toast('AI 识别完成 ✓');
-  } catch(e) {
-    if (btn) { btn.disabled = false; btn.innerHTML = '⚡ 重新识别'; }
-    toast('识别失败：' + (e.message.includes('401')?'API Key 无效':e.message.slice(0,20)));
-  }
+function compressForSave(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 1200;
+        let w = img.width, h = img.height;
+        if (w > MAX || h > MAX) {
+          if (w > h) { h = Math.round(h*MAX/w); w = MAX; }
+          else { w = Math.round(w*MAX/h); h = MAX; }
+        }
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => resolve(ev.target.result);
+      img.src = ev.target.result;
+    };
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
 }
 
-function renderQueue() {
+function appendCard(entry) {
   const qEl = document.getElementById('queue');
-  // Append new cards only (don't re-render existing ones to preserve user edits)
-  batchQueue.forEach(q => {
-    if (document.getElementById(q.id)) return; // already rendered
-    const d = q.data;
-    const div = document.createElement('div');
-    div.className = 'qi'; div.id = q.id;
-    div.innerHTML = `
-      <div class="qi-top">
-        <img class="qi-img" src="${q.objectUrl}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="qi-img-placeholder" style="display:none">🏠</div>
-        <div class="qi-header">
-          <div class="qi-name">${q.file.name}</div>
-          <button class="qi-ai-btn" onclick="aiRecognize('${q.id}')">⚡ AI 识别填写</button>
-        </div>
-        <button class="qi-del" onclick="removeQ('${q.id}')">×</button>
+  const div = document.createElement('div');
+  div.className = 'ucard'; div.id = entry.id;
+
+  div.innerHTML = `
+    <div class="ucard-img-wrap">
+      <img class="ucard-img" src="${entry.objectUrl}" onerror="this.style.display='none'">
+      <button class="ucard-del" onclick="removeCard('${entry.id}')">×</button>
+    </div>
+    <div class="ucard-tags">
+      <div class="ulabel">区域 / Zone</div>
+      <div class="ucard-tags-row">
+        <button class="utag" onclick="tagSelect('${entry.id}','zone','1',this)">Zone 1</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','zone','2',this)">Zone 2</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','zone','3',this)">Zone 3</button>
       </div>
-      <div class="qi-form">
-        <div class="qf qf-full">
-          <label>楼盘名称 *</label>
-          <input data-key="title" value="${esc(d.title)}" oninput="updateQ('${q.id}','title',this.value)" placeholder="例：1 York Way, Kings Cross">
-        </div>
-        <div class="qf">
-          <label>邮编</label>
-          <input data-key="postcode" value="${esc(d.postcode)}" oninput="updateQ('${q.id}','postcode',this.value)" placeholder="N1C / SW8">
-        </div>
-        <div class="qf">
-          <label>Zone</label>
-          <select data-key="zone" onchange="updateQ('${q.id}','zone',parseInt(this.value))">
-            ${[1,2,3].map(z=>`<option value="${z}"${z===2?' selected':''}>Zone ${z}</option>`).join('')}
-          </select>
-        </div>
-        <div class="qf">
-          <label>户型</label>
-          <select data-key="beds" onchange="updateQ('${q.id}','beds',parseInt(this.value))">
-            <option value="0">Studio</option><option value="1">1 Bed</option>
-            <option value="2" selected>2 Bed</option><option value="3">3 Bed+</option>
-          </select>
-        </div>
-        <div class="qf">
-          <label>周租 (£)</label>
-          <input data-key="weekly" type="number" value="" oninput="updateQ('${q.id}','weekly',parseInt(this.value)||0)" placeholder="900">
-        </div>
-        <div class="qf">
-          <label>入住日期</label>
-          <input data-key="avail" value="" oninput="updateQ('${q.id}','avail',this.value)" placeholder="16/07/2026">
-        </div>
-        <div class="qf">
-          <label>家具</label>
-          <select data-key="furnish" onchange="updateQ('${q.id}','furnish',this.value)">
-            <option selected>带家具</option><option>不带家具</option>
-          </select>
-        </div>
-        <button class="qi-save" onclick="saveSingle('${q.id}')">保存这套房源</button>
-      </div>`;
-    qEl.appendChild(div);
-  });
-  document.getElementById('batch-bar').style.display = batchQueue.length > 1 ? 'flex' : 'none';
+      <div class="ulabel">户型</div>
+      <div class="ucard-tags-row">
+        <button class="utag" onclick="tagSelect('${entry.id}','beds','0',this)">Studio</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','beds','1',this)">1室</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','beds','2',this)">2室</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','beds','3',this)">3室+</button>
+      </div>
+      <div class="ulabel">价格范围</div>
+      <div class="ucard-tags-row">
+        <button class="utag price-tag" onclick="tagSelect('${entry.id}','price','low',this)">≤£700/周</button>
+        <button class="utag price-tag" onclick="tagSelect('${entry.id}','price','mid',this)">£700-1000</button>
+        <button class="utag price-tag" onclick="tagSelect('${entry.id}','price','high',this)">≥£1000/周</button>
+      </div>
+    </div>
+    <button class="ucard-save" onclick="saveSingle('${entry.id}')">保存到房源池</button>
+  `;
+  qEl.appendChild(div);
+}
+
+function tagSelect(id, key, val, el) {
+  const entry = batchQ.find(x => x.id === id);
+  if (entry) entry[key] = parseInt(val) || val;
+  // Deselect siblings
+  el.closest('.ucard-tags-row').querySelectorAll('.utag').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function removeCard(id) {
+  const entry = batchQ.find(x => x.id === id);
+  if (entry && entry.objectUrl) URL.revokeObjectURL(entry.objectUrl);
+  batchQ = batchQ.filter(x => x.id !== id);
+  document.getElementById(id)?.remove();
+  if (batchQ.length <= 1) document.getElementById('batch-save').classList.remove('on');
 }
 
 function saveSingle(id) {
-  const q = batchQueue.find(x=>x.id===id);
-  if (!q) return;
-  const title = q.data.title || document.querySelector(`#${id} [data-key="title"]`).value.trim();
-  if (!title) { toast('请填写楼盘名称'); return; }
-  // Read latest values from DOM
-  const card = document.getElementById(id);
-  const get = k => card.querySelector(`[data-key="${k}"]`)?.value || '';
-  const beds = parseInt(get('beds')) || 2;
-  const weekly = parseInt(get('weekly')) || 0;
-  const pc = get('postcode').toUpperCase();
-  const zone = parseInt(get('zone')) || zone4pc(pc);
+  const entry = batchQ.find(x => x.id === id);
+  if (!entry) return;
   const p = {
-    id: title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now(),
-    title, postcode: pc, zone, weekly,
-    monthly: Math.round(weekly*52/12),
-    address: title + (pc?', '+pc:'') + ', London',
-    bed_label: beds===0?'Studio':beds+' Bed',
-    beds, avail: get('avail'), furnish: get('furnish'),
-    features: q.data.features||[], images: [],
-    imageDataUrl: q.dataUrl || q.objectUrl,
+    id: 'card-' + Date.now() + '-' + Math.random().toString(36).slice(2,5),
+    isUploaded: true,
+    zone: entry.zone || 2,
+    beds: entry.beds != null ? entry.beds : 2,
+    price: entry.price || 'mid',
+    weekly: entry.price === 'low' ? 650 : entry.price === 'high' ? 1100 : 850,
+    displayImg: entry.dataUrl || entry.objectUrl,
     uploadedAt: new Date().toISOString()
   };
-  const existing = JSON.parse(localStorage.getItem('niko-pool')||'[]');
-  existing.unshift(p); props.unshift(p);
-  localStorage.setItem('niko-pool', JSON.stringify(existing));
+  const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
+  saved.unshift(p);
+  localStorage.setItem('niko-cards', JSON.stringify(saved));
+  allProps.unshift({...p});
   render();
-  removeQ(id);
-  if (!batchQueue.length) closeUpload();
+  removeCard(id);
+  if (!batchQ.length) closeUpload();
   toast('已保存 ✓');
 }
 
 function saveAll() {
-  const ids = [...batchQueue.map(q=>q.id)];
+  const ids = batchQ.map(x => x.id);
   ids.forEach(id => saveSingle(id));
 }
 
-// Hash routing
+// ── ROUTING ──────────────────────────────────────────────
 window.addEventListener('popstate', () => {
-  const h = location.hash;
-  if (h.startsWith('#/p/')) showDetail(h.slice(4));
+  if (location.hash.startsWith('#/p/')) showDetail(location.hash.slice(4));
   else showPool();
 });
 
-loadData().then(() => {
-  if (location.hash.startsWith('#/p/')) showDetail(location.hash.slice(4));
-});
+loadAll();
+if (location.hash.startsWith('#/p/')) showDetail(location.hash.slice(4));
 </script>
 </body>
 </html>
