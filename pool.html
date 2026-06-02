@@ -55,60 +55,52 @@ header{background:#1a1a1a;padding:14px 24px;display:flex;align-items:center;just
 .empty p{font-size:14px;color:#bbb}
 
 /* Upload overlay */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
 .overlay.on{display:flex}
-.modal{background:#fff;border-radius:16px;padding:24px;max-width:640px;width:96%;position:relative;max-height:92vh;overflow-y:auto}
-.modal-title{font-size:17px;font-weight:500;margin-bottom:6px}
-.modal-sub{font-size:12px;color:#aaa;margin-bottom:18px}
-.close-x{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;color:#bbb;cursor:pointer;line-height:1}
-.close-x:hover{color:#666}
-
-/* API key banner */
-.api-banner{background:#fff8ed;border:1px solid #f5d89a;border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.api-banner input{flex:1;border:1px solid #e0d5c0;border-radius:6px;padding:7px 10px;font-size:12px;font-family:monospace;outline:none}
-.api-banner input:focus{border-color:#c8a96e}
-.api-save-btn{background:#c8a96e;color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap}
-.api-ok{background:#f0faf5;border:1px solid #c8e8d4;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#1a7340;display:flex;align-items:center;justify-content:space-between}
-.api-change{font-size:11px;color:#aaa;cursor:pointer;text-decoration:underline}
+@media(min-width:600px){.overlay{align-items:center}}
+.modal{background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 32px;width:100%;max-width:560px;position:relative;max-height:92vh;overflow-y:auto}
+@media(min-width:600px){.modal{border-radius:18px;padding:24px}}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:2px}
+.modal-sub{font-size:12px;color:#aaa;margin-bottom:16px}
+.close-x{position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;color:#bbb;cursor:pointer;line-height:1}
 
 /* Dropzone */
-.dz{border:2px dashed #ddd;border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa}
-.dz:hover,.dz.drag{border-color:#1a7340;background:#f2faf5}
-.dz-icon{font-size:32px;margin-bottom:6px;color:#ccc}
-.dz p{color:#aaa;font-size:13px;margin-bottom:4px}
-.dz small{color:#ccc;font-size:11px}
+.dz{border:2px dashed #ddd;border-radius:12px;padding:22px 16px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa;margin-bottom:14px}
+.dz.drag{border-color:#1a7340;background:#f2faf5}
+.dz-icon{font-size:28px;margin-bottom:4px}
+.dz p{color:#888;font-size:13px;margin-bottom:2px}
+.dz small{color:#bbb;font-size:11px}
 .dz input{display:none}
 
-/* Batch queue */
-.queue{margin-top:16px;display:flex;flex-direction:column;gap:10px}
-.qi{background:#fafafa;border:1px solid #eee;border-radius:12px;padding:12px;display:flex;gap:12px;align-items:flex-start}
-.qi-img{width:72px;height:72px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#f0ede6}
-.qi-body{flex:1;min-width:0}
-.qi-status{font-size:11px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.s-wait{color:#aaa}
-.s-run{color:#c8a96e}
-.s-done{color:#1a7340}
-.s-err{color:#c0392b}
-.qi-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.qi-field{display:flex;flex-direction:column;gap:2px}
-.qi-field label{font-size:10px;color:#bbb}
-.qi-field input,.qi-field select{border:1px solid #e8e8e8;border-radius:5px;padding:5px 8px;font-size:12px;background:#fff;outline:none;width:100%}
-.qi-field input:focus{border-color:#1a1a1a}
-.qi-del{background:none;border:none;color:#ddd;font-size:16px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+/* Card queue */
+.queue{display:flex;flex-direction:column;gap:14px}
+.qi{background:#f8f8f6;border-radius:14px;overflow:hidden}
+.qi-top{display:flex;gap:12px;padding:12px 12px 0}
+.qi-img{width:80px;height:80px;border-radius:10px;object-fit:cover;flex-shrink:0;background:#e8e6e0}
+.qi-img-placeholder{width:80px;height:80px;border-radius:10px;background:#e8e6e0;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:24px;color:#bbb}
+.qi-header{flex:1;min-width:0}
+.qi-name{font-size:13px;font-weight:500;color:#555;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qi-ai-btn{background:#f0faf5;color:#1a7340;border:1px solid #c8e8d4;padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.qi-ai-btn:disabled{background:#f5f5f5;color:#bbb;border-color:#e5e5e5;cursor:default}
+.qi-del{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:0;margin-left:auto;line-height:1;flex-shrink:0}
 .qi-del:hover{color:#c0392b}
-.qi-title-field{grid-column:1/-1}
-.spin{display:inline-block;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 
-/* Bottom action bar */
-.batch-bar{margin-top:16px;display:flex;gap:10px;align-items:center}
-.run-btn{background:#1a7340;color:#fff;border:none;padding:11px 22px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500}
-.run-btn:hover{background:#155a30}
-.run-btn:disabled{background:#ccc;cursor:default}
-.save-all-btn{background:#1a1a1a;color:#fff;border:none;padding:11px 22px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500;flex:1}
-.save-all-btn:hover{background:#333}
+/* Form inside card */
+.qi-form{padding:10px 12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.qf{display:flex;flex-direction:column;gap:3px}
+.qf label{font-size:10px;color:#aaa;font-weight:500;letter-spacing:.3px}
+.qf input,.qf select{border:1px solid #e0e0e0;border-radius:7px;padding:7px 9px;font-size:13px;background:#fff;outline:none;width:100%;-webkit-appearance:none}
+.qf input:focus{border-color:#1a1a1a}
+.qf-full{grid-column:1/-1}
+.qi-save{grid-column:1/-1;background:#1a1a1a;color:#fff;border:none;padding:11px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;margin-top:2px}
+.qi-save:hover{background:#333}
+
+/* Action bar */
+.batch-bar{margin-top:16px;display:flex;gap:8px}
+.save-all-btn{background:#1a1a1a;color:#fff;border:none;padding:13px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;flex:1}
 .save-all-btn:disabled{background:#ccc;cursor:default}
-.batch-info{font-size:12px;color:#aaa}
+.spin{display:inline-block;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* Detail page */
 #detail{display:none}
@@ -188,39 +180,23 @@ header{background:#1a1a1a;padding:14px 24px;display:flex;align-items:center;just
 </div>
 
 <!-- Upload modal -->
-<div class="overlay" id="overlay">
+<div class="overlay" id="overlay" onclick="overlayClick(event)">
   <div class="modal">
     <button class="close-x" onclick="closeUpload()">×</button>
-    <div class="modal-title">批量上传房源卡片</div>
-    <div class="modal-sub">支持同时上传多张，AI 自动识别所有信息</div>
+    <div class="modal-title">添加房源</div>
+    <div class="modal-sub">上传卡片图片，手动填写信息后保存</div>
 
-    <!-- API key section -->
-    <div id="api-banner" class="api-banner" style="display:none">
-      <span style="font-size:13px;white-space:nowrap">🔑 API Key</span>
-      <input type="password" id="api-input" placeholder="输入 Anthropic API Key (sk-ant-...)">
-      <button class="api-save-btn" onclick="saveApiKey()">保存</button>
-    </div>
-    <div id="api-ok" class="api-ok" style="display:none">
-      <span>✅ Claude AI 识别已就绪</span>
-      <span class="api-change" onclick="changeApiKey()">更换 Key</span>
-    </div>
-
-    <!-- Drop zone -->
     <div class="dz" id="dz" onclick="document.getElementById('fi').click()">
       <div class="dz-icon">📷</div>
-      <p>点击或拖拽上传房源卡片</p>
-      <small>可同时选多张图片</small>
+      <p>点击选择图片（可多选）</p>
+      <small>也可以拖拽上传</small>
       <input type="file" id="fi" accept="image/*" multiple onchange="handleFiles(this.files)">
     </div>
 
-    <!-- Batch queue -->
     <div class="queue" id="queue"></div>
 
-    <!-- Action bar -->
     <div class="batch-bar" id="batch-bar" style="display:none">
-      <button class="run-btn" id="run-btn" onclick="runBatch()">⚡ 开始识别</button>
-      <button class="save-all-btn" id="save-all-btn" onclick="saveAll()" disabled>全部保存到房源池</button>
-      <span class="batch-info" id="batch-info"></span>
+      <button class="save-all-btn" id="save-all-btn" onclick="saveAll()">全部保存到房源池</button>
     </div>
   </div>
 </div>
@@ -360,22 +336,6 @@ function toast(msg) {
 
 // ── API KEY ──────────────────────────────────────────────
 function getApiKey() { return localStorage.getItem('claude-api-key') || ''; }
-function saveApiKey() {
-  const v = document.getElementById('api-input').value.trim();
-  if (!v.startsWith('sk-ant-')) { toast('Key 格式不对，应以 sk-ant- 开头'); return; }
-  localStorage.setItem('claude-api-key', v);
-  refreshApiUI();
-  toast('API Key 已保存 ✓');
-}
-function changeApiKey() {
-  localStorage.removeItem('claude-api-key');
-  refreshApiUI();
-}
-function refreshApiUI() {
-  const key = getApiKey();
-  document.getElementById('api-banner').style.display = key ? 'none' : 'flex';
-  document.getElementById('api-ok').style.display   = key ? 'flex' : 'none';
-}
 
 // ── CLAUDE VISION API ────────────────────────────────────
 async function analyzeCard(dataUrl) {
@@ -398,68 +358,18 @@ async function analyzeCard(dataUrl) {
         role: 'user',
         content: [
           { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
-          { type: 'text', text: `This is a UK property listing card from London agent Niko. Extract the information and return ONLY a JSON object, no other text:
-{
-  "title": "property name or address (e.g. 1 York Way, Kings Cross)",
-  "postcode": "UK postcode prefix only (e.g. N1C, E1W, SW8, WC1B)",
-  "beds": 0,
-  "weekly": 0,
-  "avail": "DD/MM/YYYY or Now",
-  "furnish": "带家具 or 不带家具",
-  "features": ["key feature 1", "key feature 2"]
-}
-beds: 0=Studio, 1=1 Bed, 2=2 Bed, 3=3+ Bed
-weekly: weekly rent as integer number only
-If a field is not visible, use empty string or 0.` }
+          { type: 'text', text: `This is a UK property listing card. Return ONLY a JSON object:\n{"title":"address/name","postcode":"UK prefix e.g. N1C","beds":2,"weekly":900,"avail":"DD/MM/YYYY or Now","furnish":"带家具 or 不带家具","features":["feature1"]}` }
         ]
       }]
     })
   });
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({}));
-    throw new Error(err.error?.message || `HTTP ${resp.status}`);
-  }
+  if (!resp.ok) { const e = await resp.json().catch(()=>({})); throw new Error(e.error?.message||`HTTP ${resp.status}`); }
   const d = await resp.json();
-  const text = d.content[0].text;
-  const match = text.match(/\{[\s\S]*\}/);
-  if (!match) throw new Error('解析失败');
-  return JSON.parse(match[0]);
+  const m = d.content[0].text.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('解析失败');
+  return JSON.parse(m[0]);
 }
 
-// ── UPLOAD / BATCH ────────────────────────────────────────
-function openUpload() {
-  refreshApiUI();
-  document.getElementById('overlay').classList.add('on');
-}
-function closeUpload() {
-  document.getElementById('overlay').classList.remove('on');
-  batchQueue = [];
-  document.getElementById('queue').innerHTML = '';
-  document.getElementById('batch-bar').style.display = 'none';
-  document.getElementById('fi').value = '';
-}
-
-const dz = document.getElementById('dz');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-dz.addEventListener('drop', e => {
-  e.preventDefault(); dz.classList.remove('drag');
-  if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
-});
-
-function handleFiles(files) {
-  const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
-  if (!arr.length) return;
-  arr.forEach(file => {
-    const id = 'q' + Date.now() + Math.random().toString(36).slice(2);
-    // Use object URL for thumbnail (works on iOS Safari, no size limit)
-    const objectUrl = URL.createObjectURL(file);
-    batchQueue.push({ id, file, objectUrl, dataUrl: null, status: 'wait', data: {} });
-    renderQueue();
-  });
-}
-
-// Compress image to max 1024px and return base64 data URL
 function compressImage(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -469,13 +379,13 @@ function compressImage(file) {
         const MAX = 1024;
         let w = img.width, h = img.height;
         if (w > MAX || h > MAX) {
-          if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-          else       { w = Math.round(w * MAX / h); h = MAX; }
+          if (w > h) { h = Math.round(h*MAX/w); w = MAX; }
+          else       { w = Math.round(w*MAX/h); h = MAX; }
         }
-        const canvas = document.createElement('canvas');
-        canvas.width = w; canvas.height = h;
-        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL('image/jpeg', 0.85));
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        c.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(c.toDataURL('image/jpeg', 0.85));
       };
       img.onerror = reject;
       img.src = ev.target.result;
@@ -485,157 +395,194 @@ function compressImage(file) {
   });
 }
 
-function renderQueue() {
-  const qEl = document.getElementById('queue');
-  qEl.innerHTML = batchQueue.map(q => {
-    const d = q.data;
-    const statusHtml = {
-      wait: '<span class="s-wait">⏳ 待识别，点击「开始识别」</span>',
-      run:  '<span class="s-run"><span class="spin">⟳</span> AI 识别中…</span>',
-      done: '<span class="s-done">✅ 识别完成，可编辑后保存</span>',
-      err:  `<span class="s-err">❌ ${q.errMsg||'识别失败'} — 可手动填写</span>`
-    }[q.status];
-    // Always show fields (so user can manually fill if needed)
-    const showFields = q.status !== 'run';
-    const fields = showFields ? `
-      <div class="qi-fields">
-        <div class="qi-field qi-title-field">
-          <label>楼盘名称</label>
-          <input value="${esc(d.title||'')}" oninput="updateQ('${q.id}','title',this.value)" placeholder="识别后自动填入">
-        </div>
-        <div class="qi-field">
-          <label>邮编</label>
-          <input value="${esc(d.postcode||'')}" oninput="updateQ('${q.id}','postcode',this.value)" placeholder="N1C / E1W...">
-        </div>
-        <div class="qi-field">
-          <label>Zone</label>
-          <select onchange="updateQ('${q.id}','zone',parseInt(this.value))">
-            ${[1,2,3].map(z=>`<option value="${z}"${(d.zone||2)==z?' selected':''}>Zone ${z}</option>`).join('')}
-          </select>
-        </div>
-        <div class="qi-field">
-          <label>户型</label>
-          <select onchange="updateQ('${q.id}','beds',parseInt(this.value))">
-            <option value="0"${d.beds===0?' selected':''}>Studio</option>
-            <option value="1"${d.beds===1?' selected':''}>1 Bed</option>
-            <option value="2"${(d.beds==null||d.beds===2)?' selected':''}>2 Bed</option>
-            <option value="3"${d.beds>=3?' selected':''}>3 Bed+</option>
-          </select>
-        </div>
-        <div class="qi-field">
-          <label>周租 (£)</label>
-          <input type="number" value="${d.weekly||''}" oninput="updateQ('${q.id}','weekly',parseInt(this.value)||0)" placeholder="0">
-        </div>
-        <div class="qi-field">
-          <label>入住日期</label>
-          <input value="${esc(d.avail||'')}" oninput="updateQ('${q.id}','avail',this.value)" placeholder="DD/MM/YYYY">
-        </div>
-        <div class="qi-field">
-          <label>家具</label>
-          <select onchange="updateQ('${q.id}','furnish',this.value)">
-            <option${d.furnish!=='不带家具'?' selected':''}>带家具</option>
-            <option${d.furnish==='不带家具'?' selected':''}>不带家具</option>
-          </select>
-        </div>
-      </div>` : '<div style="color:#aaa;font-size:12px;margin-top:6px">识别中，请稍候…</div>';
-    // Use objectUrl for thumbnail (avoids iOS Safari base64 size limits)
-    const thumbSrc = q.objectUrl || '';
-    return `<div class="qi" id="${q.id}">
-      <img class="qi-img" src="${thumbSrc}" onerror="this.style.opacity='.3'">
-      <div class="qi-body">
-        <div class="qi-status">${statusHtml}</div>
-        ${fields}
-      </div>
-      <button class="qi-del" onclick="removeQ('${q.id}')" title="删除">×</button>
-    </div>`;
-  }).join('');
+// ── UPLOAD ────────────────────────────────────────────────
+function openUpload() {
+  document.getElementById('overlay').classList.add('on');
+}
+function closeUpload() {
+  document.getElementById('overlay').classList.remove('on');
+  batchQueue = [];
+  document.getElementById('queue').innerHTML = '';
+  document.getElementById('batch-bar').style.display = 'none';
+  document.getElementById('fi').value = '';
+}
+function overlayClick(e) {
+  if (e.target === document.getElementById('overlay')) closeUpload();
+}
 
-  const bar = document.getElementById('batch-bar');
-  bar.style.display = batchQueue.length ? 'flex' : 'none';
-  const doneCount = batchQueue.filter(q=>q.status==='done').length;
-  document.getElementById('batch-info').textContent = `${batchQueue.length} 张图片`;
-  document.getElementById('save-all-btn').disabled = doneCount === 0;
-  const running = batchQueue.some(q=>q.status==='run');
-  document.getElementById('run-btn').disabled = running || batchQueue.every(q=>q.status==='done');
+const dz = document.getElementById('dz');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files.length) handleFiles(e.dataTransfer.files); });
+
+function handleFiles(files) {
+  const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
+  if (!arr.length) return;
+  arr.forEach(file => {
+    const id = 'q' + Date.now() + Math.random().toString(36).slice(2,6);
+    const objectUrl = URL.createObjectURL(file);
+    batchQueue.push({ id, file, objectUrl, dataUrl: null, status: 'wait',
+      data: { title:'', postcode:'', zone:2, beds:2, weekly:'', avail:'', furnish:'带家具', features:[] }
+    });
+  });
+  renderQueue();
 }
 
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
 function updateQ(id, key, val) {
   const q = batchQueue.find(x=>x.id===id);
-  if (q) {
-    q.data[key] = val;
-    if (key === 'postcode') q.data.zone = zone4pc(val);
-  }
+  if (!q) return;
+  q.data[key] = val;
+  if (key==='postcode') { q.data.zone = zone4pc(val); updateQField(id,'zone',q.data.zone); }
 }
+function updateQField(id, key, val) {
+  // Update just a single field DOM without full re-render
+  const el = document.querySelector(`#${id} [data-key="${key}"]`);
+  if (el) el.value = val;
+}
+
 function removeQ(id) {
+  const q = batchQueue.find(x=>x.id===id);
+  if (q && q.objectUrl) URL.revokeObjectURL(q.objectUrl);
   batchQueue = batchQueue.filter(x=>x.id!==id);
-  renderQueue();
+  const el = document.getElementById(id);
+  if (el) el.remove();
+  document.getElementById('batch-bar').style.display = batchQueue.length ? 'flex' : 'none';
 }
 
-async function runBatch() {
+async function aiRecognize(id) {
+  const q = batchQueue.find(x=>x.id===id);
+  if (!q) return;
   if (!getApiKey()) {
-    toast('请先输入 Claude API Key');
-    document.getElementById('api-banner').style.display = 'flex';
-    return;
+    const key = prompt('请输入 Anthropic API Key (sk-ant-...)');
+    if (!key) return;
+    localStorage.setItem('claude-api-key', key);
   }
-  const toRun = batchQueue.filter(q => q.status === 'wait' || q.status === 'err');
-  if (!toRun.length) return;
-  document.getElementById('run-btn').disabled = true;
+  const btn = document.querySelector(`#${id} .qi-ai-btn`);
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spin">⟳</span> 识别中'; }
+  try {
+    const compressed = await compressImage(q.file);
+    q.dataUrl = compressed;
+    const result = await analyzeCard(compressed);
+    result.zone = zone4pc(result.postcode || '');
+    q.data = { ...q.data, ...result };
+    // Fill in the form fields
+    const card = document.getElementById(id);
+    if (card) {
+      ['title','postcode','weekly','avail'].forEach(k => {
+        const el = card.querySelector(`[data-key="${k}"]`);
+        if (el && result[k]) el.value = result[k];
+      });
+      ['zone','beds','furnish'].forEach(k => {
+        const el = card.querySelector(`[data-key="${k}"]`);
+        if (el && result[k] != null) el.value = result[k];
+      });
+    }
+    if (btn) { btn.disabled = false; btn.innerHTML = '✅ 已识别'; btn.style.color='#1a7340'; }
+    toast('AI 识别完成 ✓');
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.innerHTML = '⚡ 重新识别'; }
+    toast('识别失败：' + (e.message.includes('401')?'API Key 无效':e.message.slice(0,20)));
+  }
+}
 
-  // Process in parallel (up to 3 at a time)
-  const chunks = [];
-  for (let i = 0; i < toRun.length; i += 3) chunks.push(toRun.slice(i, i+3));
-  for (const chunk of chunks) {
-    chunk.forEach(q => { q.status='run'; });
-    renderQueue();
-    await Promise.all(chunk.map(async q => {
-      try {
-        // Compress image first (iPhone photos can be 5MB+)
-        const compressed = await compressImage(q.file);
-        q.dataUrl = compressed; // store for saving later
-        const result = await analyzeCard(compressed);
-        q.data = result;
-        q.data.zone = zone4pc(result.postcode || '');
-        q.status = 'done';
-      } catch(e) {
-        q.status = 'err';
-        q.errMsg = e.message.includes('NO_KEY') ? '未设置 API Key' :
-                   e.message.includes('401') ? 'API Key 无效' :
-                   e.message.slice(0,25);
-      }
-      renderQueue();
-    }));
-  }
-  renderQueue();
+function renderQueue() {
+  const qEl = document.getElementById('queue');
+  // Append new cards only (don't re-render existing ones to preserve user edits)
+  batchQueue.forEach(q => {
+    if (document.getElementById(q.id)) return; // already rendered
+    const d = q.data;
+    const div = document.createElement('div');
+    div.className = 'qi'; div.id = q.id;
+    div.innerHTML = `
+      <div class="qi-top">
+        <img class="qi-img" src="${q.objectUrl}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="qi-img-placeholder" style="display:none">🏠</div>
+        <div class="qi-header">
+          <div class="qi-name">${q.file.name}</div>
+          <button class="qi-ai-btn" onclick="aiRecognize('${q.id}')">⚡ AI 识别填写</button>
+        </div>
+        <button class="qi-del" onclick="removeQ('${q.id}')">×</button>
+      </div>
+      <div class="qi-form">
+        <div class="qf qf-full">
+          <label>楼盘名称 *</label>
+          <input data-key="title" value="${esc(d.title)}" oninput="updateQ('${q.id}','title',this.value)" placeholder="例：1 York Way, Kings Cross">
+        </div>
+        <div class="qf">
+          <label>邮编</label>
+          <input data-key="postcode" value="${esc(d.postcode)}" oninput="updateQ('${q.id}','postcode',this.value)" placeholder="N1C / SW8">
+        </div>
+        <div class="qf">
+          <label>Zone</label>
+          <select data-key="zone" onchange="updateQ('${q.id}','zone',parseInt(this.value))">
+            ${[1,2,3].map(z=>`<option value="${z}"${z===2?' selected':''}>Zone ${z}</option>`).join('')}
+          </select>
+        </div>
+        <div class="qf">
+          <label>户型</label>
+          <select data-key="beds" onchange="updateQ('${q.id}','beds',parseInt(this.value))">
+            <option value="0">Studio</option><option value="1">1 Bed</option>
+            <option value="2" selected>2 Bed</option><option value="3">3 Bed+</option>
+          </select>
+        </div>
+        <div class="qf">
+          <label>周租 (£)</label>
+          <input data-key="weekly" type="number" value="" oninput="updateQ('${q.id}','weekly',parseInt(this.value)||0)" placeholder="900">
+        </div>
+        <div class="qf">
+          <label>入住日期</label>
+          <input data-key="avail" value="" oninput="updateQ('${q.id}','avail',this.value)" placeholder="16/07/2026">
+        </div>
+        <div class="qf">
+          <label>家具</label>
+          <select data-key="furnish" onchange="updateQ('${q.id}','furnish',this.value)">
+            <option selected>带家具</option><option>不带家具</option>
+          </select>
+        </div>
+        <button class="qi-save" onclick="saveSingle('${q.id}')">保存这套房源</button>
+      </div>`;
+    qEl.appendChild(div);
+  });
+  document.getElementById('batch-bar').style.display = batchQueue.length > 1 ? 'flex' : 'none';
+}
+
+function saveSingle(id) {
+  const q = batchQueue.find(x=>x.id===id);
+  if (!q) return;
+  const title = q.data.title || document.querySelector(`#${id} [data-key="title"]`).value.trim();
+  if (!title) { toast('请填写楼盘名称'); return; }
+  // Read latest values from DOM
+  const card = document.getElementById(id);
+  const get = k => card.querySelector(`[data-key="${k}"]`)?.value || '';
+  const beds = parseInt(get('beds')) || 2;
+  const weekly = parseInt(get('weekly')) || 0;
+  const pc = get('postcode').toUpperCase();
+  const zone = parseInt(get('zone')) || zone4pc(pc);
+  const p = {
+    id: title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now(),
+    title, postcode: pc, zone, weekly,
+    monthly: Math.round(weekly*52/12),
+    address: title + (pc?', '+pc:'') + ', London',
+    bed_label: beds===0?'Studio':beds+' Bed',
+    beds, avail: get('avail'), furnish: get('furnish'),
+    features: q.data.features||[], images: [],
+    imageDataUrl: q.dataUrl || q.objectUrl,
+    uploadedAt: new Date().toISOString()
+  };
+  const existing = JSON.parse(localStorage.getItem('niko-pool')||'[]');
+  existing.unshift(p); props.unshift(p);
+  localStorage.setItem('niko-pool', JSON.stringify(existing));
+  render();
+  removeQ(id);
+  if (!batchQueue.length) closeUpload();
+  toast('已保存 ✓');
 }
 
 function saveAll() {
-  const done = batchQueue.filter(q => q.status === 'done' && q.data.title);
-  if (!done.length) { toast('没有可保存的条目'); return; }
-  const existing = JSON.parse(localStorage.getItem('niko-pool') || '[]');
-  done.forEach(q => {
-    const d = q.data;
-    const beds = parseInt(d.beds) || 2;
-    const weekly = parseInt(d.weekly) || 0;
-    const pc = (d.postcode||'').toUpperCase();
-    const p = {
-      id: (d.title+'-'+pc).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now()+Math.random().toString(36).slice(2,5),
-      title: d.title, postcode: pc,
-      zone: d.zone || zone4pc(pc),
-      weekly, monthly: Math.round(weekly*52/12),
-      address: d.title + (pc?', '+pc:'') + ', London',
-      bed_label: beds===0?'Studio':beds+' Bed',
-      beds, avail: d.avail||'', furnish: d.furnish||'带家具',
-      features: d.features||[], images: [], imageDataUrl: q.dataUrl,
-      uploadedAt: new Date().toISOString()
-    };
-    existing.unshift(p);
-    props.unshift(p);
-  });
-  localStorage.setItem('niko-pool', JSON.stringify(existing));
-  render();
-  closeUpload();
-  toast(`已保存 ${done.length} 套房源 ✓`);
+  const ids = [...batchQueue.map(q=>q.id)];
+  ids.forEach(id => saveSingle(id));
 }
 
 // Hash routing
