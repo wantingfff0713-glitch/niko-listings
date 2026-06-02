@@ -57,39 +57,58 @@ header{background:#1a1a1a;padding:14px 24px;display:flex;align-items:center;just
 /* Upload overlay */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
 .overlay.on{display:flex}
-.modal{background:#fff;border-radius:16px;padding:28px;max-width:460px;width:92%;position:relative;max-height:90vh;overflow-y:auto}
-.modal-title{font-size:17px;font-weight:500;margin-bottom:20px}
+.modal{background:#fff;border-radius:16px;padding:24px;max-width:640px;width:96%;position:relative;max-height:92vh;overflow-y:auto}
+.modal-title{font-size:17px;font-weight:500;margin-bottom:6px}
+.modal-sub{font-size:12px;color:#aaa;margin-bottom:18px}
 .close-x{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;color:#bbb;cursor:pointer;line-height:1}
 .close-x:hover{color:#666}
 
+/* API key banner */
+.api-banner{background:#fff8ed;border:1px solid #f5d89a;border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.api-banner input{flex:1;border:1px solid #e0d5c0;border-radius:6px;padding:7px 10px;font-size:12px;font-family:monospace;outline:none}
+.api-banner input:focus{border-color:#c8a96e}
+.api-save-btn{background:#c8a96e;color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap}
+.api-ok{background:#f0faf5;border:1px solid #c8e8d4;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:12px;color:#1a7340;display:flex;align-items:center;justify-content:space-between}
+.api-change{font-size:11px;color:#aaa;cursor:pointer;text-decoration:underline}
+
 /* Dropzone */
-.dz{border:2px dashed #ddd;border-radius:12px;padding:36px 20px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa}
+.dz{border:2px dashed #ddd;border-radius:12px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa}
 .dz:hover,.dz.drag{border-color:#1a7340;background:#f2faf5}
-.dz-icon{font-size:36px;margin-bottom:8px;color:#ccc}
-.dz p{color:#aaa;font-size:13px}
+.dz-icon{font-size:32px;margin-bottom:6px;color:#ccc}
+.dz p{color:#aaa;font-size:13px;margin-bottom:4px}
+.dz small{color:#ccc;font-size:11px}
 .dz input{display:none}
 
-/* Preview + OCR */
-.preview-img{width:100%;border-radius:8px;margin-bottom:14px;display:none;max-height:180px;object-fit:contain;background:#f0ede6}
-.ocr-row{display:flex;gap:10px;align-items:center;margin:12px 0 4px;display:none}
-.ocr-row.on{display:flex}
-.ocr-bar{flex:1;height:3px;background:#e8e8e8;border-radius:2px;overflow:hidden}
-.ocr-fill{height:100%;background:#1a7340;border-radius:2px;transition:width .3s;width:0}
-.ocr-text{font-size:12px;color:#aaa;white-space:nowrap}
-.auto-btn{background:#f2faf5;color:#1a7340;border:1px solid #c8e8d8;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;display:none;margin-bottom:12px}
-.auto-btn.on{display:inline-block}
-.auto-btn:hover{background:#e6f7ee}
+/* Batch queue */
+.queue{margin-top:16px;display:flex;flex-direction:column;gap:10px}
+.qi{background:#fafafa;border:1px solid #eee;border-radius:12px;padding:12px;display:flex;gap:12px;align-items:flex-start}
+.qi-img{width:72px;height:72px;border-radius:8px;object-fit:cover;flex-shrink:0;background:#f0ede6}
+.qi-body{flex:1;min-width:0}
+.qi-status{font-size:11px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.s-wait{color:#aaa}
+.s-run{color:#c8a96e}
+.s-done{color:#1a7340}
+.s-err{color:#c0392b}
+.qi-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.qi-field{display:flex;flex-direction:column;gap:2px}
+.qi-field label{font-size:10px;color:#bbb}
+.qi-field input,.qi-field select{border:1px solid #e8e8e8;border-radius:5px;padding:5px 8px;font-size:12px;background:#fff;outline:none;width:100%}
+.qi-field input:focus{border-color:#1a1a1a}
+.qi-del{background:none;border:none;color:#ddd;font-size:16px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.qi-del:hover{color:#c0392b}
+.qi-title-field{grid-column:1/-1}
+.spin{display:inline-block;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* Form */
-.form{display:none;margin-top:4px}
-.form.on{display:block}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.fg{display:flex;flex-direction:column;gap:3px}
-.fg label{font-size:11px;color:#999}
-.fg input,.fg select{border:1px solid #e0e0e0;border-radius:6px;padding:8px 10px;font-size:13px;outline:none;background:#fff}
-.fg input:focus{border-color:#1a1a1a}
-.save{background:#1a1a1a;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;cursor:pointer;width:100%;margin-top:6px}
-.save:hover{background:#333}
+/* Bottom action bar */
+.batch-bar{margin-top:16px;display:flex;gap:10px;align-items:center}
+.run-btn{background:#1a7340;color:#fff;border:none;padding:11px 22px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500}
+.run-btn:hover{background:#155a30}
+.run-btn:disabled{background:#ccc;cursor:default}
+.save-all-btn{background:#1a1a1a;color:#fff;border:none;padding:11px 22px;border-radius:8px;font-size:14px;cursor:pointer;font-weight:500;flex:1}
+.save-all-btn:hover{background:#333}
+.save-all-btn:disabled{background:#ccc;cursor:default}
+.batch-info{font-size:12px;color:#aaa}
 
 /* Detail page */
 #detail{display:none}
@@ -172,91 +191,60 @@ header{background:#1a1a1a;padding:14px 24px;display:flex;align-items:center;just
 <div class="overlay" id="overlay">
   <div class="modal">
     <button class="close-x" onclick="closeUpload()">×</button>
-    <div class="modal-title">上传房源卡片</div>
-    <img class="preview-img" id="preview-img">
+    <div class="modal-title">批量上传房源卡片</div>
+    <div class="modal-sub">支持同时上传多张，AI 自动识别所有信息</div>
+
+    <!-- API key section -->
+    <div id="api-banner" class="api-banner" style="display:none">
+      <span style="font-size:13px;white-space:nowrap">🔑 API Key</span>
+      <input type="password" id="api-input" placeholder="输入 Anthropic API Key (sk-ant-...)">
+      <button class="api-save-btn" onclick="saveApiKey()">保存</button>
+    </div>
+    <div id="api-ok" class="api-ok" style="display:none">
+      <span>✅ Claude AI 识别已就绪</span>
+      <span class="api-change" onclick="changeApiKey()">更换 Key</span>
+    </div>
+
+    <!-- Drop zone -->
     <div class="dz" id="dz" onclick="document.getElementById('fi').click()">
-      <div class="dz-icon">⬆</div>
-      <p>点击或拖拽卡片图片</p>
-      <input type="file" id="fi" accept="image/*" onchange="handleFile(this.files[0])">
+      <div class="dz-icon">📷</div>
+      <p>点击或拖拽上传房源卡片</p>
+      <small>可同时选多张图片</small>
+      <input type="file" id="fi" accept="image/*" multiple onchange="handleFiles(this.files)">
     </div>
-    <div class="ocr-row" id="ocr-row">
-      <div class="ocr-bar"><div class="ocr-fill" id="ocr-fill"></div></div>
-      <span class="ocr-text" id="ocr-txt">识别中…</span>
-    </div>
-    <button class="auto-btn" id="auto-btn" onclick="runOCR()">🔮 自动识别填写</button>
-    <div class="form" id="upload-form">
-      <div class="frow">
-        <div class="fg" style="grid-column:1/-1">
-          <label>楼盘名称</label>
-          <input id="f-title" placeholder="例：1 York Way, Kings Cross">
-        </div>
-      </div>
-      <div class="frow">
-        <div class="fg">
-          <label>邮编</label>
-          <input id="f-pc" placeholder="例：N1C, E1, SW8">
-        </div>
-        <div class="fg">
-          <label>Zone</label>
-          <select id="f-zone">
-            <option value="1">Zone 1</option>
-            <option value="2" selected>Zone 2</option>
-            <option value="3">Zone 3</option>
-          </select>
-        </div>
-      </div>
-      <div class="frow">
-        <div class="fg">
-          <label>户型</label>
-          <select id="f-beds">
-            <option value="0">Studio</option>
-            <option value="1">1 Bed</option>
-            <option value="2" selected>2 Bed</option>
-            <option value="3">3 Bed+</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>周租 (£)</label>
-          <input id="f-price" type="number" placeholder="例：900">
-        </div>
-      </div>
-      <div class="frow">
-        <div class="fg">
-          <label>入住日期</label>
-          <input id="f-avail" placeholder="例：16/07/2026">
-        </div>
-        <div class="fg">
-          <label>家具</label>
-          <select id="f-furnish">
-            <option value="带家具">带家具</option>
-            <option value="不带家具">不带家具</option>
-          </select>
-        </div>
-      </div>
-      <button class="save" onclick="saveProperty()">保存到房源池</button>
+
+    <!-- Batch queue -->
+    <div class="queue" id="queue"></div>
+
+    <!-- Action bar -->
+    <div class="batch-bar" id="batch-bar" style="display:none">
+      <button class="run-btn" id="run-btn" onclick="runBatch()">⚡ 开始识别</button>
+      <button class="save-all-btn" id="save-all-btn" onclick="saveAll()" disabled>全部保存到房源池</button>
+      <span class="batch-info" id="batch-info"></span>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast">链接已复制 ✓</div>
 
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 <script>
 let props = [], F = {zone:'all', beds:'all', price:'all'};
-let imgDataUrl = null, ocrWorker = null;
+let batchQueue = []; // [{id, file, dataUrl, status:'wait'|'run'|'done'|'err', data:{}}]
 
 const ZONE_MAP = {
   EC1:1,EC2:1,EC3:1,EC4:1,WC1:1,WC2:1,W1:1,SW1:1,SE1:1,E1:1,N1:1,NW1:1,
-  E2:2,E3:2,E8:2,E14:2,N4:2,N5:2,N7:2,NW3:2,NW5:2,NW6:2,NW8:2,
+  E1W:2,E2:2,E3:2,E8:2,E14:2,N4:2,N5:2,N7:2,NW3:2,NW5:2,NW6:2,NW8:2,
   SE5:2,SE11:2,SE15:2,SE16:2,SW2:2,SW4:2,SW6:2,SW8:2,SW9:2,SW10:2,SW11:2,
-  W2:2,W6:2,W9:2,W10:2,W11:2,W12:2,W14:2,
-  E15:3,E16:3,N8:3,N15:3,N16:3,N22:3,NW2:3,NW10:3,
+  W2:2,W6:2,W9:2,W10:2,W11:2,W12:2,W14:2,WC1X:2,WC1B:2,EC1A:1,EC1V:2,
+  E15:3,E16:3,N8:3,N15:3,N16:3,N22:3,NW2:3,NW10:3,SE17:2,
   SE4:3,SE6:3,SE8:3,SE14:3,SE18:3,SW12:3,SW16:3,SW17:3,W3:3,W4:3,W5:3
 };
 
 function zone4pc(pc) {
-  pc = pc.trim().toUpperCase();
-  for (let k in ZONE_MAP) if (pc.startsWith(k)) return ZONE_MAP[k];
+  pc = (pc||'').trim().toUpperCase();
+  // Try longest match first
+  const keys = Object.keys(ZONE_MAP).sort((a,b)=>b.length-a.length);
+  for (let k of keys) if (pc.startsWith(k)) return ZONE_MAP[k];
   return 2;
 }
 
@@ -370,127 +358,251 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('on'), 2200);
 }
 
-// Upload
+// ── API KEY ──────────────────────────────────────────────
+function getApiKey() { return localStorage.getItem('claude-api-key') || ''; }
+function saveApiKey() {
+  const v = document.getElementById('api-input').value.trim();
+  if (!v.startsWith('sk-ant-')) { toast('Key 格式不对，应以 sk-ant- 开头'); return; }
+  localStorage.setItem('claude-api-key', v);
+  refreshApiUI();
+  toast('API Key 已保存 ✓');
+}
+function changeApiKey() {
+  localStorage.removeItem('claude-api-key');
+  refreshApiUI();
+}
+function refreshApiUI() {
+  const key = getApiKey();
+  document.getElementById('api-banner').style.display = key ? 'none' : 'flex';
+  document.getElementById('api-ok').style.display   = key ? 'flex' : 'none';
+}
+
+// ── CLAUDE VISION API ────────────────────────────────────
+async function analyzeCard(dataUrl) {
+  const key = getApiKey();
+  if (!key) throw new Error('NO_KEY');
+  const mime = dataUrl.split(';')[0].split(':')[1];
+  const b64  = dataUrl.split(',')[1];
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-allow-browser': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 512,
+      messages: [{
+        role: 'user',
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mime, data: b64 } },
+          { type: 'text', text: `This is a UK property listing card from London agent Niko. Extract the information and return ONLY a JSON object, no other text:
+{
+  "title": "property name or address (e.g. 1 York Way, Kings Cross)",
+  "postcode": "UK postcode prefix only (e.g. N1C, E1W, SW8, WC1B)",
+  "beds": 0,
+  "weekly": 0,
+  "avail": "DD/MM/YYYY or Now",
+  "furnish": "带家具 or 不带家具",
+  "features": ["key feature 1", "key feature 2"]
+}
+beds: 0=Studio, 1=1 Bed, 2=2 Bed, 3=3+ Bed
+weekly: weekly rent as integer number only
+If a field is not visible, use empty string or 0.` }
+        ]
+      }]
+    })
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `HTTP ${resp.status}`);
+  }
+  const d = await resp.json();
+  const text = d.content[0].text;
+  const match = text.match(/\{[\s\S]*\}/);
+  if (!match) throw new Error('解析失败');
+  return JSON.parse(match[0]);
+}
+
+// ── UPLOAD / BATCH ────────────────────────────────────────
 function openUpload() {
+  refreshApiUI();
   document.getElementById('overlay').classList.add('on');
 }
 function closeUpload() {
   document.getElementById('overlay').classList.remove('on');
-  document.getElementById('dz').style.display = '';
-  document.getElementById('preview-img').style.display = 'none';
-  document.getElementById('ocr-row').classList.remove('on');
-  document.getElementById('auto-btn').classList.remove('on');
-  document.getElementById('upload-form').classList.remove('on');
+  batchQueue = [];
+  document.getElementById('queue').innerHTML = '';
+  document.getElementById('batch-bar').style.display = 'none';
   document.getElementById('fi').value = '';
-  imgDataUrl = null;
-  ['f-title','f-pc','f-price','f-avail'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-beds').value = '2';
-  document.getElementById('f-zone').value = '2';
 }
 
 const dz = document.getElementById('dz');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('drag');
+  if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
+});
 
-function handleFile(file) {
-  if (!file || !file.type.startsWith('image/')) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    imgDataUrl = e.target.result;
-    const prev = document.getElementById('preview-img');
-    prev.src = imgDataUrl;
-    prev.style.display = 'block';
-    document.getElementById('dz').style.display = 'none';
-    document.getElementById('auto-btn').classList.add('on');
-    document.getElementById('upload-form').classList.add('on');
-  };
-  reader.readAsDataURL(file);
+function handleFiles(files) {
+  const arr = Array.from(files).filter(f => f.type.startsWith('image/'));
+  if (!arr.length) return;
+  arr.forEach(file => {
+    const id = 'q' + Date.now() + Math.random().toString(36).slice(2);
+    const reader = new FileReader();
+    reader.onload = ev => {
+      batchQueue.push({ id, file, dataUrl: ev.target.result, status: 'wait', data: {} });
+      renderQueue();
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
-async function runOCR() {
-  if (!imgDataUrl) return;
-  const btn = document.getElementById('auto-btn');
-  btn.textContent = '识别中…';
-  btn.disabled = true;
-  document.getElementById('ocr-row').classList.add('on');
-  try {
-    if (!ocrWorker) {
-      ocrWorker = await Tesseract.createWorker('eng', 1, {
-        logger: m => {
-          if (m.status === 'recognizing text')
-            document.getElementById('ocr-fill').style.width = (m.progress * 100) + '%';
-        }
-      });
-    }
-    const { data: { text } } = await ocrWorker.recognize(imgDataUrl);
-    fillForm(text);
-    document.getElementById('ocr-txt').textContent = '识别完成';
-    document.getElementById('ocr-fill').style.width = '100%';
-  } catch(e) {
-    document.getElementById('ocr-txt').textContent = '识别失败，请手动填写';
-  }
-  btn.textContent = '🔮 重新识别';
-  btn.disabled = false;
+function renderQueue() {
+  const qEl = document.getElementById('queue');
+  qEl.innerHTML = batchQueue.map(q => {
+    const d = q.data;
+    const statusHtml = {
+      wait: '<span class="s-wait">⏳ 待识别</span>',
+      run:  '<span class="s-run"><span class="spin">⟳</span> 识别中…</span>',
+      done: '<span class="s-done">✅ 识别完成</span>',
+      err:  `<span class="s-err">❌ ${q.errMsg||'失败'}</span>`
+    }[q.status];
+    const fields = q.status === 'done' || q.status === 'err' ? `
+      <div class="qi-fields">
+        <div class="qi-field qi-title-field">
+          <label>楼盘名称</label>
+          <input value="${esc(d.title||'')}" oninput="updateQ('${q.id}','title',this.value)" placeholder="楼盘名称">
+        </div>
+        <div class="qi-field">
+          <label>邮编</label>
+          <input value="${esc(d.postcode||'')}" oninput="updateQ('${q.id}','postcode',this.value)" placeholder="E.g. N1C">
+        </div>
+        <div class="qi-field">
+          <label>Zone</label>
+          <select onchange="updateQ('${q.id}','zone',parseInt(this.value))">
+            ${[1,2,3].map(z=>`<option value="${z}"${(d.zone||2)==z?' selected':''}>Zone ${z}</option>`).join('')}
+          </select>
+        </div>
+        <div class="qi-field">
+          <label>户型</label>
+          <select onchange="updateQ('${q.id}','beds',parseInt(this.value))">
+            <option value="0"${d.beds===0?' selected':''}>Studio</option>
+            <option value="1"${d.beds===1?' selected':''}>1 Bed</option>
+            <option value="2"${(d.beds||2)===2?' selected':''}>2 Bed</option>
+            <option value="3"${d.beds>=3?' selected':''}>3 Bed+</option>
+          </select>
+        </div>
+        <div class="qi-field">
+          <label>周租 (£)</label>
+          <input type="number" value="${d.weekly||''}" oninput="updateQ('${q.id}','weekly',parseInt(this.value)||0)" placeholder="900">
+        </div>
+        <div class="qi-field">
+          <label>入住日期</label>
+          <input value="${esc(d.avail||'')}" oninput="updateQ('${q.id}','avail',this.value)" placeholder="DD/MM/YYYY">
+        </div>
+        <div class="qi-field">
+          <label>家具</label>
+          <select onchange="updateQ('${q.id}','furnish',this.value)">
+            <option${d.furnish!=='不带家具'?' selected':''}>带家具</option>
+            <option${d.furnish==='不带家具'?' selected':''}>不带家具</option>
+          </select>
+        </div>
+      </div>` : '';
+    return `<div class="qi" id="${q.id}">
+      <img class="qi-img" src="${q.dataUrl}">
+      <div class="qi-body">
+        <div class="qi-status">${statusHtml}</div>
+        ${fields}
+      </div>
+      <button class="qi-del" onclick="removeQ('${q.id}')" title="删除">×</button>
+    </div>`;
+  }).join('');
+
+  const bar = document.getElementById('batch-bar');
+  bar.style.display = batchQueue.length ? 'flex' : 'none';
+  const doneCount = batchQueue.filter(q=>q.status==='done').length;
+  document.getElementById('batch-info').textContent = `${batchQueue.length} 张图片`;
+  document.getElementById('save-all-btn').disabled = doneCount === 0;
+  const running = batchQueue.some(q=>q.status==='run');
+  document.getElementById('run-btn').disabled = running || batchQueue.every(q=>q.status==='done');
 }
 
-function fillForm(text) {
-  const priceM = text.match(/£\s*(\d[\d,]+)/);
-  if (priceM) document.getElementById('f-price').value = priceM[1].replace(',','');
-
-  const bedsM = text.match(/(\d+)\s*[Bb]ed/);
-  if (bedsM) document.getElementById('f-beds').value = Math.min(parseInt(bedsM[1]), 3);
-  else if (/[Ss]tudio/.test(text)) document.getElementById('f-beds').value = '0';
-
-  const dateM = text.match(/\d{1,2}[\/\-]\d{2}[\/\-]\d{2,4}/);
-  if (dateM) document.getElementById('f-avail').value = dateM[0];
-
-  const pcMs = [...text.matchAll(/\b([A-Z]{1,2}[0-9]{1,2}[A-Z]?)\b/g)].map(m => m[1]);
-  const pc = pcMs.find(p => /^[A-Z]{1,2}[0-9]/.test(p) && p.length >= 2);
-  if (pc) {
-    document.getElementById('f-pc').value = pc;
-    document.getElementById('f-zone').value = zone4pc(pc);
-  }
-
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 3 && l.length < 60 && !/^[£\d]/.test(l));
-  const londonI = lines.findIndex(l => /LONDON/i.test(l));
-  if (londonI >= 0 && londonI + 1 < lines.length) {
-    const t = lines[londonI + 1];
-    if (!/[£\d\|\/]/.test(t)) document.getElementById('f-title').value = t;
-  } else if (lines.length > 0) {
-    const t = lines.find(l => l.length > 3 && !/LONDON|LIVING|NIKO/i.test(l));
-    if (t) document.getElementById('f-title').value = t;
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function updateQ(id, key, val) {
+  const q = batchQueue.find(x=>x.id===id);
+  if (q) {
+    q.data[key] = val;
+    if (key === 'postcode') q.data.zone = zone4pc(val);
   }
 }
+function removeQ(id) {
+  batchQueue = batchQueue.filter(x=>x.id!==id);
+  renderQueue();
+}
 
-function saveProperty() {
-  const title = document.getElementById('f-title').value.trim();
-  if (!title) { alert('请填写楼盘名称'); return; }
-  const pc = document.getElementById('f-pc').value.trim().toUpperCase();
-  const beds = parseInt(document.getElementById('f-beds').value);
-  const weekly = parseInt(document.getElementById('f-price').value) || 0;
-  const avail = document.getElementById('f-avail').value.trim();
-  const zone = parseInt(document.getElementById('f-zone').value);
-  const furnish = document.getElementById('f-furnish').value;
+async function runBatch() {
+  if (!getApiKey()) {
+    toast('请先输入 Claude API Key');
+    document.getElementById('api-banner').style.display = 'flex';
+    return;
+  }
+  const toRun = batchQueue.filter(q => q.status === 'wait' || q.status === 'err');
+  if (!toRun.length) return;
+  document.getElementById('run-btn').disabled = true;
 
-  const p = {
-    id: (title + '-' + pc).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now(),
-    title, postcode: pc, zone, weekly,
-    monthly: Math.round(weekly * 52 / 12),
-    address: title + (pc ? ', ' + pc : '') + ', London',
-    bed_label: beds === 0 ? 'Studio' : beds + ' Bed',
-    beds, avail, furnish, features: [],
-    images: [], imageDataUrl: imgDataUrl,
-    uploadedAt: new Date().toISOString()
-  };
+  // Process in parallel (up to 3 at a time)
+  const chunks = [];
+  for (let i = 0; i < toRun.length; i += 3) chunks.push(toRun.slice(i, i+3));
+  for (const chunk of chunks) {
+    toRun.filter(q=>chunk.includes(q)).forEach(q => { q.status='run'; });
+    renderQueue();
+    await Promise.all(chunk.map(async q => {
+      try {
+        const result = await analyzeCard(q.dataUrl);
+        q.data = result;
+        q.data.zone = zone4pc(result.postcode || '');
+        q.status = 'done';
+      } catch(e) {
+        q.status = 'err';
+        q.errMsg = e.message.includes('NO_KEY') ? '未设置 API Key' : e.message.slice(0,30);
+      }
+      renderQueue();
+    }));
+  }
+  renderQueue();
+}
 
+function saveAll() {
+  const done = batchQueue.filter(q => q.status === 'done' && q.data.title);
+  if (!done.length) { toast('没有可保存的条目'); return; }
   const existing = JSON.parse(localStorage.getItem('niko-pool') || '[]');
-  existing.unshift(p);
+  done.forEach(q => {
+    const d = q.data;
+    const beds = parseInt(d.beds) || 2;
+    const weekly = parseInt(d.weekly) || 0;
+    const pc = (d.postcode||'').toUpperCase();
+    const p = {
+      id: (d.title+'-'+pc).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now()+Math.random().toString(36).slice(2,5),
+      title: d.title, postcode: pc,
+      zone: d.zone || zone4pc(pc),
+      weekly, monthly: Math.round(weekly*52/12),
+      address: d.title + (pc?', '+pc:'') + ', London',
+      bed_label: beds===0?'Studio':beds+' Bed',
+      beds, avail: d.avail||'', furnish: d.furnish||'带家具',
+      features: d.features||[], images: [], imageDataUrl: q.dataUrl,
+      uploadedAt: new Date().toISOString()
+    };
+    existing.unshift(p);
+    props.unshift(p);
+  });
   localStorage.setItem('niko-pool', JSON.stringify(existing));
-  props.unshift(p);
   render();
   closeUpload();
-  toast('已保存到房源池 ✓');
+  toast(`已保存 ${done.length} 套房源 ✓`);
 }
 
 // Hash routing
