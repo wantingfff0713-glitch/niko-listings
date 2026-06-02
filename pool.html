@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Niko 房源池</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;background:#f5f3ef;color:#1a1a1a;min-height:100vh}
+
+/* Header */
+header{background:#1a1a1a;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{color:#fff;font-size:15px;font-weight:500;letter-spacing:.5px}
+.logo em{color:#c8a96e;font-style:normal}
+.upload-btn{background:#c8a96e;color:#1a1a1a;border:none;padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer}
+.upload-btn:hover{background:#b8986a}
+
+/* Filter bar */
+.filter-bar{background:#fff;padding:12px 24px;border-bottom:1px solid #e8e6e2;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.fl{font-size:11px;color:#999;letter-spacing:.3px;align-self:center}
+.filter-group{display:flex;gap:5px;flex-wrap:wrap}
+.pill{border:1px solid #e0e0e0;background:#fff;padding:5px 13px;border-radius:20px;font-size:12px;cursor:pointer;color:#555;transition:all .15s;white-space:nowrap}
+.pill.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.pill:hover:not(.on){border-color:#aaa;color:#1a1a1a}
+.sep{width:1px;background:#e5e5e5;height:24px;align-self:center}
+
+/* Count bar */
+.grid-container{max-width:1200px;margin:0 auto;padding:24px}
+.count-bar{font-size:13px;color:#999;margin-bottom:18px}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr;padding:0}}
+
+/* Card */
+.card{background:#fff;border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 1px 5px rgba(0,0,0,.08)}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.card-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#f0ede6}
+.card-body{padding:14px 14px 10px}
+.card-meta-top{font-size:10px;color:#aaa;letter-spacing:.8px;text-transform:uppercase;margin-bottom:5px}
+.card-title{font-size:15px;font-weight:500;margin-bottom:10px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.cpill{background:#f5f3ef;padding:3px 9px;border-radius:4px;font-size:11px;color:#666}
+.card-price{font-size:19px;font-weight:600}
+.card-price sup{font-size:12px;font-weight:400;color:#999;margin-left:2px}
+.card-footer{padding:9px 14px;border-top:1px solid #f0eeea;display:flex;justify-content:space-between;align-items:center}
+.avail{font-size:11px;color:#aaa}
+.share-btn{font-size:12px;color:#1a7340;cursor:pointer;background:none;border:none;padding:4px 8px;border-radius:4px;display:flex;align-items:center;gap:3px}
+.share-btn:hover{background:#f0f8f3}
+
+/* Empty */
+.empty{text-align:center;padding:80px 24px;color:#ccc;grid-column:1/-1}
+.empty div{font-size:48px;margin-bottom:12px}
+.empty p{font-size:14px;color:#bbb}
+
+/* Upload overlay */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.overlay.on{display:flex}
+.modal{background:#fff;border-radius:16px;padding:28px;max-width:460px;width:92%;position:relative;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:17px;font-weight:500;margin-bottom:20px}
+.close-x{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;color:#bbb;cursor:pointer;line-height:1}
+.close-x:hover{color:#666}
+
+/* Dropzone */
+.dz{border:2px dashed #ddd;border-radius:12px;padding:36px 20px;text-align:center;cursor:pointer;transition:all .15s;background:#fafafa}
+.dz:hover,.dz.drag{border-color:#1a7340;background:#f2faf5}
+.dz-icon{font-size:36px;margin-bottom:8px;color:#ccc}
+.dz p{color:#aaa;font-size:13px}
+.dz input{display:none}
+
+/* Preview + OCR */
+.preview-img{width:100%;border-radius:8px;margin-bottom:14px;display:none;max-height:180px;object-fit:contain;background:#f0ede6}
+.ocr-row{display:flex;gap:10px;align-items:center;margin:12px 0 4px;display:none}
+.ocr-row.on{display:flex}
+.ocr-bar{flex:1;height:3px;background:#e8e8e8;border-radius:2px;overflow:hidden}
+.ocr-fill{height:100%;background:#1a7340;border-radius:2px;transition:width .3s;width:0}
+.ocr-text{font-size:12px;color:#aaa;white-space:nowrap}
+.auto-btn{background:#f2faf5;color:#1a7340;border:1px solid #c8e8d8;padding:7px 14px;border-radius:6px;font-size:12px;cursor:pointer;display:none;margin-bottom:12px}
+.auto-btn.on{display:inline-block}
+.auto-btn:hover{background:#e6f7ee}
+
+/* Form */
+.form{display:none;margin-top:4px}
+.form.on{display:block}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.fg{display:flex;flex-direction:column;gap:3px}
+.fg label{font-size:11px;color:#999}
+.fg input,.fg select{border:1px solid #e0e0e0;border-radius:6px;padding:8px 10px;font-size:13px;outline:none;background:#fff}
+.fg input:focus{border-color:#1a1a1a}
+.save{background:#1a1a1a;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;cursor:pointer;width:100%;margin-top:6px}
+.save:hover{background:#333}
+
+/* Detail page */
+#detail{display:none}
+#detail.on{display:block}
+#pool{display:block}
+#pool.off{display:none}
+.detail-nav{background:#fff;padding:13px 24px;border-bottom:1px solid #e8e6e2;display:flex;align-items:center;gap:10px}
+.back{background:none;border:none;font-size:14px;cursor:pointer;color:#555;display:flex;align-items:center;gap:5px}
+.back:hover{color:#1a1a1a}
+.dc{max-width:540px;margin:0 auto;padding:24px}
+.dc-img{width:100%;border-radius:14px;margin-bottom:18px;display:block}
+.dc-label{font-size:11px;color:#aaa;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px}
+.dc-title{font-size:26px;font-weight:500;margin-bottom:6px;line-height:1.2}
+.dc-addr{color:#aaa;font-size:13px;margin-bottom:22px}
+.dc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.dc-meta{background:#f5f3ef;border-radius:10px;padding:13px}
+.dc-meta .k{font-size:11px;color:#aaa;margin-bottom:3px}
+.dc-meta .v{font-size:15px;font-weight:500}
+.dc-price{font-size:34px;font-weight:600;margin-bottom:4px}
+.dc-monthly{font-size:13px;color:#aaa;margin-bottom:20px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.tag{background:#f0eeea;padding:6px 13px;border-radius:20px;font-size:13px;color:#555}
+.share-big{background:#1a7340;color:#fff;border:none;padding:15px;border-radius:12px;font-size:14px;cursor:pointer;width:100%;font-weight:500}
+.share-big:hover{background:#155a30}
+
+/* Toast */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Niko <em>·</em> 房源池</div>
+  <button class="upload-btn" onclick="openUpload()">＋ 上传房源</button>
+</header>
+
+<div class="filter-bar">
+  <span class="fl">区域</span>
+  <div class="filter-group" id="fg-zone">
+    <button class="pill on" data-v="all" onclick="filt('zone','all',this)">全部</button>
+    <button class="pill" data-v="1" onclick="filt('zone','1',this)">Zone 1</button>
+    <button class="pill" data-v="2" onclick="filt('zone','2',this)">Zone 2</button>
+    <button class="pill" data-v="3" onclick="filt('zone','3',this)">Zone 3</button>
+  </div>
+  <div class="sep"></div>
+  <span class="fl">户型</span>
+  <div class="filter-group" id="fg-beds">
+    <button class="pill on" data-v="all" onclick="filt('beds','all',this)">全部</button>
+    <button class="pill" data-v="0" onclick="filt('beds','0',this)">Studio</button>
+    <button class="pill" data-v="1" onclick="filt('beds','1',this)">1室</button>
+    <button class="pill" data-v="2" onclick="filt('beds','2',this)">2室</button>
+    <button class="pill" data-v="3" onclick="filt('beds','3',this)">3室+</button>
+  </div>
+  <div class="sep"></div>
+  <span class="fl">价格</span>
+  <div class="filter-group" id="fg-price">
+    <button class="pill on" data-v="all" onclick="filt('price','all',this)">全部</button>
+    <button class="pill" data-v="low" onclick="filt('price','low',this)">≤£700/周</button>
+    <button class="pill" data-v="mid" onclick="filt('price','mid',this)">£700–£1000</button>
+    <button class="pill" data-v="high" onclick="filt('price','high',this)">≥£1000</button>
+  </div>
+</div>
+
+<div id="pool">
+  <div class="grid-container">
+    <div class="count-bar" id="count-bar">加载中…</div>
+    <div class="grid" id="card-grid"></div>
+  </div>
+</div>
+
+<div id="detail">
+  <div class="detail-nav">
+    <button class="back" onclick="showPool()">← 返回房源池</button>
+  </div>
+  <div class="dc" id="dc"></div>
+</div>
+
+<!-- Upload modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="close-x" onclick="closeUpload()">×</button>
+    <div class="modal-title">上传房源卡片</div>
+    <img class="preview-img" id="preview-img">
+    <div class="dz" id="dz" onclick="document.getElementById('fi').click()">
+      <div class="dz-icon">⬆</div>
+      <p>点击或拖拽卡片图片</p>
+      <input type="file" id="fi" accept="image/*" onchange="handleFile(this.files[0])">
+    </div>
+    <div class="ocr-row" id="ocr-row">
+      <div class="ocr-bar"><div class="ocr-fill" id="ocr-fill"></div></div>
+      <span class="ocr-text" id="ocr-txt">识别中…</span>
+    </div>
+    <button class="auto-btn" id="auto-btn" onclick="runOCR()">🔮 自动识别填写</button>
+    <div class="form" id="upload-form">
+      <div class="frow">
+        <div class="fg" style="grid-column:1/-1">
+          <label>楼盘名称</label>
+          <input id="f-title" placeholder="例：1 York Way, Kings Cross">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label>邮编</label>
+          <input id="f-pc" placeholder="例：N1C, E1, SW8">
+        </div>
+        <div class="fg">
+          <label>Zone</label>
+          <select id="f-zone">
+            <option value="1">Zone 1</option>
+            <option value="2" selected>Zone 2</option>
+            <option value="3">Zone 3</option>
+          </select>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label>户型</label>
+          <select id="f-beds">
+            <option value="0">Studio</option>
+            <option value="1">1 Bed</option>
+            <option value="2" selected>2 Bed</option>
+            <option value="3">3 Bed+</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>周租 (£)</label>
+          <input id="f-price" type="number" placeholder="例：900">
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label>入住日期</label>
+          <input id="f-avail" placeholder="例：16/07/2026">
+        </div>
+        <div class="fg">
+          <label>家具</label>
+          <select id="f-furnish">
+            <option value="带家具">带家具</option>
+            <option value="不带家具">不带家具</option>
+          </select>
+        </div>
+      </div>
+      <button class="save" onclick="saveProperty()">保存到房源池</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">链接已复制 ✓</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+<script>
+let props = [], F = {zone:'all', beds:'all', price:'all'};
+let imgDataUrl = null, ocrWorker = null;
+
+const ZONE_MAP = {
+  EC1:1,EC2:1,EC3:1,EC4:1,WC1:1,WC2:1,W1:1,SW1:1,SE1:1,E1:1,N1:1,NW1:1,
+  E2:2,E3:2,E8:2,E14:2,N4:2,N5:2,N7:2,NW3:2,NW5:2,NW6:2,NW8:2,
+  SE5:2,SE11:2,SE15:2,SE16:2,SW2:2,SW4:2,SW6:2,SW8:2,SW9:2,SW10:2,SW11:2,
+  W2:2,W6:2,W9:2,W10:2,W11:2,W12:2,W14:2,
+  E15:3,E16:3,N8:3,N15:3,N16:3,N22:3,NW2:3,NW10:3,
+  SE4:3,SE6:3,SE8:3,SE14:3,SE18:3,SW12:3,SW16:3,SW17:3,W3:3,W4:3,W5:3
+};
+
+function zone4pc(pc) {
+  pc = pc.trim().toUpperCase();
+  for (let k in ZONE_MAP) if (pc.startsWith(k)) return ZONE_MAP[k];
+  return 2;
+}
+
+const INLINE_LISTINGS = [{"id":"1-boxwood-gardens-london-e1w","title":"1 Boxwood Gardens, London, E1W","address":"1 Boxwood Gardens, London, E1W","postcode":"E1W","zone":2,"weekly":635,"monthly":2752,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"24/07/2026","furnish":"带家具","features":["Luxury 1BED","带家具","Available 24/07/2026","3rd floor","住客健身房·Squash court","游泳池·spa","Luxury Kitchen·Bathrooms","24h 礼宾服务"],"images":["images/1-boxwood-gardens-london-e1w/img_1.jpg","images/1-boxwood-gardens-london-e1w/img_2.jpg","images/1-boxwood-gardens-london-e1w/img_3.jpg","images/1-boxwood-gardens-london-e1w/img_4.jpg"]},{"id":"stratosphere-tower-55-great-eastern-road-stratford-e15","title":"Stratosphere Tower, 55 Great Eastern Road, Stratford, E15","address":"Stratosphere Tower, 55 Great Eastern Road, Stratford, E15","postcode":"E15","zone":3,"weekly":646,"monthly":2799,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","features":["两室","带家具","礼宾服务","Roof top 露台","住客健身房","Excellent transport connections"],"images":["images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_1.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_2.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_3.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_4.jpg"]},{"id":"regent-street-fitzrovia-w1b","title":"Regent Street, Fitzrovia, W1B","address":"Regent Street, Fitzrovia, W1B","postcode":"W1B","zone":2,"weekly":725,"monthly":3142,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"Now","furnish":"带家具","features":["一室·one bathroom","1st floor with lift","Professionally managed","Excellent shopping·transport facilities of Oxford Circus."],"images":["images/regent-street-fitzrovia-w1b/img_1.jpg","images/regent-street-fitzrovia-w1b/img_2.jpg"]},{"id":"cube-building-17-21-wenlock-road-london-n1","title":"Cube Building, 17-21 Wenlock Road, London, N1","address":"Cube Building, 17-21 Wenlock Road, London, N1","postcode":"N1","zone":1,"weekly":750,"monthly":3250,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"23/05/2026","furnish":"带家具","features":["两室","Two Bathrooms","带家具","Excellent Location","Modern","EPC评级B"],"images":["images/cube-building-17-21-wenlock-road-london-n1/img_1.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_2.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_3.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_4.jpg"]},{"id":"damac-tower-nine-elms-london-sw8","title":"DAMAC Tower, Nine Elms, London, SW8","address":"DAMAC Tower, Nine Elms, London, SW8","postcode":"SW8","zone":2,"weekly":762,"monthly":3302,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"29/07/2026","furnish":"带家具","features":["Stunning City·河景!!","冬季花园","Exclusive Amenities","Prime Location","24/7 礼宾服务","Spacious Layout","Fitness Center·健身房·游泳池","Amenities pictures for illustrative purposes only."],"images":["images/damac-tower-nine-elms-london-sw8/img_1.jpg","images/damac-tower-nine-elms-london-sw8/img_2.jpg","images/damac-tower-nine-elms-london-sw8/img_3.jpg","images/damac-tower-nine-elms-london-sw8/img_4.jpg"]},{"id":"sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1","title":"75 Leman Street, Goodman'S Fields, Aldgate, E1","address":"75 Leman Street, Goodman'S Fields, Aldgate, E1","postcode":"E1","zone":1,"weekly":795,"monthly":3445,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"12/07/2026","furnish":"不带家具","features":["两室S","TWO BATHROOMS","24h礼宾服务","健身房·POOL","COMMUNAL GARDEN","LOCAL AMENITIES","0.2 MI TO ALDGATE EAST UNDERGROUND","WALKING DISTANCE TO THE CITY"],"images":["images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_1.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_2.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_3.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_4.jpg"]},{"id":"asquith-house-segrave-walk-city-of-westminster-london","title":"Asquith House, Segrave Walk, City Of Westminster, London","address":"Asquith House, Segrave Walk, City Of Westminster, London","postcode":"W2","zone":2,"weekly":805,"monthly":3488,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"09/09/2026","furnish":"带家具","features":["1 Bedroom / 1 Bathroom, 8th Floor","私人阳台","24h礼宾服务","游泳池, Vitality Pool, Steam Room, Private Dining, Cinema","Two minute walk to Edgware Road","Eight minute walk to Paddington station","Short journey to Regent Park·近Kings Cross","Cafes, restaurants,·daily amenities nearby"],"images":["images/asquith-house-segrave-walk-city-of-westminster-london/img_1.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_2.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_3.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_4.jpg"]},{"id":"dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a","title":"Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A","address":"Dominion House, 59 Bartholomew Close, Farringdon, Barbican, London, Ec1A","postcode":"EC1A","zone":1,"weekly":808,"monthly":3501,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"20/07/2026","furnish":"带家具","features":["24h礼宾服务","Character façade","Cycle 储物间","Ideally located near Barbican station","Lift","EPC评级B"],"images":["images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_1.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_2.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_3.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_4.jpg"]},{"id":"riverlight-four-riverlight-quay-london-sw11","title":"Riverlight Four, Riverlight Quay, London, SW11","address":"Riverlight Four, Riverlight Quay, London, SW11","postcode":"SW11","zone":2,"weekly":850,"monthly":3683,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","features":["Large 两室 Property","Two Bathrooms (one ensuite)","Two Balconies","24h礼宾服务","住客健身房","Great Transport Links"],"images":["images/riverlight-four-riverlight-quay-london-sw11/img_1.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_2.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_3.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_4.jpg"]},{"id":"hurlock-heights-deacon-street-southwark-london","title":"Hurlock Heights, Deacon Street, Southwark, London","address":"Hurlock Heights, Deacon Street, Southwark, London","postcode":"SE17","zone":2,"weekly":875,"monthly":3792,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"13/08/2026","furnish":"带家具","features":["24h礼宾服务","住客健身房","20th floor","私人阳台"],"images":["images/hurlock-heights-deacon-street-southwark-london/img_1.jpg","images/hurlock-heights-deacon-street-southwark-london/img_2.jpg","images/hurlock-heights-deacon-street-southwark-london/img_3.jpg","images/hurlock-heights-deacon-street-southwark-london/img_4.jpg"]},{"id":"latitude-house-oval-road-camden-london-nw1","title":"Latitude House, Oval Road, Camden, London NW1","address":"Latitude House, Oval Road, Camden, London NW1","postcode":"NW1","zone":1,"weekly":995,"monthly":4312,"bed_label":"2 Bed 1 Bath","beds":2,"avail":"04/07/2026","furnish":"不带家具","features":["2 bedrooms","独立客厅","1 bathroom"],"images":["images/latitude-house-oval-road-camden-london-nw1/img_1.jpg","images/latitude-house-oval-road-camden-london-nw1/img_2.jpg"]},{"id":"the-atlas-building-city-road-ec1v","title":"The Atlas Building, City Road, EC1V","address":"The Atlas Building, City Road, EC1V","postcode":"EC1V","zone":2,"weekly":1000,"monthly":4333,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"14/08/2026","furnish":"带家具","features":["23rd Floor 两室 Apartment","Bespoke Bathroom &En-Suite; Shower Room","开放式 Living Space","Fitted Kitchen","带家具","EPC-B","South-东向 Aspect","Private 双面采光 阳台"],"images":["images/the-atlas-building-city-road-ec1v/img_1.jpg","images/the-atlas-building-city-road-ec1v/img_2.jpg","images/the-atlas-building-city-road-ec1v/img_3.jpg","images/the-atlas-building-city-road-ec1v/img_4.jpg"]},{"id":"kensington-apartments-commercial-street-e1","title":"Kensington Apartments, Commercial Street, E1","address":"Kensington Apartments, Commercial Street, E1","postcode":"E1","zone":1,"weekly":1025,"monthly":4442,"bed_label":"3 Bed 2 Bath","beds":3,"avail":"23/07/2026","furnish":"带家具","features":["3 Bedrooms","2 Bathrooms","阳台","开放式厨房","On site leisure facilities","Communal roof gardens","0.1 miles from Aldgate Station","约 974 sq ft (90.5 sq m)"],"images":["images/kensington-apartments-commercial-street-e1/img_1.jpg","images/kensington-apartments-commercial-street-e1/img_2.jpg","images/kensington-apartments-commercial-street-e1/img_3.jpg","images/kensington-apartments-commercial-street-e1/img_4.jpg"]},{"id":"jubilee-walk-clerkenwell-holborn-wc1x","title":"Jubilee Walk, Clerkenwell, London, WC1X","address":"Jubilee Walk, Clerkenwell, London, WC1X","postcode":"WC1X","zone":2,"weekly":1154,"monthly":5001,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"10/08/2026","furnish":"带家具","features":["Residents Cinema","Residents Co Working Lounge","全新楼盘","地暖·Cooling","Secure Building with Fob Entrance","New Appliances","嵌入式厨电","健身房"],"images":["images/jubilee-walk-clerkenwell-holborn-wc1x/img_1.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_2.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_3.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_4.jpg"]},{"id":"morwell-street-london-wc1b","title":"Morwell Street, London WC1B","address":"Morwell Street, London WC1B","postcode":"WC1B","zone":2,"weekly":1650,"monthly":7150,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"20/07/2026","furnish":"带家具","features":["2 bedrooms","独立客厅","2 bathrooms","全新楼盘","全新开发"],"images":["images/morwell-street-london-wc1b/img_1.jpg","images/morwell-street-london-wc1b/img_2.jpg"]}];
+
+async function loadData() {
+  props = INLINE_LISTINGS;
+  const local = JSON.parse(localStorage.getItem('niko-pool') || '[]');
+  props = [...local, ...props];
+  render();
+}
+
+function getFiltered() {
+  return props.filter(p => {
+    if (F.zone !== 'all' && String(p.zone) !== F.zone) return false;
+    if (F.beds !== 'all') {
+      const b = parseInt(F.beds);
+      if (b === 3 && p.beds < 3) return false;
+      if (b < 3 && p.beds !== b) return false;
+    }
+    if (F.price !== 'all') {
+      const w = p.weekly || 0;
+      if (F.price === 'low' && w > 700) return false;
+      if (F.price === 'mid' && (w < 700 || w > 1000)) return false;
+      if (F.price === 'high' && w < 1000) return false;
+    }
+    return true;
+  });
+}
+
+function render() {
+  const list = getFiltered();
+  document.getElementById('count-bar').textContent = `共 ${list.length} 套房源`;
+  const g = document.getElementById('card-grid');
+  if (!list.length) {
+    g.innerHTML = '<div class="empty"><div>🏠</div><p>暂无符合条件的房源</p></div>';
+    return;
+  }
+  g.innerHTML = list.map(p => {
+    const img = (p.images && p.images[0]) ? p.images[0] : p.imageDataUrl;
+    const beds = p.bed_label || (p.beds === 0 ? 'Studio' : p.beds + ' Bed');
+    return `<div class="card" onclick="showDetail('${p.id}')">
+      ${img ? `<img class="card-img" src="${img}" loading="lazy" onerror="this.style.display='none'">` : '<div class="card-img"></div>'}
+      <div class="card-body">
+        <div class="card-meta-top">${p.postcode || ''} &middot; Zone ${p.zone || 2}</div>
+        <div class="card-title">${p.title || p.id}</div>
+        <div class="card-pills">
+          <span class="cpill">${beds}</span>
+          ${p.furnish ? `<span class="cpill">${p.furnish}</span>` : ''}
+          ${p.avail ? `<span class="cpill">${p.avail}</span>` : ''}
+        </div>
+        <div class="card-price">£${(p.weekly||0).toLocaleString()}<sup>/周</sup></div>
+      </div>
+      <div class="card-footer">
+        <span class="avail">约 £${(p.monthly||Math.round((p.weekly||0)*52/12)).toLocaleString()}/月</span>
+        <button class="share-btn" onclick="event.stopPropagation();share('${p.id}')">↗ 分享</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filt(type, val, el) {
+  F[type] = val;
+  el.closest('.filter-group').querySelectorAll('.pill').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  render();
+}
+
+function showDetail(id) {
+  const p = props.find(x => x.id === id);
+  if (!p) return;
+  const img = (p.images && p.images[0]) ? p.images[0] : p.imageDataUrl;
+  const beds = p.bed_label || (p.beds === 0 ? 'Studio' : p.beds + ' Bed');
+  const monthly = p.monthly || Math.round((p.weekly||0)*52/12);
+  document.getElementById('dc').innerHTML = `
+    ${img ? `<img class="dc-img" src="${img}" onerror="this.style.display='none'">` : ''}
+    <div class="dc-label">${p.postcode || ''} &middot; Zone ${p.zone || 2}</div>
+    <div class="dc-title">${p.title || p.id}</div>
+    <div class="dc-addr">${p.address || (p.postcode + ', London')}</div>
+    <div class="dc-grid">
+      <div class="dc-meta"><div class="k">户型</div><div class="v">${beds}</div></div>
+      <div class="dc-meta"><div class="k">邮编</div><div class="v">${p.postcode || '-'}</div></div>
+      <div class="dc-meta"><div class="k">入住</div><div class="v">${p.avail || '-'}</div></div>
+      <div class="dc-meta"><div class="k">家具</div><div class="v">${p.furnish || '带家具'}</div></div>
+    </div>
+    <div class="dc-price">£${(p.weekly||0).toLocaleString()}<span style="font-size:16px;font-weight:400;color:#aaa"> /周</span></div>
+    <div class="dc-monthly">约 £${monthly.toLocaleString()} /月</div>
+    ${p.features && p.features.length ? `<div class="tags">${p.features.map(f=>`<span class="tag">✦ ${f}</span>`).join('')}</div>` : ''}
+    <button class="share-big" onclick="share('${p.id}')">↗ 复制分享链接</button>
+  `;
+  document.getElementById('pool').classList.add('off');
+  document.getElementById('detail').classList.add('on');
+  history.pushState(null, '', '#/p/' + id);
+}
+
+function showPool() {
+  document.getElementById('pool').classList.remove('off');
+  document.getElementById('detail').classList.remove('on');
+  history.pushState(null, '', location.pathname);
+}
+
+function share(id) {
+  const url = location.origin + location.pathname + '#/p/' + id;
+  navigator.clipboard.writeText(url).then(() => toast('链接已复制 ✓')).catch(() => prompt('复制此链接：', url));
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 2200);
+}
+
+// Upload
+function openUpload() {
+  document.getElementById('overlay').classList.add('on');
+}
+function closeUpload() {
+  document.getElementById('overlay').classList.remove('on');
+  document.getElementById('dz').style.display = '';
+  document.getElementById('preview-img').style.display = 'none';
+  document.getElementById('ocr-row').classList.remove('on');
+  document.getElementById('auto-btn').classList.remove('on');
+  document.getElementById('upload-form').classList.remove('on');
+  document.getElementById('fi').value = '';
+  imgDataUrl = null;
+  ['f-title','f-pc','f-price','f-avail'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-beds').value = '2';
+  document.getElementById('f-zone').value = '2';
+}
+
+const dz = document.getElementById('dz');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
+
+function handleFile(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    imgDataUrl = e.target.result;
+    const prev = document.getElementById('preview-img');
+    prev.src = imgDataUrl;
+    prev.style.display = 'block';
+    document.getElementById('dz').style.display = 'none';
+    document.getElementById('auto-btn').classList.add('on');
+    document.getElementById('upload-form').classList.add('on');
+  };
+  reader.readAsDataURL(file);
+}
+
+async function runOCR() {
+  if (!imgDataUrl) return;
+  const btn = document.getElementById('auto-btn');
+  btn.textContent = '识别中…';
+  btn.disabled = true;
+  document.getElementById('ocr-row').classList.add('on');
+  try {
+    if (!ocrWorker) {
+      ocrWorker = await Tesseract.createWorker('eng', 1, {
+        logger: m => {
+          if (m.status === 'recognizing text')
+            document.getElementById('ocr-fill').style.width = (m.progress * 100) + '%';
+        }
+      });
+    }
+    const { data: { text } } = await ocrWorker.recognize(imgDataUrl);
+    fillForm(text);
+    document.getElementById('ocr-txt').textContent = '识别完成';
+    document.getElementById('ocr-fill').style.width = '100%';
+  } catch(e) {
+    document.getElementById('ocr-txt').textContent = '识别失败，请手动填写';
+  }
+  btn.textContent = '🔮 重新识别';
+  btn.disabled = false;
+}
+
+function fillForm(text) {
+  const priceM = text.match(/£\s*(\d[\d,]+)/);
+  if (priceM) document.getElementById('f-price').value = priceM[1].replace(',','');
+
+  const bedsM = text.match(/(\d+)\s*[Bb]ed/);
+  if (bedsM) document.getElementById('f-beds').value = Math.min(parseInt(bedsM[1]), 3);
+  else if (/[Ss]tudio/.test(text)) document.getElementById('f-beds').value = '0';
+
+  const dateM = text.match(/\d{1,2}[\/\-]\d{2}[\/\-]\d{2,4}/);
+  if (dateM) document.getElementById('f-avail').value = dateM[0];
+
+  const pcMs = [...text.matchAll(/\b([A-Z]{1,2}[0-9]{1,2}[A-Z]?)\b/g)].map(m => m[1]);
+  const pc = pcMs.find(p => /^[A-Z]{1,2}[0-9]/.test(p) && p.length >= 2);
+  if (pc) {
+    document.getElementById('f-pc').value = pc;
+    document.getElementById('f-zone').value = zone4pc(pc);
+  }
+
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 3 && l.length < 60 && !/^[£\d]/.test(l));
+  const londonI = lines.findIndex(l => /LONDON/i.test(l));
+  if (londonI >= 0 && londonI + 1 < lines.length) {
+    const t = lines[londonI + 1];
+    if (!/[£\d\|\/]/.test(t)) document.getElementById('f-title').value = t;
+  } else if (lines.length > 0) {
+    const t = lines.find(l => l.length > 3 && !/LONDON|LIVING|NIKO/i.test(l));
+    if (t) document.getElementById('f-title').value = t;
+  }
+}
+
+function saveProperty() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { alert('请填写楼盘名称'); return; }
+  const pc = document.getElementById('f-pc').value.trim().toUpperCase();
+  const beds = parseInt(document.getElementById('f-beds').value);
+  const weekly = parseInt(document.getElementById('f-price').value) || 0;
+  const avail = document.getElementById('f-avail').value.trim();
+  const zone = parseInt(document.getElementById('f-zone').value);
+  const furnish = document.getElementById('f-furnish').value;
+
+  const p = {
+    id: (title + '-' + pc).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now(),
+    title, postcode: pc, zone, weekly,
+    monthly: Math.round(weekly * 52 / 12),
+    address: title + (pc ? ', ' + pc : '') + ', London',
+    bed_label: beds === 0 ? 'Studio' : beds + ' Bed',
+    beds, avail, furnish, features: [],
+    images: [], imageDataUrl: imgDataUrl,
+    uploadedAt: new Date().toISOString()
+  };
+
+  const existing = JSON.parse(localStorage.getItem('niko-pool') || '[]');
+  existing.unshift(p);
+  localStorage.setItem('niko-pool', JSON.stringify(existing));
+  props.unshift(p);
+  render();
+  closeUpload();
+  toast('已保存到房源池 ✓');
+}
+
+// Hash routing
+window.addEventListener('popstate', () => {
+  const h = location.hash;
+  if (h.startsWith('#/p/')) showDetail(h.slice(4));
+  else showPool();
+});
+
+loadData().then(() => {
+  if (location.hash.startsWith('#/p/')) showDetail(location.hash.slice(4));
+});
+</script>
+</body>
+</html>
