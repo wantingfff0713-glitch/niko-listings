@@ -103,16 +103,18 @@ header{background:#1a1a1a;padding:14px 20px;display:flex;align-items:center;just
 
 <header>
   <div class="logo">Niko <em>·</em> 房源池</div>
-  <button class="add-btn" onclick="openUpload()">＋ 上传</button>
+  <button class="add-btn" id="add-btn" onclick="openUpload()" style="display:none">＋ 上传</button><button class="add-btn" id="admin-btn" onclick="adminLogin()" style="background:#2a2a2a;color:#888">管理</button>
 </header>
 
 <div class="filter-bar">
-  <span class="fl">区域</span>
+  <span class="fl">位置</span>
   <div style="display:flex;gap:5px">
-    <button class="pill on" onclick="filt('zone','all',this)">全部</button>
-    <button class="pill" onclick="filt('zone','1',this)">Z1</button>
-    <button class="pill" onclick="filt('zone','2',this)">Z2</button>
-    <button class="pill" onclick="filt('zone','3',this)">Z3</button>
+    <button class="pill on" onclick="filt('area','all',this)">全部</button>
+    <button class="pill" onclick="filt('area','city',this)">市中心</button>
+    <button class="pill" onclick="filt('area','north',this)">北伦敦</button>
+    <button class="pill" onclick="filt('area','east',this)">东伦敦</button>
+    <button class="pill" onclick="filt('area','west',this)">西伦敦</button>
+    <button class="pill" onclick="filt('area','south',this)">南伦敦</button>
   </div>
   <div class="sep"></div>
   <span class="fl">户型</span>
@@ -130,6 +132,16 @@ header{background:#1a1a1a;padding:14px 20px;display:flex;align-items:center;just
     <button class="pill" onclick="filt('price','low',this)">≤£700</button>
     <button class="pill" onclick="filt('price','mid',this)">£700-1000</button>
     <button class="pill" onclick="filt('price','high',this)">≥£1000</button>
+  </div>
+  <div class="sep"></div>
+  <span class="fl">入住</span>
+  <div style="display:flex;gap:5px">
+    <button class="pill on" onclick="filt('month','all',this)">全部</button>
+    <button class="pill" onclick="filt('month','now',this)">现在</button>
+    <button class="pill" onclick="filt('month','7',this)">7月</button>
+    <button class="pill" onclick="filt('month','8',this)">8月</button>
+    <button class="pill" onclick="filt('month','9',this)">9月</button>
+    <button class="pill" onclick="filt('month','10+',this)">10月+</button>
   </div>
 </div>
 
@@ -167,8 +179,41 @@ header{background:#1a1a1a;padding:14px 20px;display:flex;align-items:center;just
 <div class="toast" id="toast"></div>
 
 <script>
+// ── ADMIN ────────────────────────────────────────────────
+const ADMIN_PASS = 'niko2025';  // ← 在这里修改密码
+
+function isAdmin() {
+  return sessionStorage.getItem('niko-admin') === '1';
+}
+
+function adminLogin() {
+  if (isAdmin()) {
+    // Already admin: log out
+    sessionStorage.removeItem('niko-admin');
+    applyAdminUI();
+    toast('已退出管理模式');
+    return;
+  }
+  const pw = prompt('请输入管理密码：');
+  if (pw === null) return;
+  if (pw === ADMIN_PASS) {
+    sessionStorage.setItem('niko-admin', '1');
+    applyAdminUI();
+    toast('已进入管理模式 ✓');
+  } else {
+    toast('密码错误');
+  }
+}
+
+function applyAdminUI() {
+  const isA = isAdmin();
+  document.getElementById('add-btn').style.display = isA ? '' : 'none';
+  document.getElementById('admin-btn').style.color = isA ? '#c8a96e' : '#888';
+  document.getElementById('admin-btn').textContent = isA ? '退出管理' : '管理';
+}
+
 // ── DATA ─────────────────────────────────────────────────
-let F = {zone:'all', beds:'all', price:'all'};
+let F = {beds:'all', price:'all', month:'all', area:'all'};
 let allProps = [];
 let batchQ = []; // {id, objectUrl, dataUrl, zone, beds, price}
 
@@ -176,17 +221,51 @@ let batchQ = []; // {id, objectUrl, dataUrl, zone, beds, price}
 const BUILT_IN = [{"id":"1-boxwood-gardens-london-e1w","title":"1 Boxwood Gardens, London, E1W","postcode":"E1W","zone":2,"weekly":635,"monthly":2752,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"24/07/2026","furnish":"带家具","images":["images/1-boxwood-gardens-london-e1w/img_1.jpg","images/1-boxwood-gardens-london-e1w/img_2.jpg","images/1-boxwood-gardens-london-e1w/img_3.jpg","images/1-boxwood-gardens-london-e1w/img_4.jpg"]},{"id":"stratosphere-tower-55-great-eastern-road-stratford-e15","title":"Stratosphere Tower, E15","postcode":"E15","zone":3,"weekly":646,"monthly":2799,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","images":["images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_1.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_2.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_3.jpg","images/stratosphere-tower-55-great-eastern-road-stratford-e15/img_4.jpg"]},{"id":"regent-street-fitzrovia-w1b","title":"Regent Street, W1B","postcode":"W1B","zone":2,"weekly":725,"monthly":3142,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"Now","furnish":"带家具","images":["images/regent-street-fitzrovia-w1b/img_1.jpg","images/regent-street-fitzrovia-w1b/img_2.jpg"]},{"id":"cube-building-17-21-wenlock-road-london-n1","title":"Cube Building, N1","postcode":"N1","zone":1,"weekly":750,"monthly":3250,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"23/05/2026","furnish":"带家具","images":["images/cube-building-17-21-wenlock-road-london-n1/img_1.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_2.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_3.jpg","images/cube-building-17-21-wenlock-road-london-n1/img_4.jpg"]},{"id":"damac-tower-nine-elms-london-sw8","title":"DAMAC Tower, SW8","postcode":"SW8","zone":2,"weekly":762,"monthly":3302,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"29/07/2026","furnish":"带家具","images":["images/damac-tower-nine-elms-london-sw8/img_1.jpg","images/damac-tower-nine-elms-london-sw8/img_2.jpg","images/damac-tower-nine-elms-london-sw8/img_3.jpg","images/damac-tower-nine-elms-london-sw8/img_4.jpg"]},{"id":"sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1","title":"Sterling Mansions, E1","postcode":"E1","zone":1,"weekly":795,"monthly":3445,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"12/07/2026","furnish":"不带家具","images":["images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_1.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_2.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_3.jpg","images/sterling-mansions-75-leman-street-goodman-s-fields-aldgate-e1/img_4.jpg"]},{"id":"asquith-house-segrave-walk-city-of-westminster-london","title":"Asquith House, W2","postcode":"W2","zone":2,"weekly":805,"monthly":3488,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"09/09/2026","furnish":"带家具","images":["images/asquith-house-segrave-walk-city-of-westminster-london/img_1.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_2.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_3.jpg","images/asquith-house-segrave-walk-city-of-westminster-london/img_4.jpg"]},{"id":"dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a","title":"Dominion House, EC1A","postcode":"EC1A","zone":1,"weekly":808,"monthly":3501,"bed_label":"1 Bed 1 Bath","beds":1,"avail":"20/07/2026","furnish":"带家具","images":["images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_1.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_2.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_3.jpg","images/dominion-house-59-bartholomew-close-farringdon-barbican-london-ec1a/img_4.jpg"]},{"id":"riverlight-four-riverlight-quay-london-sw11","title":"Riverlight Four, SW11","postcode":"SW11","zone":2,"weekly":850,"monthly":3683,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"05/08/2026","furnish":"带家具","images":["images/riverlight-four-riverlight-quay-london-sw11/img_1.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_2.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_3.jpg","images/riverlight-four-riverlight-quay-london-sw11/img_4.jpg"]},{"id":"hurlock-heights-deacon-street-southwark-london","title":"Hurlock Heights, SE17","postcode":"SE17","zone":2,"weekly":875,"monthly":3792,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"13/08/2026","furnish":"带家具","images":["images/hurlock-heights-deacon-street-southwark-london/img_1.jpg","images/hurlock-heights-deacon-street-southwark-london/img_2.jpg","images/hurlock-heights-deacon-street-southwark-london/img_3.jpg","images/hurlock-heights-deacon-street-southwark-london/img_4.jpg"]},{"id":"latitude-house-oval-road-camden-london-nw1","title":"Latitude House, NW1","postcode":"NW1","zone":1,"weekly":995,"monthly":4312,"bed_label":"2 Bed 1 Bath","beds":2,"avail":"04/07/2026","furnish":"不带家具","images":["images/latitude-house-oval-road-camden-london-nw1/img_1.jpg","images/latitude-house-oval-road-camden-london-nw1/img_2.jpg"]},{"id":"the-atlas-building-city-road-ec1v","title":"The Atlas Building, EC1V","postcode":"EC1V","zone":2,"weekly":1000,"monthly":4333,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"14/08/2026","furnish":"带家具","images":["images/the-atlas-building-city-road-ec1v/img_1.jpg","images/the-atlas-building-city-road-ec1v/img_2.jpg","images/the-atlas-building-city-road-ec1v/img_3.jpg","images/the-atlas-building-city-road-ec1v/img_4.jpg"]},{"id":"kensington-apartments-commercial-street-e1","title":"Kensington Apartments, E1","postcode":"E1","zone":1,"weekly":1025,"monthly":4442,"bed_label":"3 Bed 2 Bath","beds":3,"avail":"23/07/2026","furnish":"带家具","images":["images/kensington-apartments-commercial-street-e1/img_1.jpg","images/kensington-apartments-commercial-street-e1/img_2.jpg","images/kensington-apartments-commercial-street-e1/img_3.jpg","images/kensington-apartments-commercial-street-e1/img_4.jpg"]},{"id":"jubilee-walk-clerkenwell-holborn-wc1x","title":"Jubilee Walk, WC1X","postcode":"WC1X","zone":2,"weekly":1154,"monthly":5001,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"10/08/2026","furnish":"带家具","images":["images/jubilee-walk-clerkenwell-holborn-wc1x/img_1.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_2.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_3.jpg","images/jubilee-walk-clerkenwell-holborn-wc1x/img_4.jpg"]},{"id":"morwell-street-london-wc1b","title":"Morwell Street, WC1B","postcode":"WC1B","zone":2,"weekly":1650,"monthly":7150,"bed_label":"2 Bed 2 Bath","beds":2,"avail":"20/07/2026","furnish":"带家具","images":["images/morwell-street-london-wc1b/img_1.jpg","images/morwell-street-london-wc1b/img_2.jpg"]}];
 
 function priceRange(w) {
-  if (!w) return 'unknown';
+  if (!w) return 'mid';
   if (w <= 700) return 'low';
   if (w <= 1000) return 'mid';
   return 'high';
 }
+
+// Derive move-in month key from avail string like "24/07/2026" or "Now"
+function availMonth(avail) {
+  if (!avail || /now/i.test(avail)) return 'now';
+  const m = avail.match(/(\d{1,2})[\/\-](\d{2})[\/\-]\d{2,4}/);
+  if (!m) return 'now';
+  const mo = parseInt(m[2]);
+  if (mo <= 6) return 'now';
+  if (mo === 7) return '7';
+  if (mo === 8) return '8';
+  if (mo === 9) return '9';
+  return '10+';
+}
+
+// Map postcode prefix to area
+function pc2area(pc) {
+  if (!pc) return 'city';
+  pc = pc.trim().toUpperCase();
+  // City: EC, WC, W1x, SW1x, SE1 (单独一位数字或结尾), N1, E1 市中心区
+  // 注意：W1/SW1/SE1 后面如果跟两位数(如SW11, SE17)则是南伦敦，不是市中心
+  if (/^(EC|WC)/.test(pc)) return 'city';
+  if (/^W1[A-Z]/.test(pc)) return 'city';       // W1A, W1B, W1C...W1W (Mayfair/Soho)
+  if (/^SW1[A-Z]/.test(pc)) return 'city';      // SW1A, SW1P, SW1V... (Westminster)
+  if (/^SE1\b/.test(pc) || /^SE1[A-Z]/.test(pc)) return 'city';  // SE1 (Southwark/Borough)
+  if (/^(N|NW)/.test(pc)) return 'north';
+  if (/^E/.test(pc)) return 'east';
+  if (/^(SW|SE)/.test(pc)) return 'south';
+  if (/^W/.test(pc)) return 'west';
+  return 'city';
+}
+
+const AREA_LABEL = {city:'市中心', north:'北伦敦', east:'东伦敦', west:'西伦敦', south:'南伦敦'};
 
 function loadAll() {
   const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
   allProps = [...saved, ...BUILT_IN.map(p => ({
     ...p, isBuiltIn: true,
     price: priceRange(p.weekly),
+    month: availMonth(p.avail),
+    area: pc2area(p.postcode),
     displayImg: p.images[0]
   }))];
   render();
@@ -194,13 +273,14 @@ function loadAll() {
 
 function getFiltered() {
   return allProps.filter(p => {
-    if (F.zone !== 'all' && String(p.zone) !== F.zone) return false;
+    if (F.area !== 'all' && p.area !== F.area) return false;
     if (F.beds !== 'all') {
       const b = parseInt(F.beds);
       if (b === 3 && p.beds < 3) return false;
       if (b < 3 && p.beds !== b) return false;
     }
     if (F.price !== 'all' && p.price !== F.price) return false;
+    if (F.month !== 'all' && p.month !== F.month) return false;
     return true;
   });
 }
@@ -215,18 +295,20 @@ function render() {
   }
   g.innerHTML = list.map(p => {
     const img = p.displayImg || (p.images && p.images[0]);
-    const zoneLabel = p.zone ? `Z${p.zone}` : '';
+    const areaLabel = AREA_LABEL[p.area] || '';
     const bedsLabel = p.beds === 0 ? 'Studio' : (p.beds || 2) + '室';
-    const priceLabel = p.weekly ? `£${p.weekly}/周` : '';
+    const priceLabel = p.weekly ? `£${p.weekly}/周` : (p.price === 'low' ? '≤£700' : p.price === 'high' ? '≥£1000' : '£700-1000');
+    const monthLabel = p.month === 'now' ? '现在' : p.month ? p.month + '月' : '';
     return `<div class="tile" onclick="showDetail('${p.id}')">
       <div class="tile-img">
         ${img ? `<img src="${img}" loading="lazy" onerror="this.parentNode.style.minHeight='120px'">` : '<div style="min-height:140px;background:#ece9e4"></div>'}
       </div>
       <div class="tile-bar">
         <div class="tile-tags">
-          ${zoneLabel ? `<span class="tag">${zoneLabel}</span>` : ''}
+          ${areaLabel ? `<span class="tag">${areaLabel}</span>` : ''}
           <span class="tag">${bedsLabel}</span>
           ${priceLabel ? `<span class="tag">${priceLabel}</span>` : ''}
+          ${monthLabel ? `<span class="tag">${monthLabel}</span>` : ''}
         </div>
         <button class="tile-share" onclick="event.stopPropagation();share('${p.id}')">↗</button>
       </div>
@@ -259,7 +341,7 @@ function showDetail(id) {
     </div>
     ${p.title ? `<p style="font-size:14px;color:#888;margin-bottom:18px">${p.title}</p>` : ''}
     <button class="d-share" onclick="share('${p.id}')">↗ 复制分享链接</button>
-    ${!p.isBuiltIn ? `<button onclick="deleteCard('${p.id}')" style="margin-top:10px;width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;background:#fff;color:#c0392b;font-size:13px;cursor:pointer">删除这条房源</button>` : ''}
+    ${!p.isBuiltIn && isAdmin() ? `<button onclick="deleteCard('${p.id}')" style="margin-top:10px;width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;background:#fff;color:#c0392b;font-size:13px;cursor:pointer">删除这条房源</button>` : ''}
   `;
   document.getElementById('pool').classList.add('off');
   document.getElementById('detail').classList.add('on');
@@ -278,6 +360,7 @@ function deleteCard(id) {
   const updated = saved.filter(x => x.id !== id);
   localStorage.setItem('niko-cards', JSON.stringify(updated));
   loadAll();
+applyAdminUI();
   showPool();
   toast('已删除');
 }
@@ -321,11 +404,21 @@ function handleFiles(files) {
   arr.forEach(file => {
     const id = 'u' + Date.now() + Math.random().toString(36).slice(2,5);
     const objectUrl = URL.createObjectURL(file);
-    const entry = { id, file, objectUrl, dataUrl: null, zone: null, beds: null, price: null };
+    const entry = { id, file, objectUrl, dataUrl: null, area: null, beds: null, price: null, month: null };
     batchQ.push(entry);
     appendCard(entry);
     // Also load a compressed dataUrl for saving
-    compressForSave(file).then(du => { entry.dataUrl = du; });
+    compressForSave(file).then(du => {
+      entry.dataUrl = du;
+      // Show preview using dataUrl (works everywhere, no blob URL issues)
+      const imgEl = document.getElementById('img-' + entry.id);
+      const phEl = document.getElementById('ph-' + entry.id);
+      if (imgEl && du) {
+        imgEl.src = du;
+        imgEl.style.display = 'block';
+        if (phEl) phEl.style.display = 'none';
+      }
+    });
   });
   if (batchQ.length > 1) document.getElementById('batch-save').classList.add('on');
 }
@@ -362,15 +455,18 @@ function appendCard(entry) {
 
   div.innerHTML = `
     <div class="ucard-img-wrap">
-      <img class="ucard-img" src="${entry.objectUrl}" onerror="this.style.display='none'">
+      <div class="ucard-img-placeholder" id="ph-${entry.id}" style="width:100%;min-height:160px;background:#ece9e4;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:12px">加载中…</div>
+      <img class="ucard-img" id="img-${entry.id}" src="" style="display:none">
       <button class="ucard-del" onclick="removeCard('${entry.id}')">×</button>
     </div>
     <div class="ucard-tags">
-      <div class="ulabel">区域 / Zone</div>
+      <div class="ulabel">位置</div>
       <div class="ucard-tags-row">
-        <button class="utag" onclick="tagSelect('${entry.id}','zone','1',this)">Zone 1</button>
-        <button class="utag" onclick="tagSelect('${entry.id}','zone','2',this)">Zone 2</button>
-        <button class="utag" onclick="tagSelect('${entry.id}','zone','3',this)">Zone 3</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','area','city',this)">市中心</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','area','north',this)">北伦敦</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','area','east',this)">东伦敦</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','area','west',this)">西伦敦</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','area','south',this)">南伦敦</button>
       </div>
       <div class="ulabel">户型</div>
       <div class="ucard-tags-row">
@@ -385,6 +481,14 @@ function appendCard(entry) {
         <button class="utag price-tag" onclick="tagSelect('${entry.id}','price','mid',this)">£700-1000</button>
         <button class="utag price-tag" onclick="tagSelect('${entry.id}','price','high',this)">≥£1000/周</button>
       </div>
+      <div class="ulabel">入住时间</div>
+      <div class="ucard-tags-row">
+        <button class="utag" onclick="tagSelect('${entry.id}','month','now',this)">现在</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','month','7',this)">7月</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','month','8',this)">8月</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','month','9',this)">9月</button>
+        <button class="utag" onclick="tagSelect('${entry.id}','month','10+',this)">10月+</button>
+      </div>
     </div>
     <button class="ucard-save" onclick="saveSingle('${entry.id}')">保存到房源池</button>
   `;
@@ -393,8 +497,10 @@ function appendCard(entry) {
 
 function tagSelect(id, key, val, el) {
   const entry = batchQ.find(x => x.id === id);
-  if (entry) entry[key] = parseInt(val) || val;
-  // Deselect siblings
+  if (entry) {
+    // beds must be stored as integer (0 = Studio), other fields stay as string
+    entry[key] = (key === 'beds') ? parseInt(val, 10) : val;
+  }
   el.closest('.ucard-tags-row').querySelectorAll('.utag').forEach(b => b.classList.remove('on'));
   el.classList.add('on');
 }
@@ -410,14 +516,26 @@ function removeCard(id) {
 function saveSingle(id) {
   const entry = batchQ.find(x => x.id === id);
   if (!entry) return;
+
+  // Validate: all four tags must be selected before saving
+  const missing = [];
+  if (entry.area == null) missing.push('位置');
+  if (entry.beds == null) missing.push('户型');
+  if (entry.price == null) missing.push('价格');
+  if (entry.month == null) missing.push('入住时间');
+  if (missing.length) { toast('请先选择：' + missing.join(' / ')); return; }
+
+  // Wait for dataUrl if still compressing
+  if (!entry.dataUrl) { toast('图片加载中，请稍候再试'); return; }
+
   const p = {
     id: 'card-' + Date.now() + '-' + Math.random().toString(36).slice(2,5),
     isUploaded: true,
-    zone: entry.zone || 2,
-    beds: entry.beds != null ? entry.beds : 2,
-    price: entry.price || 'mid',
-    weekly: entry.price === 'low' ? 650 : entry.price === 'high' ? 1100 : 850,
-    displayImg: entry.dataUrl || entry.objectUrl,
+    area: entry.area,
+    beds: entry.beds,
+    price: entry.price,
+    month: entry.month,
+    displayImg: entry.dataUrl,
     uploadedAt: new Date().toISOString()
   };
   const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
