@@ -182,6 +182,74 @@ header{background:#1a1a1a;padding:14px 20px;display:flex;align-items:center;just
 // ── ADMIN ────────────────────────────────────────────────
 const ADMIN_PASS = 'niko2025';  // ← 在这里修改密码
 
+// ── SUPABASE ──────────────────────────────────────────────
+const SB_URL = 'https://imhlozldlohtjkdvrsylu.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltaGxvemRsb2h0amtkdnJzeWx1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1MDA0OTIsImV4cCI6MjA5NjA3NjQ5Mn0.r-lN5wPk5WbmED1uUyq-76c5aX_IDTlNpt4vFmexqCo';
+const BUCKET = 'property-images';
+const TABLE = 'properties';
+
+async function sbFetch(path, opts = {}) {
+  const res = await fetch(SB_URL + path, {
+    ...opts,
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      ...(opts.headers || {})
+    }
+  });
+  return res;
+}
+
+// Upload image file to Supabase Storage, return public URL
+async function uploadImage(file) {
+  const ext = file.name.split('.').pop() || 'jpg';
+  const filename = Date.now() + '-' + Math.random().toString(36).slice(2,6) + '.' + ext;
+  const res = await fetch(`${SB_URL}/storage/v1/object/${BUCKET}/${filename}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': file.type || 'image/jpeg',
+      'x-upsert': 'false'
+    },
+    body: file
+  });
+  if (!res.ok) throw new Error('图片上传失败');
+  return `${SB_URL}/storage/v1/object/public/${BUCKET}/${filename}`;
+}
+
+// Save property record to Supabase
+async function sbSave(p) {
+  const res = await sbFetch(`/rest/v1/${TABLE}`, {
+    method: 'POST',
+    headers: { 'Prefer': 'return=representation' },
+    body: JSON.stringify({
+      id: p.id,
+      area: p.area,
+      beds: p.beds,
+      price: p.price,
+      month: p.month,
+      image_url: p.image_url,
+      created_at: new Date().toISOString()
+    })
+  });
+  if (!res.ok) throw new Error('数据保存失败');
+  return res.json();
+}
+
+// Load all uploaded properties from Supabase
+async function sbLoad() {
+  const res = await sbFetch(`/rest/v1/${TABLE}?select=*&order=created_at.desc`);
+  if (!res.ok) return [];
+  return res.json();
+}
+
+// Delete property from Supabase
+async function sbDelete(id) {
+  await sbFetch(`/rest/v1/${TABLE}?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE' });
+}
+
 function isAdmin() {
   return sessionStorage.getItem('niko-admin') === '1';
 }
@@ -259,9 +327,26 @@ function pc2area(pc) {
 
 const AREA_LABEL = {city:'市中心', north:'北伦敦', east:'东伦敦', west:'西伦敦', south:'南伦敦'};
 
-function loadAll() {
-  const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
-  allProps = [...saved, ...BUILT_IN.map(p => ({
+async function loadAll() {
+  // Load uploaded cards from Supabase (all devices) + fallback to localStorage
+  let uploaded = [];
+  try {
+    const rows = await sbLoad();
+    uploaded = rows.map(r => ({
+      id: r.id,
+      isUploaded: true,
+      area: r.area,
+      beds: r.beds,
+      price: r.price,
+      month: r.month,
+      displayImg: r.image_url,
+      uploadedAt: r.created_at
+    }));
+  } catch(e) {
+    // Supabase unavailable, fall back to localStorage
+    uploaded = JSON.parse(localStorage.getItem('niko-cards') || '[]');
+  }
+  allProps = [...uploaded, ...BUILT_IN.map(p => ({
     ...p, isBuiltIn: true,
     price: priceRange(p.weekly),
     month: availMonth(p.avail),
@@ -354,13 +439,17 @@ function showPool() {
   history.pushState(null, '', location.pathname);
 }
 
-function deleteCard(id) {
+async function deleteCard(id) {
   if (!confirm('确定删除这条房源吗？')) return;
-  const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
-  const updated = saved.filter(x => x.id !== id);
-  localStorage.setItem('niko-cards', JSON.stringify(updated));
-  loadAll();
-applyAdminUI();
+  try {
+    await sbDelete(id);
+  } catch(e) {
+    // Also remove from localStorage fallback
+    const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
+    localStorage.setItem('niko-cards', JSON.stringify(saved.filter(x => x.id !== id)));
+  }
+  await loadAll();
+  applyAdminUI();
   showPool();
   toast('已删除');
 }
@@ -513,7 +602,7 @@ function removeCard(id) {
   if (batchQ.length <= 1) document.getElementById('batch-save').classList.remove('on');
 }
 
-function saveSingle(id) {
+async function saveSingle(id) {
   const entry = batchQ.find(x => x.id === id);
   if (!entry) return;
 
@@ -525,32 +614,51 @@ function saveSingle(id) {
   if (entry.month == null) missing.push('入住时间');
   if (missing.length) { toast('请先选择：' + missing.join(' / ')); return; }
 
-  // Wait for dataUrl if still compressing
-  if (!entry.dataUrl) { toast('图片加载中，请稍候再试'); return; }
+  if (!entry.file) { toast('图片加载中，请稍候再试'); return; }
 
-  const p = {
-    id: 'card-' + Date.now() + '-' + Math.random().toString(36).slice(2,5),
-    isUploaded: true,
-    area: entry.area,
-    beds: entry.beds,
-    price: entry.price,
-    month: entry.month,
-    displayImg: entry.dataUrl,
-    uploadedAt: new Date().toISOString()
-  };
-  const saved = JSON.parse(localStorage.getItem('niko-cards') || '[]');
-  saved.unshift(p);
-  localStorage.setItem('niko-cards', JSON.stringify(saved));
-  allProps.unshift({...p});
-  render();
-  removeCard(id);
-  if (!batchQ.length) closeUpload();
-  toast('已保存 ✓');
+  const btn = document.querySelector(`#${id} .ucard-save`);
+  if (btn) { btn.disabled = true; btn.textContent = '上传中…'; }
+
+  try {
+    // 1. Upload image to Supabase Storage
+    const imageUrl = await uploadImage(entry.file);
+
+    // 2. Save record to Supabase database
+    const recId = 'card-' + Date.now() + '-' + Math.random().toString(36).slice(2,5);
+    await sbSave({
+      id: recId,
+      area: entry.area,
+      beds: entry.beds,
+      price: entry.price,
+      month: entry.month,
+      image_url: imageUrl
+    });
+
+    // 3. Update local display
+    const p = {
+      id: recId,
+      isUploaded: true,
+      area: entry.area,
+      beds: entry.beds,
+      price: entry.price,
+      month: entry.month,
+      displayImg: imageUrl,
+      uploadedAt: new Date().toISOString()
+    };
+    allProps.unshift(p);
+    render();
+    removeCard(id);
+    if (!batchQ.length) closeUpload();
+    toast('已保存 ✓');
+  } catch(e) {
+    toast('保存失败，请重试');
+    if (btn) { btn.disabled = false; btn.textContent = '保存到房源池'; }
+  }
 }
 
 function saveAll() {
   const ids = batchQ.map(x => x.id);
-  ids.forEach(id => saveSingle(id));
+  for (const id of ids) { await saveSingle(id); }
 }
 
 // ── ROUTING ──────────────────────────────────────────────
@@ -559,8 +667,11 @@ window.addEventListener('popstate', () => {
   else showPool();
 });
 
-loadAll();
-if (location.hash.startsWith('#/p/')) showDetail(location.hash.slice(4));
+(async () => {
+  await loadAll();
+  applyAdminUI();
+  if (location.hash.startsWith('#/p/')) showDetail(location.hash.slice(4));
+})();
 </script>
 </body>
 </html>
