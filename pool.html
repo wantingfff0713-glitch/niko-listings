@@ -656,7 +656,7 @@ async function saveSingle(id) {
   }
 }
 
-function saveAll() {
+async function saveAll() {
   const ids = batchQ.map(x => x.id);
   for (const id of ids) { await saveSingle(id); }
 }
